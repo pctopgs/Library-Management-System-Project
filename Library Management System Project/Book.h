@@ -1,5 +1,4 @@
-#include <iostream>
-#include <string>
+#include "User.h"
 
 class Book
 {
@@ -10,6 +9,7 @@ class Book
     int year;
     int numPages;
     int numChpt;
+	int pages;
 
     public:
     void setTitle(std::string);
