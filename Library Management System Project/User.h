@@ -13,7 +13,6 @@ public:
 		setUserName("Guest");
 		setUserType("guest");
 	}
-
 	std::string getUserName()
 	{
 		return userName;

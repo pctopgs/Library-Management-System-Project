@@ -1,3 +1,8 @@
 ﻿  main.cpp
-c:\users\uplink\onedrive\testchamber\library management system project\library management system project\main.cpp(29): warning C4101: 'loggedIn': unreferenced local variable
-C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppCommon.targets(638,5): error MSB6003: The specified task executable "link.exe" could not be run. The process cannot access the file 'C:\Users\uplink\OneDrive\testChamber\Library Management System Project\Library Management System Project\Debug\Library .42C41171.tlog\link.read.1.tlog' because it is being used by another process.
+d:\onedrive\testchamber\library management system project\library management system project\main.cpp(30): warning C4101: 'loggedIn': unreferenced local variable
+d:\onedrive\testchamber\library management system project\library management system project\main.cpp(134): warning C4018: '<': signed/unsigned mismatch
+  Book.cpp
+  Generating Code...
+  LINK : D:\OneDrive\testChamber\Library Management System Project\Debug\Library Management System Project.exe not found or not built by the last incremental link; performing full link
+  Library Management System Project.vcxproj -> D:\OneDrive\testChamber\Library Management System Project\Debug\Library Management System Project.exe
+  Library Management System Project.vcxproj -> D:\OneDrive\testChamber\Library Management System Project\Debug\Library Management System Project.pdb (Full PDB)
