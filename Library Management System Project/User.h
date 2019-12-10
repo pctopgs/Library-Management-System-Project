@@ -13,6 +13,12 @@ public:
 		setUserName("Guest");
 		setUserType("guest");
 	}
+	User(std::string name, std::string pass, std::string type = "student")
+	{
+		setUserName(name);
+		setPassword(pass);
+		setUserType(type);
+	}
 	std::string getUserName()
 	{
 		return userName;

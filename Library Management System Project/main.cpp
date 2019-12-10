@@ -1,10 +1,10 @@
 #include "Book.h"
 #include <vector>
-#include <fstream>
+#include <fstream>					// This is to use User files and Book files
 void showMenu(std::vector<User>, int);
 void getChoice(int, std::vector<User>, int);
 void signIn(std::vector<User>);
-//void signUp();
+void signUp(std::vector<User>);
 
 // Main Function
 int main()
@@ -114,7 +114,7 @@ void getChoice(int choice, std::vector<User> u, int i)
 			break;
 		case 3: signIn(u);			// Passes the User vector to the signIn() function
 			break;
-		case 4:;
+		case 4: signUp(u);			// Calls the signUp function. Passes the user vector to it
 			break;
 		case 5:;
 			break;
@@ -153,4 +153,38 @@ void signIn(std::vector<User>u)
 
 		}
 	}
+}
+
+
+// This function will take the User vector as an argument
+// It asks the user to enter a username
+// If the username in the vector, 
+// the function will tell the user that the username is already
+// taken. Otherwise the function will ask the user
+// for a password. Then the function will create a User object 
+// with the username and password as parameters
+void signUp(std::vector<User> u)
+{
+	std::string name;
+	std::string pass;
+	bool found = false;
+	std::cout << "New Username: ";
+	std::cin >> name;
+	while (!found)
+	{
+		for (int i = 0; i < u.size(); i++)
+		{
+			if (name == u[i].getUserName())
+			{
+				std::cout << "\nThat username already exists." << std::endl;
+				found == true;
+			}
+		}
+		if (found)
+		{
+			std::cout << "\nCreate a password: ";
+			std::cin >> pass;
+		}
+	}
+	User tempU(name, pass);
 }
