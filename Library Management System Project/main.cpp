@@ -1,26 +1,32 @@
 #include "Book.h"
 #include <vector>
 #include <fstream>					// This is to use User files and Book files
-void showMenu(std::vector<User>, int);
-void getChoice(int, std::vector<User>, int);
-void signIn(std::vector<User>);
-void signUp(std::vector<User>);
+void showMenu(std::vector<User>&, int);
+bool getChoice(int, std::vector<User>&, int);		// The user needs to be passed by reference
+void signIn(std::vector<User>&);
+void signUp(std::vector<User>&);
 
 // Main Function
 int main()
 {
 	std::vector<User> users;
 	int index = 0;				// 
+	bool loop = true;
 	users.push_back(User{});
 	std::vector<Book> book;
+
 	std::cout << "          Library Management" << std::endl;
-	showMenu(users, index);
+	do
+	{
+		std::cout << users.size() << std::endl;
+		showMenu(users, index);
+	} while (loop);
 	return 0;
 }
 
 // Shows menu and gets a choice from the user
 // Calls the get choice function
-void showMenu(std::vector<User> u, int i)
+void showMenu(std::vector<User>& u, int i)
 {
 	// Shows the main menu based on the type of user:
 	// Guest
@@ -62,12 +68,15 @@ void showMenu(std::vector<User> u, int i)
 	}
 	std::cout << "                   0. Exit" << std::endl;
 	std::cout << "        Enter a choice: ";
+	std::cout << "\n" << u.size() << std::endl;
 	std::cin >> choice;
+
 	getChoice(choice, u, i);
 }
 
-void getChoice(int choice, std::vector<User> u, int i)
+bool getChoice(int choice, std::vector<User>& u, int i)
 {
+	bool again = false;
 	if (u[i].getUserType() == "admin")
 	{
 		switch (choice)
@@ -119,42 +128,49 @@ void getChoice(int choice, std::vector<User> u, int i)
 		case 5:;
 			break;
 		case 0:;
-			break;
+			again = false;
 		}
 	}
+	return again;
 }
 
-void signIn(std::vector<User>u)
+void signIn(std::vector<User>&u)
 {
-	int tries = 0;
-	std::string user;
-	std::string password;
+	std::string name;
+	std::string pass;
+	int i = 0;
+	bool keepSearching = true;
+	bool found = false;
 	std::cout << "Username: ";
-	std::cin >> user;
-	for (int i = 0; i < u.size(); i++)
+	std::cin >> name;
+	if (keepSearching || !found)
 	{
-		if (user == u[i].getUserName())
+		for (i; i < u.size(); i++)
 		{
-			std::cout << "Password: ";		// TODO: Write code for the logged in state
-			getline(std::cin, password);
-			if (password == u[i].getPassword())
+			if (name == u[i].getUserName())
 			{
-				std::cout << "Welcome " << u[i].getUserName() << std::endl;		// Welcomes the user
-				showMenu(u, i);			// Call the showMenu function with the user as the argument
+				//std::cout << "\nThat username already exists." << std::endl;
+				std::cout << "Password: ";
+				std::cin >> pass;
+				if (pass == u[i].getPassword())
+				{
+					std::cout << "\n\nWelcome " << u[i].getUserName() << std::endl;		// Welcomes the user
+					showMenu(u, i);			// Call the showMenu function with the user as the argument
+				}
+				found = true;
 			}
 		}
-		else
-		{
-			while (tries <= 3)
-			{
-				std::cout << "That user is not in our system" << std::endl;
-				std::cout << "Try again." << std::endl;
-			}
-
-		}
+		keepSearching = false;
+	}
+	if (!keepSearching && !found)
+	{
+		std::cout << "\nUser not found: ";
+		std::cin >> pass;
+		std::cout << std::endl;
+		User tempU(name, pass);
+		u.push_back(tempU);
 	}
 }
-
 
 // This function will take the User vector as an argument
 // It asks the user to enter a username
@@ -163,28 +179,36 @@ void signIn(std::vector<User>u)
 // taken. Otherwise the function will ask the user
 // for a password. Then the function will create a User object 
 // with the username and password as parameters
-void signUp(std::vector<User> u)
+void signUp(std::vector<User>& u)
 {
 	std::string name;
 	std::string pass;
+	int i = 0;
+	bool keepSearching = true;
 	bool found = false;
 	std::cout << "New Username: ";
 	std::cin >> name;
-	while (!found)
+	if (keepSearching || !found)
 	{
-		for (int i = 0; i < u.size(); i++)
+		for (i; i < u.size(); i++)
 		{
 			if (name == u[i].getUserName())
 			{
 				std::cout << "\nThat username already exists." << std::endl;
-				found == true;
+				found = true;
 			}
+			//std::cout << "For loop" << std::endl;
+			std::cout << i << std::endl;
+			std::cout << u.size() << std::endl;
 		}
-		if (found)
-		{
-			std::cout << "\nCreate a password: ";
-			std::cin >> pass;
-		}
+		keepSearching = false;
 	}
-	User tempU(name, pass);
+	if (!keepSearching && !found)
+	{
+		std::cout << "\nCreate a password: ";
+		std::cin >> pass;
+		std::cout << std::endl;
+		User tempU(name, pass);
+		u.push_back(tempU);
+	}
 }

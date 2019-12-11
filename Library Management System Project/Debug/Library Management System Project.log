@@ -1,2 +1,6 @@
-﻿  Library Management System Project.vcxproj -> C:\Users\uplink\OneDrive\testChamber\Library Management System Project\Debug\Library Management System Project.exe
+﻿  main.cpp
+c:\users\uplink\onedrive\testchamber\library management system project\library management system project\main.cpp(36): warning C4101: 'loggedIn': unreferenced local variable
+c:\users\uplink\onedrive\testchamber\library management system project\library management system project\main.cpp(175): warning C4018: '<': signed/unsigned mismatch
+c:\users\uplink\onedrive\testchamber\library management system project\library management system project\main.cpp(220): warning C4018: '<': signed/unsigned mismatch
+  Library Management System Project.vcxproj -> C:\Users\uplink\OneDrive\testChamber\Library Management System Project\Debug\Library Management System Project.exe
   Library Management System Project.vcxproj -> C:\Users\uplink\OneDrive\testChamber\Library Management System Project\Debug\Library Management System Project.pdb (Full PDB)

@@ -18,6 +18,7 @@ public:
 		setUserName(name);
 		setPassword(pass);
 		setUserType(type);
+		std::cout << this->getUserName() << " was created" << std::endl;
 	}
 	std::string getUserName()
 	{
