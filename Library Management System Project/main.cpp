@@ -1,18 +1,21 @@
 #include "Book.h"
 #include <vector>
 #include <fstream>					// This is to use User files and Book files
+#include <sstream>
 void showMenu(std::vector<User>&, int);
 bool getChoice(int, std::vector<User>&, int);		// The user needs to be passed by reference
 void signIn(std::vector<User>&);
 void signUp(std::vector<User>&);
+std::fstream importFiles(std::vector<User>&);
 
 // Main Function
 int main()
 {
 	std::vector<User> users;
-	int index = 0;				// 
+	int index = 0;				
 	bool loop = true;
-	users.push_back(User{});
+	//users.push_back(User{});
+	importFiles(users);
 	std::vector<Book> book;
 
 	std::cout << "          Library Management" << std::endl;
@@ -45,6 +48,7 @@ void showMenu(std::vector<User>& u, int i)
 			std::cout << "               4. Remove Book" << std::endl;
 			std::cout << "               5. Edit Book" << std::endl;
 			std::cout << "               6. Sign Out" << std::endl;
+			std::cout << "               7. View Profile" << std::endl;
 		}
 	else if (u[i].getUserType() == "student")
 		{
@@ -54,6 +58,7 @@ void showMenu(std::vector<User>& u, int i)
 			std::cout << "               4. Return Book" << std::endl;
 			std::cout << "               5. Edit Book" << std::endl;
 			std::cout << "               6. Sign Out" << std::endl;
+			std::cout << "               7. View Profile" << std::endl;
 		}
 	else if (u[i].getUserType() == "guest")		// The user is a guest and can only view and search books
 	{
@@ -211,4 +216,53 @@ void signUp(std::vector<User>& u)
 		User tempU(name, pass);
 		u.push_back(tempU);
 	}
+}
+
+std::fstream importFile(std::vector<User>& u)
+{
+	std::ifstream inFile;				// imports the user file
+	inFile.open("userDB.txt");			// opens userDB.txt. If the file can't be open, create a new userDB.txt file
+	std::string tempLine;
+	std::string parseLine;
+	std::stringstream streamLine;
+	std::vector<std::string> attribute;
+	User tempU;
+	while (getline(inFile, tempLine))
+	{
+		streamLine << tempLine;
+		while(getline(streamLine, parseLine, ','))
+		{
+			attribute.push_back(parseLine);
+		}
+		// Add user to the vector
+		//addUser(attribute[0], attribute[1], attribute[2], attribute[3], attribute[4], attribute[5]);
+	}
+	/*
+	if (!usersFile)
+	{
+		std::ofstream newUserFile;
+		newUserFile.open("userDB.txt");
+		// create and add a guest to an admin user to newUserFile
+		// u.push_back(User{});
+	}
+	*/
+
+
+
+}
+
+void exportFile(std::vector<User>& u)
+{
+	std::ofstream outFile;
+	outFile.open("userDB.txt");
+	for (int i = 0; u.size(); i++)
+	{
+		outFile << u[i].getUID() << u[i].getUserName() << u[i].getFirstN() << u[i].getLastN() << u[i].getPassword() << u[i].getUserType();
+	}
+	outFile.close();
+}
+
+addUser()
+{
+	;		//TODO
 }

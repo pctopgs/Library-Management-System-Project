@@ -10,6 +10,7 @@ class Book
     int numPages;
     int numChpt;
 	int pages;
+	int bookNo;
 
     public:
     void setTitle(std::string);

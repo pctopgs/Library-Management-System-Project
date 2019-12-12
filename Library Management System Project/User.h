@@ -3,9 +3,12 @@
 #include <string>
 class User
 {
-	std::string userName;
-	std::string password;
-	std::string userType;
+	int uid;					// User ID
+	std::string userName;		// Username
+	std::string firstN;			// User first name
+	std::string lastN;			// User last name
+	std::string password;		// Password
+	std::string userType;		// "admin, student, or guest"
 
 public:
 	User()
@@ -32,7 +35,19 @@ public:
 	{
 		return userType;
 	}
-
+	int getUID()
+	{
+		return uid;
+	}
+	std::string getFirstN()
+	{
+		return firstN;
+	}
+	std::string getLastN()
+	{
+		return lastN;
+	}
+	
 	void setUserName(std::string name)
 	{
 		userName = name;
