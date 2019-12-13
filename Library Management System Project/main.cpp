@@ -6,7 +6,9 @@ void showMenu(std::vector<User>&, int);
 bool getChoice(int, std::vector<User>&, int);		// The user needs to be passed by reference
 void signIn(std::vector<User>&);
 void signUp(std::vector<User>&);
-std::fstream importFiles(std::vector<User>&);
+void importFile(std::vector<User>&);
+void addUser(std::vector<User>& u, int id, std::string un, std::string fn, std::string ln, std::string pw, std::string ut);
+void exportFile(std::vector<User>);
 
 // Main Function
 int main()
@@ -15,13 +17,13 @@ int main()
 	int index = 0;				
 	bool loop = true;
 	//users.push_back(User{});
-	importFiles(users);
+	importFile(users);
 	std::vector<Book> book;
 
-	std::cout << "          Library Management" << std::endl;
+	std::cout << "          Library System" << std::endl;
 	do
 	{
-		std::cout << users.size() << std::endl;
+		//std::cout << users.size() << std::endl;
 		showMenu(users, index);
 	} while (loop);
 	return 0;
@@ -35,7 +37,6 @@ void showMenu(std::vector<User>& u, int i)
 	// Guest
 	// Student
 	// Admin
-	// I may have to create a user class that holds 'alias'
 	bool loggedIn;
 	int choice;
 	std::cout << "====================================" << std::endl;
@@ -47,8 +48,9 @@ void showMenu(std::vector<User>& u, int i)
 			std::cout << "               3. Add Book" << std::endl;
 			std::cout << "               4. Remove Book" << std::endl;
 			std::cout << "               5. Edit Book" << std::endl;
-			std::cout << "               6. Sign Out" << std::endl;
-			std::cout << "               7. View Profile" << std::endl;
+			std::cout << "               6. Add User" << std::endl;
+			std::cout << "               7. Sign Out" << std::endl;
+			std::cout << "               8. View Profile" << std::endl;
 		}
 	else if (u[i].getUserType() == "student")
 		{
@@ -71,9 +73,8 @@ void showMenu(std::vector<User>& u, int i)
 	{
 		std::cout << "Something went wrong. Please exit the program and open it again." << std::endl;
 	}
-	std::cout << "                   0. Exit" << std::endl;
+	std::cout << "               0. Exit" << std::endl;
 	std::cout << "        Enter a choice: ";
-	std::cout << "\n" << u.size() << std::endl;
 	std::cin >> choice;
 
 	getChoice(choice, u, i);
@@ -170,10 +171,10 @@ void signIn(std::vector<User>&u)
 	if (!keepSearching && !found)
 	{
 		std::cout << "\nUser not found: ";
-		std::cin >> pass;
+		//std::cin >> pass;
 		std::cout << std::endl;
-		User tempU(name, pass);
-		u.push_back(tempU);
+		//User tempU(name, pass);
+		//u.push_back(tempU);
 	}
 }
 
@@ -202,7 +203,6 @@ void signUp(std::vector<User>& u)
 				std::cout << "\nThat username already exists." << std::endl;
 				found = true;
 			}
-			//std::cout << "For loop" << std::endl;
 			std::cout << i << std::endl;
 			std::cout << u.size() << std::endl;
 		}
@@ -213,12 +213,12 @@ void signUp(std::vector<User>& u)
 		std::cout << "\nCreate a password: ";
 		std::cin >> pass;
 		std::cout << std::endl;
-		User tempU(name, pass);
+		User tempU(u.size(),name, pass);
 		u.push_back(tempU);
 	}
 }
 
-std::fstream importFile(std::vector<User>& u)
+void importFile(std::vector<User>& u)
 {
 	std::ifstream inFile;				// imports the user file
 	inFile.open("userDB.txt");			// opens userDB.txt. If the file can't be open, create a new userDB.txt file
@@ -226,7 +226,16 @@ std::fstream importFile(std::vector<User>& u)
 	std::string parseLine;
 	std::stringstream streamLine;
 	std::vector<std::string> attribute;
-	User tempU;
+	if (!inFile)
+	{
+		u.push_back(User{500});
+		u.push_back(User{ 300 });
+		std::cout << "No User data found" << std::endl;
+		std::cout << "Creating new user data base.\n\n" << std::endl;
+		std::ofstream tempOut("userDB.txt");
+		tempOut.close();
+		exportFile(u);
+	}
 	while (getline(inFile, tempLine))
 	{
 		streamLine << tempLine;
@@ -234,35 +243,30 @@ std::fstream importFile(std::vector<User>& u)
 		{
 			attribute.push_back(parseLine);
 		}
-		// Add user to the vector
-		//addUser(attribute[0], attribute[1], attribute[2], attribute[3], attribute[4], attribute[5]);
+		addUser(u, stoi(attribute[0]), attribute[1], attribute[2], attribute[3], attribute[4], attribute[5]);
 	}
-	/*
-	if (!usersFile)
-	{
-		std::ofstream newUserFile;
-		newUserFile.open("userDB.txt");
-		// create and add a guest to an admin user to newUserFile
-		// u.push_back(User{});
-	}
-	*/
 
-
-
+	inFile.close();
 }
 
-void exportFile(std::vector<User>& u)
+void exportFile(std::vector<User> u)
 {
 	std::ofstream outFile;
 	outFile.open("userDB.txt");
-	for (int i = 0; u.size(); i++)
+	for (int i = 0; i <u.size(); i++)
 	{
-		outFile << u[i].getUID() << u[i].getUserName() << u[i].getFirstN() << u[i].getLastN() << u[i].getPassword() << u[i].getUserType();
+		outFile << u[i].getUID() << "," << u[i].getUserName() << "," << u[i].getFirstN() << "," << u[i].getLastN() << "," << u[i].getPassword() << "," << u[i].getUserType() << std::endl;
 	}
 	outFile.close();
 }
 
-addUser()
+void addUser(std::vector<User>& u, int id, std::string un, std::string fn, std::string ln, std::string pw, std::string ut)
 {
-	;		//TODO
+	User tempU(id, un, fn, ln, pw, ut);
+	u.push_back(tempU);
+}
+
+void signOut()
+{
+
 }

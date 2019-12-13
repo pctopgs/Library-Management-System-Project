@@ -1,0 +1,2 @@
+500,Administrator, , , ,admin
+300,Guest, , , ,guest

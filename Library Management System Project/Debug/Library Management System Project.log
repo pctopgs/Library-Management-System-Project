@@ -1,9 +1,7 @@
 ﻿  main.cpp
-c:\users\2219147\onedrive\testchamber\library management system project\library management system project\main.cpp(38): warning C4101: 'loggedIn': unreferenced local variable
-c:\users\2219147\onedrive\testchamber\library management system project\library management system project\main.cpp(150): warning C4018: '<': signed/unsigned mismatch
-c:\users\2219147\onedrive\testchamber\library management system project\library management system project\main.cpp(195): warning C4018: '<': signed/unsigned mismatch
-  Book.cpp
-  Generating Code...
-  LINK : C:\Users\2219147\OneDrive\testChamber\Library Management System Project\Debug\Library Management System Project.exe not found or not built by the last incremental link; performing full link
-  Library Management System Project.vcxproj -> C:\Users\2219147\OneDrive\testChamber\Library Management System Project\Debug\Library Management System Project.exe
-  Library Management System Project.vcxproj -> C:\Users\2219147\OneDrive\testChamber\Library Management System Project\Debug\Library Management System Project.pdb (Full PDB)
+c:\users\uplink\onedrive\testchamber\library management system project\library management system project\main.cpp(40): warning C4101: 'loggedIn': unreferenced local variable
+c:\users\uplink\onedrive\testchamber\library management system project\library management system project\main.cpp(155): warning C4018: '<': signed/unsigned mismatch
+c:\users\uplink\onedrive\testchamber\library management system project\library management system project\main.cpp(200): warning C4018: '<': signed/unsigned mismatch
+c:\users\uplink\onedrive\testchamber\library management system project\library management system project\main.cpp(260): warning C4018: '<': signed/unsigned mismatch
+  Library Management System Project.vcxproj -> C:\Users\uplink\OneDrive\testChamber\Library Management System Project\Debug\Library Management System Project.exe
+  Library Management System Project.vcxproj -> C:\Users\uplink\OneDrive\testChamber\Library Management System Project\Debug\Library Management System Project.pdb (Full PDB)
