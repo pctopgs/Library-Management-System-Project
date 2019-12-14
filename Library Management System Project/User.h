@@ -20,9 +20,9 @@ public:
 			setUID(id);
 			setUserName("Administrator");
 			setUserType("admin");
-			setFirstN(" ");
-			setLastN(" ");
-			setPassword(" ");
+			setFirstN("");
+			setLastN("");
+			setPassword(".");
 		}
 		else if (id == 300)
 		{

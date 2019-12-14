@@ -2,10 +2,11 @@
 #include <vector>
 #include <fstream>					// This is to use User files and Book files
 #include <sstream>
-void showMenu(std::vector<User>&, int);
-bool getChoice(int, std::vector<User>&, int);		// The user needs to be passed by reference
+bool showMenu(std::vector<User>&, bool&, int);
+bool getChoice(int, std::vector<User>&, int, bool&);		// The user needs to be passed by reference
 void signIn(std::vector<User>&);
 void signUp(std::vector<User>&);
+void signOut(std::vector<User>&, bool&);
 void importFile(std::vector<User>&);
 void addUser(std::vector<User>& u, int id, std::string un, std::string fn, std::string ln, std::string pw, std::string ut);
 void exportFile(std::vector<User>);
@@ -14,112 +15,130 @@ void exportFile(std::vector<User>);
 int main()
 {
 	std::vector<User> users;
+
 	int index = 0;				
 	bool loop = true;
-	//users.push_back(User{});
+	bool loggedIn = false;
 	importFile(users);
 	std::vector<Book> book;
 
 	std::cout << "          Library System" << std::endl;
 	do
 	{
-		//std::cout << users.size() << std::endl;
-		showMenu(users, index);
+		loop = showMenu(users,loggedIn,index);
 	} while (loop);
 	return 0;
 }
 
 // Shows menu and gets a choice from the user
 // Calls the get choice function
-void showMenu(std::vector<User>& u, int i)
+bool showMenu(std::vector<User>& u, bool& li, int i = -1)
 {
-	// Shows the main menu based on the type of user:
+	// Shows the main menu based on logged in state and the type of user. 
+	// If the logged in state is false, the menu for Guest will be shown
 	// Guest
 	// Student
 	// Admin
-	bool loggedIn;
+
+
 	int choice;
 	std::cout << "====================================" << std::endl;
-	std::cout << "Signed on as " << u[i].getUserName() << std::endl;
-	if (u[i].getUserType() == "admin")
-		{
-			std::cout << "               1. View Books" << std::endl;
-			std::cout << "               2. Search Books" << std::endl;
-			std::cout << "               3. Add Book" << std::endl;
-			std::cout << "               4. Remove Book" << std::endl;
-			std::cout << "               5. Edit Book" << std::endl;
-			std::cout << "               6. Add User" << std::endl;
-			std::cout << "               7. Sign Out" << std::endl;
-			std::cout << "               8. View Profile" << std::endl;
-		}
-	else if (u[i].getUserType() == "student")
-		{
-			std::cout << "               1. View Books" << std::endl;
-			std::cout << "               2. Search Books" << std::endl;
-			std::cout << "               3. Checkout Book" << std::endl;
-			std::cout << "               4. Return Book" << std::endl;
-			std::cout << "               5. Edit Book" << std::endl;
-			std::cout << "               6. Sign Out" << std::endl;
-			std::cout << "               7. View Profile" << std::endl;
-		}
-	else if (u[i].getUserType() == "guest")		// The user is a guest and can only view and search books
+
+	if (li)
 	{
+		std::cout << "Signed on as " << u[i].getUserName() << std::endl;
+		if (u[i].getUserType() == "admin")
+		{
+			std::cout << "                   1. View Books" << std::endl;
+			std::cout << "                   2. Search Books" << std::endl;
+			std::cout << "                   3. Add Book" << std::endl;
+			std::cout << "                   4. Remove Book" << std::endl;
+			std::cout << "                   5. Edit Book" << std::endl;
+			std::cout << "                   6. Add User" << std::endl;
+			std::cout << "                   7. Sign Out" << std::endl;
+			std::cout << "                   8. View Profile" << std::endl;
+		}
+		else if (u[i].getUserType() == "student")
+		{
+			std::cout << "                   1. View Books" << std::endl;
+			std::cout << "                   2. Search Books" << std::endl;
+			std::cout << "                   3. Checkout Book" << std::endl;
+			std::cout << "                   4. Return Book" << std::endl;
+			std::cout << "                   5. Edit Book" << std::endl;
+			std::cout << "                   6. Sign Out" << std::endl;
+			std::cout << "                   7. View Profile" << std::endl;
+		}
+	}
+	else if (li == false)
+	{
+		std::cout << "Signed on as Guest" << std::endl;
+		//std::cout << "Signed on as " << u[i].getUserName() << std::endl;
 		std::cout << "                   1. View Books" << std::endl;
 		std::cout << "                   2. Search Books" << std::endl;
 		std::cout << "                   3. Sign In" << std::endl;
 		std::cout << "                   4. Sign Up" << std::endl;
-	}
+	}	
 	else
 	{
 		std::cout << "Something went wrong. Please exit the program and open it again." << std::endl;
 	}
-	std::cout << "               0. Exit" << std::endl;
+	std::cout << "                   0. Exit" << std::endl;
 	std::cout << "        Enter a choice: ";
 	std::cin >> choice;
 
-	getChoice(choice, u, i);
+	return getChoice(choice, u, i, li);
 }
 
-bool getChoice(int choice, std::vector<User>& u, int i)
+bool getChoice(int choice, std::vector<User>& u, int i, bool& li)
 {
-	bool again = false;
-	if (u[i].getUserType() == "admin")
+	bool again = true;
+	if (li)
 	{
-		switch (choice)
+		if (u[i].getUserType() == "admin")
 		{
-		case 1:;
-			break;
-		case 2:;
-			break;
-		case 3:;
-			break;
-		case 4:;
-			break;
-		case 5:;
-			break;
-		case 0: exit(0);
-			break;
+			switch (choice)
+			{
+			case 1:;
+				break;
+			case 2:;
+				break;
+			case 3:;
+				break;
+			case 4:;
+				break;
+			case 5:;
+				break;
+			case 6:;
+				break;
+			case 7: signOut(u, li);
+				break;
+			case 0: exit(0);
+				break;
+			}
+		}
+		if (u[i].getUserType() == "student")
+		{
+			switch (choice)
+			{
+			case 1:;
+				break;
+			case 2:;
+				break;
+			case 3:;
+				break;
+			case 4:;
+				break;
+			case 5:;
+				break;
+			case 6: signOut(u, li);
+				break;
+			case 0: exit(0);
+				break;
+			}
 		}
 	}
-	if (u[i].getUserType() == "student")
-	{
-		switch (choice)
-		{
-		case 1:;
-			break;
-		case 2:;
-			break;
-		case 3:;
-			break;
-		case 4:;
-			break;
-		case 5:;
-			break;
-		case 0:;
-			break;
-		}
-	}
-	if (u[i].getUserType() == "guest")
+	
+	else					// Guest
 	{
 		switch (choice)
 		{
@@ -133,10 +152,10 @@ bool getChoice(int choice, std::vector<User>& u, int i)
 			break;
 		case 5:;
 			break;
-		case 0:;
-			again = false;
+		case 0: again = false; //exit(0);
+			break;			
 		}
-	}
+	}	
 	return again;
 }
 
@@ -147,6 +166,12 @@ void signIn(std::vector<User>&u)
 	int i = 0;
 	bool keepSearching = true;
 	bool found = false;
+	bool signedIn = true;
+	std::cout << "Current users: " << u.size() << std::endl;
+	for (int i = 0; i < u.size(); i++)
+	{
+		std::cout << u[i].getUserName() << std::endl;
+	}
 	std::cout << "Username: ";
 	std::cin >> name;
 	if (keepSearching || !found)
@@ -161,7 +186,7 @@ void signIn(std::vector<User>&u)
 				if (pass == u[i].getPassword())
 				{
 					std::cout << "\n\nWelcome " << u[i].getUserName() << std::endl;		// Welcomes the user
-					showMenu(u, i);			// Call the showMenu function with the user as the argument
+					showMenu(u, signedIn, i);			// Call the showMenu function with the user as the argument
 				}
 				found = true;
 			}
@@ -215,37 +240,37 @@ void signUp(std::vector<User>& u)
 		std::cout << std::endl;
 		User tempU(u.size(),name, pass);
 		u.push_back(tempU);
+		exportFile(u);
 	}
 }
 
 void importFile(std::vector<User>& u)
 {
-	std::ifstream inFile;				// imports the user file
-	inFile.open("userDB.txt");			// opens userDB.txt. If the file can't be open, create a new userDB.txt file
 	std::string tempLine;
 	std::string parseLine;
 	std::stringstream streamLine;
 	std::vector<std::string> attribute;
+	std::ifstream inFile("userDB.txt");				// imports the user file
 	if (!inFile)
 	{
 		u.push_back(User{500});
-		u.push_back(User{ 300 });
 		std::cout << "No User data found" << std::endl;
 		std::cout << "Creating new user data base.\n\n" << std::endl;
 		std::ofstream tempOut("userDB.txt");
 		tempOut.close();
 		exportFile(u);
 	}
-	while (getline(inFile, tempLine))
+	// Parsing the file and adding it to the User vector
+	while (getline(inFile, tempLine))		// Get the line
 	{
-		streamLine << tempLine;
-		while(getline(streamLine, parseLine, ','))
+		streamLine << tempLine;				
+		while(getline(streamLine, parseLine, ','))	// Get a string from the line separated by commas
 		{
-			attribute.push_back(parseLine);
+			attribute.push_back(parseLine);			// Add the parsed line to a string vector
 		}
 		addUser(u, stoi(attribute[0]), attribute[1], attribute[2], attribute[3], attribute[4], attribute[5]);
+		attribute.clear();
 	}
-
 	inFile.close();
 }
 
@@ -260,13 +285,17 @@ void exportFile(std::vector<User> u)
 	outFile.close();
 }
 
+// This is used with importFiles() to append members to the User vector at the beginning of the program
 void addUser(std::vector<User>& u, int id, std::string un, std::string fn, std::string ln, std::string pw, std::string ut)
 {
 	User tempU(id, un, fn, ln, pw, ut);
 	u.push_back(tempU);
 }
 
-void signOut()
+// This will simply change the bool li to false so 
+// when the emain functions do/while loop calls the showMenu function, 
+// The li will be false and show the menu for Guest
+void signOut(std::vector<User>& u, bool& li)
 {
-
+	li = false;			
 }

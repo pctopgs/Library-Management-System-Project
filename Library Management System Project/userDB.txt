@@ -1,2 +1,3 @@
-500,Administrator, , , ,admin
-300,Guest, , , ,guest
+500,Administrator,,,.,admin
+501,Administrotor,,,-,admin
+1002,pctopgs,,,studio,student
