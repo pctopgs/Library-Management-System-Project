@@ -1,7 +1,7 @@
 ﻿  main.cpp
-d:\onedrive\testchamber\library management system project\library management system project\main.cpp(171): warning C4018: '<': signed/unsigned mismatch
-d:\onedrive\testchamber\library management system project\library management system project\main.cpp(179): warning C4018: '<': signed/unsigned mismatch
-d:\onedrive\testchamber\library management system project\library management system project\main.cpp(224): warning C4018: '<': signed/unsigned mismatch
-d:\onedrive\testchamber\library management system project\library management system project\main.cpp(281): warning C4018: '<': signed/unsigned mismatch
-  Library Management System Project.vcxproj -> D:\OneDrive\testChamber\Library Management System Project\Debug\Library Management System Project.exe
-  Library Management System Project.vcxproj -> D:\OneDrive\testChamber\Library Management System Project\Debug\Library Management System Project.pdb (Full PDB)
+d:\onedrive\testchamber\library management system project\library management system project\main.cpp(176): warning C4018: '<': signed/unsigned mismatch
+d:\onedrive\testchamber\library management system project\library management system project\main.cpp(223): warning C4018: '<': signed/unsigned mismatch
+d:\onedrive\testchamber\library management system project\library management system project\main.cpp(295): warning C4018: '<': signed/unsigned mismatch
+d:\onedrive\testchamber\library management system project\library management system project\main.cpp(334): warning C4018: '<': signed/unsigned mismatch
+main.obj : error LNK2019: unresolved external symbol "void __cdecl importFile(class std::vector<class User,class std::allocator<class User> > &)" (?importFile@@YAXAAV?$vector@VUser@@V?$allocator@VUser@@@std@@@std@@@Z) referenced in function _main
+D:\OneDrive\testChamber\Library Management System Project\Debug\Library Management System Project.exe : fatal error LNK1120: 1 unresolved externals

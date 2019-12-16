@@ -1,5 +1,16 @@
 #include "Book.h"
 
+Book::Book(int bn, std::string t, std::string a, std::string g, int c, int y, int np, int nc, int p, std::string co)
+{
+	setTitle(t);
+	setAuthor(a);
+	setGenre(g);
+	setChpt(c);
+	setYear(y);
+	setPages(np);
+	setChpt(nc);
+	setPages(p);
+}
 void Book::setTitle(std::string aTitle)
 {
     title = aTitle;
@@ -27,6 +38,17 @@ void Book::setPages(int aPages)
 void Book::setChpt(int aChpt)
 {
     ;
+}
+void Book::setCheckedOut(std::string co)
+{
+	if (co == "t")
+	{
+		checkedOut = true;
+	}
+	if (co == "f")
+	{
+		checkedOut = false;
+	}
 }
 
 std::string Book::getTitle()

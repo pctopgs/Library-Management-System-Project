@@ -34,5 +34,16 @@
     <Text Include="logs.txt">
       <Filter>Resource Files</Filter>
     </Text>
+    <Text Include="userDB.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\Classes\12. Programming Fundamentals II\Lesson 5\Advanced File I-O Tutorial\L5Q2\MyScholarshipForm\addresses.csv">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Scholarships.csv">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
