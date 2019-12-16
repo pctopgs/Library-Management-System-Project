@@ -1,4 +1,0 @@
-500,Administrator,,,.,admin
-1001,pctopgs,,,studio,student
-1002,uplink,,,kill,student
-1003,cude,,,thnaks,student
