@@ -2,38 +2,39 @@
 #include <vector>
 #include <fstream>					// This is to use User files and Book files
 #include <sstream>
-bool showMenu(std::vector<User>&, bool&, int&);
-bool getChoice(int, std::vector<User>&, int&, bool&);		// The user needs to be passed by reference
+bool showMenu(std::vector<User>&, std::vector<Book>&, bool&, int&);
+bool getChoice(int, std::vector<User>&, std::vector<Book>&, int&, bool&);		// The user needs to be passed by reference
 void signIn(std::vector<User>&, int&, bool&);
 void signUp(std::vector<User>&);
 void signOut(std::vector<User>&, bool&);
-void importFile(std::vector<User>&);
+void importFile(std::vector<User>&, std::vector<Book>&);
 void addUser(std::vector<User>& u, int id, std::string un, std::string fn, std::string ln, std::string pw, std::string ut);
-void addBook(std::vector<Book>& b, int bn, std::string t, std::string a, std::string g, int c, int y, int np, int nc, int p, std::string co);
+void importBook(std::vector<Book>& b, int bn, std::string t, std::string a, std::string g, int c, int y, int np, int nc, int p, std::string co);
 void exportFile(std::vector<User>);
+void importBook(std::vector<Book>& bookVect, int bn, std::string t, std::string a, std::string g, int c, int y, int np, int nc, int p, std::string co);
+void listBooks(std::vector<Book> b);
+void addBook(std::vector<Book>&);
 
 // Main Function
 int main()
 {
 	std::vector<User> users;
-
+	std::vector<Book> books;
 	int index = -1;				
 	bool loop = true;
 	bool loggedIn = false;
-	importFile(users);
-	std::vector<Book> book;
-
-	std::cout << "          Library System" << std::endl;
+	importFile(users, books);
+	std::cout << "          Library Management System" << std::endl;
 	do
 	{
-		loop = showMenu(users,loggedIn,index);
+		loop = showMenu(users,books,loggedIn,index);
 	} while (loop);
 	return 0;
 }
 
 // Shows menu and gets a choice from the user
 // Calls the get choice function
-bool showMenu(std::vector<User>& u, bool& li, int& i)
+bool showMenu(std::vector<User>& userVect,std::vector<Book>& bookVect, bool& loggedIn, int& i)
 {
 	// Shows the main menu based on logged in state and the type of user. 
 	// If the logged in state is false, the menu for Guest will be shown
@@ -43,10 +44,10 @@ bool showMenu(std::vector<User>& u, bool& li, int& i)
 	int choice;
 	std::cout << "====================================" << std::endl;
 
-	if (li)
+	if (loggedIn)
 	{
-		std::cout << "Signed on as " << u[i].getUserName() << std::endl;
-		if (u[i].getUserType() == "admin")
+		std::cout << "Signed on as " << userVect[i].getUserName() << std::endl;
+		if (userVect[i].getUserType() == "admin")
 		{
 			std::cout << "                   1. View Books" << std::endl;
 			std::cout << "                   2. Search Books" << std::endl;
@@ -57,7 +58,7 @@ bool showMenu(std::vector<User>& u, bool& li, int& i)
 			std::cout << "                   7. Sign Out" << std::endl;
 			std::cout << "                   8. View Profile" << std::endl;
 		}
-		else if (u[i].getUserType() == "student")
+		else if (userVect[i].getUserType() == "student")
 		{
 			std::cout << "                   1. View Books" << std::endl;
 			std::cout << "                   2. Search Books" << std::endl;
@@ -68,10 +69,9 @@ bool showMenu(std::vector<User>& u, bool& li, int& i)
 			std::cout << "                   7. View Profile" << std::endl;
 		}
 	}
-	else if (li == false)
+	else if (loggedIn == false)
 	{
-		std::cout << "Signed on as Guest" << std::endl;
-		//std::cout << "Signed on as " << u[i].getUserName() << std::endl;
+		std::cout << "Signed on as guest" << std::endl;
 		std::cout << "                   1. View Books" << std::endl;
 		std::cout << "                   2. Search Books" << std::endl;
 		std::cout << "                   3. Sign In" << std::endl;
@@ -85,10 +85,10 @@ bool showMenu(std::vector<User>& u, bool& li, int& i)
 	std::cout << "        Enter a choice: ";
 	std::cin >> choice;
 
-	return getChoice(choice, u, i, li);
+	return getChoice(choice, userVect, bookVect, i, loggedIn);
 }
 
-bool getChoice(int choice, std::vector<User>& u, int& i, bool& li)
+bool getChoice(int choice, std::vector<User>& u, std::vector<Book>& bookVect, int& i, bool& li)
 {
 	bool again = true;
 	if (li)
@@ -97,11 +97,11 @@ bool getChoice(int choice, std::vector<User>& u, int& i, bool& li)
 		{
 			switch (choice)
 			{
-			case 1:;
+			case 1: listBooks(bookVect);
 				break;
 			case 2:;
 				break;
-			case 3:;
+			case 3: addBook(bookVect);
 				break;
 			case 4:;
 				break;
@@ -119,7 +119,7 @@ bool getChoice(int choice, std::vector<User>& u, int& i, bool& li)
 		{
 			switch (choice)
 			{
-			case 1:;
+			case 1:listBooks(bookVect);
 				break;
 			case 2:;
 				break;
@@ -141,7 +141,7 @@ bool getChoice(int choice, std::vector<User>& u, int& i, bool& li)
 	{
 		switch (choice)
 		{
-		case 1:;
+		case 1:listBooks(bookVect);
 			break;
 		case 2:;
 			break;
@@ -273,6 +273,8 @@ void importFile(std::vector<User>& u, std::vector<Book>& b)
 	if (!inFile)
 	{
 		std::cout << "No book data base found" << std::endl;
+		std::cout << "Creating new user data base.\n\n" << std::endl;
+		std::ofstream tempOut("bookDB.txt");
 	}
 	// Parse the books file into the program
 	while (std::getline(inFile, tempLine))
@@ -283,7 +285,7 @@ void importFile(std::vector<User>& u, std::vector<Book>& b)
 			attribute.push_back(parseLine);
 		}
 		//addBook(stoi(attribute[0]), attribute[1], attribute[2], attribute[3], attribute[4], attribute[5], attribute[6], attribute[7], attribute[8], attribute[9);
-		addBook(b, stoi(attribute[0]), attribute[1], attribute[2], attribute[3], stoi(attribute[4]), stoi(attribute[5]), stoi(attribute[6]), stoi(attribute[7]), stoi(attribute[8]), attribute[9]);
+		importBook(b, stoi(attribute[0]), attribute[1], attribute[2], attribute[3], stoi(attribute[4]), stoi(attribute[5]), stoi(attribute[6]), stoi(attribute[7]), stoi(attribute[8]), attribute[9]);
 		attribute.clear();
 	}
 }
@@ -306,11 +308,12 @@ void addUser(std::vector<User>& u, int id, std::string un, std::string fn, std::
 	u.push_back(tempU);
 }
 
-void addBook(std::vector<Book>& b, int bn, std::string t, std::string a, std::string g, int c, int y, int np, int nc, int p, std::string co)
+
+// This function is used to add books from the CSV
+void importBook(std::vector<Book>& bookVect, int bn, std::string t, std::string a, std::string g, int c, int y, int np, int nc, int p, std::string co)
 {
-	Book tempB(bn, t, a, g, c, y, np, nc, p, co);
-	
-	b.push_back(tempB);
+	Book tempB(bn, t, a, g, c, y, np, nc, p, co);	
+	bookVect.push_back(tempB);
 }
 
 // This will simply change the bool li to false so 
@@ -321,7 +324,7 @@ void signOut(std::vector<User>& u, bool& li)
 	li = false;			
 }
 
-void showBooks(std::vector<Book> b)
+void listBooks(std::vector<Book> b)
 {
 	if (b.size() == 0)
 	{
@@ -333,7 +336,37 @@ void showBooks(std::vector<Book> b)
 		std::cout << "\nBook Number" << "Title" << "Author" << "Genre" << "Content" << "Year" << std::endl;
 		for (int i = 0; i < b.size(); i++)
 		{
-			std::cout << std::endl;
+			std::cout << b[i].getTitle() << b[i].getAuthor() << b[i].getYear() << std::endl;
 		}
 	}
+}
+
+// This is an admin only function that is used to add books to the data base
+// The minimum amount of infomration needed is title, the rest of the info can
+// be added/modified with editBook(). The book number and checked out info will be automatically generated.
+// maybe hold the information for the required data in an array, and 
+void addBook(std::vector<Book>&bookVect)
+{	
+	// declare the variables (title, author, year, genre)
+	std::string title;
+	std::string author;
+	int year;
+	std::string catcher;		// Used to catch any residual data int he input stream buffer
+
+	// Get a title (std::string). if the string is empty, tell the user that a title is required
+	//std::cin.ignore(INT_MAX);
+	//std::cin.clear();
+	std::getline(std::cin, catcher);
+	std::cout << "new Title: ";
+	std::getline(std::cin, title);
+	// Get an Author (std::string). if the string is empty, tell the user that an author is required
+	std::cout << "\nAuthor name: ";
+	std::getline(std::cin, author);
+	
+	// Get a year (int). if the int is empty, tell the user that a year is required
+	std::cout << "\nYear published: ";
+	std::cin >> year;
+
+	Book tempBook(title, author, year);
+	bookVect.push_back(tempBook);
 }

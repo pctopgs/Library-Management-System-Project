@@ -15,6 +15,10 @@ class Book
 
     public:
 	Book(int bn, std::string t, std::string a, std::string g, int c, int y, int np, int nc, int p, std::string co);
+	// Used in conjunction with addBook to add a new book
+	// (all attributes will have default values except title, auther
+	// and year)
+	Book::Book(std::string title, std::string author, int year, std::string genre = "", int content = 0, int numPages = 0, int numChpt = 0, std::string checkedOut = "f");
     void setTitle(std::string);
     void setAuthor(std::string);
     void setGenre(std::string);

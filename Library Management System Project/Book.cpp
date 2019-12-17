@@ -11,6 +11,18 @@ Book::Book(int bn, std::string t, std::string a, std::string g, int c, int y, in
 	setChpt(nc);
 	setPages(p);
 }
+
+Book::Book(std::string title, std::string author, int year, std::string genre, int content, int numPages, int numChpt, std::string checkedOut)
+{
+	setTitle(title);
+	setAuthor(author);
+	setGenre(genre);
+	setChpt(content);
+	setYear(year);
+	setPages(numPages);
+	setChpt(numChpt);
+	setCheckedOut(checkedOut);
+}
 void Book::setTitle(std::string aTitle)
 {
     title = aTitle;
@@ -45,10 +57,12 @@ void Book::setCheckedOut(std::string co)
 	{
 		checkedOut = true;
 	}
-	if (co == "f")
+	else if (co == "f")
 	{
 		checkedOut = false;
 	}
+	else
+		std::cout << "There is an issue with checkedOut info" << std::endl;
 }
 
 std::string Book::getTitle()
