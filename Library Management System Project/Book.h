@@ -2,19 +2,19 @@
 
 class Book
 {
-	int bookNo;
+	std::string bookNo;
     std::string title;
     std::string author;
     std::string genre;
     std::string content;
+	std::string synopsis;			// A shorts description of the book
     int year;
-    int numPages;
     int numChpt;
 	int pages;
 	bool checkedOut;
 
     public:
-	Book(int bn, std::string t, std::string a, std::string g, int c, int y, int np, int nc, int p, std::string co);
+	Book(std::string bookNo, std::string t, std::string a, std::string g, int c, int y, int nc, int p, std::string co);
 	// Used in conjunction with addBook to add a new book
 	// (all attributes will have default values except title, auther
 	// and year)
@@ -27,6 +27,8 @@ class Book
     void setPages(int);
     void setChpt(int);
 	void setCheckedOut(std::string);
+	void setBookNo(std::string);				// Used for if the book is being imported from file
+	void setNewBookNo(std::string, std::string, int);					
     
     std::string getTitle();
     std::string getAuthor();
@@ -34,5 +36,7 @@ class Book
     std::string getContent();
     int getYear();
     int getPages();
-    //int getChpt();
+	std::string getBookNo();
+	bool getCheckedOut();
+    int getChpt();
 };

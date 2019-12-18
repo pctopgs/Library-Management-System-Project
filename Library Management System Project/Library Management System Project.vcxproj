@@ -157,10 +157,6 @@
     <Text Include="logs.txt" />
     <Text Include="userDB.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\..\Classes\12. Programming Fundamentals II\Lesson 5\Advanced File I-O Tutorial\L5Q2\MyScholarshipForm\addresses.csv" />
-    <None Include="Scholarships.csv" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

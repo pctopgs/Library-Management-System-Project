@@ -2,6 +2,7 @@
 #include <vector>
 #include <fstream>					// This is to use User files and Book files
 #include <sstream>
+
 bool showMenu(std::vector<User>&, std::vector<Book>&, bool&, int&);
 bool getChoice(int, std::vector<User>&, std::vector<Book>&, int&, bool&);		// The user needs to be passed by reference
 void signIn(std::vector<User>&, int&, bool&);
@@ -9,11 +10,11 @@ void signUp(std::vector<User>&);
 void signOut(std::vector<User>&, bool&);
 void importFile(std::vector<User>&, std::vector<Book>&);
 void addUser(std::vector<User>& u, int id, std::string un, std::string fn, std::string ln, std::string pw, std::string ut);
-void importBook(std::vector<Book>& b, int bn, std::string t, std::string a, std::string g, int c, int y, int np, int nc, int p, std::string co);
-void exportFile(std::vector<User>);
-void importBook(std::vector<Book>& bookVect, int bn, std::string t, std::string a, std::string g, int c, int y, int np, int nc, int p, std::string co);
+void exportUserFile(std::vector<User>);
+void importBook(std::vector<Book>& bookVect, std::string bookNo, std::string t, std::string a, std::string g, int c, int y, int nc, int p, std::string co);
 void listBooks(std::vector<Book> b);
 void addBook(std::vector<Book>&);
+void exportBookFile(std::vector<Book>);
 
 // Main Function
 int main()
@@ -99,13 +100,13 @@ bool getChoice(int choice, std::vector<User>& u, std::vector<Book>& bookVect, in
 			{
 			case 1: listBooks(bookVect);
 				break;
-			case 2:;
+			case 2: searchBook(bookVect, u[i], li);
 				break;
 			case 3: addBook(bookVect);
 				break;
 			case 4:;
 				break;
-			case 5:;
+			case 5: editBook(bookVect);
 				break;
 			case 6:;
 				break;
@@ -158,7 +159,6 @@ bool getChoice(int choice, std::vector<User>& u, std::vector<Book>& bookVect, in
 	return again;
 }
 
-
 // This function takes the reference of user vectors and the reference of index
 // And then changes the values if 
 void signIn(std::vector<User>&u, int& index, bool& li)
@@ -177,13 +177,11 @@ void signIn(std::vector<User>&u, int& index, bool& li)
 		{
 			if (name == u[i].getUserName())
 			{
-				//std::cout << "\nThat username already exists." << std::endl;
 				std::cout << "Password: ";
 				std::cin >> pass;
 				if (pass == u[i].getPassword())
 				{
 					std::cout << "\n\nWelcome " << u[i].getUserName() << std::endl;		// Welcomes the user
-					//showMenu(u, signedIn, i);			// Call the showMenu function with the user as the argument
 					index = i;			// When this function ends
 					li = true;
 				}
@@ -195,10 +193,7 @@ void signIn(std::vector<User>&u, int& index, bool& li)
 	if (!keepSearching && !found)
 	{
 		std::cout << "\nUser not found: ";
-		//std::cin >> pass;
 		std::cout << std::endl;
-		//User tempU(name, pass);
-		//u.push_back(tempU);
 	}
 }
 
@@ -237,7 +232,7 @@ void signUp(std::vector<User>& u)
 		std::cout << std::endl;
 		User tempU(u.size(),name, pass);
 		u.push_back(tempU);
-		exportFile(u);
+		exportUserFile(u);
 	}
 }
 
@@ -254,7 +249,7 @@ void importFile(std::vector<User>& u, std::vector<Book>& b)
 		std::cout << "Creating new user data base.\n\n" << std::endl;
 		std::ofstream tempOut("userDB.txt");
 		tempOut.close();
-		exportFile(u);
+		exportUserFile(u);
 	}
 	// Parsing the file and adding it to the User vector
 	while (std::getline(inFile, tempLine))		// Get the line
@@ -285,18 +280,18 @@ void importFile(std::vector<User>& u, std::vector<Book>& b)
 			attribute.push_back(parseLine);
 		}
 		//addBook(stoi(attribute[0]), attribute[1], attribute[2], attribute[3], attribute[4], attribute[5], attribute[6], attribute[7], attribute[8], attribute[9);
-		importBook(b, stoi(attribute[0]), attribute[1], attribute[2], attribute[3], stoi(attribute[4]), stoi(attribute[5]), stoi(attribute[6]), stoi(attribute[7]), stoi(attribute[8]), attribute[9]);
+		importBook(b, attribute[0], attribute[1], attribute[2], attribute[3], stoi(attribute[4]), stoi(attribute[5]), stoi(attribute[6]), stoi(attribute[7]), attribute[8]);
 		attribute.clear();
 	}
 }
 
-void exportFile(std::vector<User> u)
+void exportUserFile(std::vector<User> userVect)
 {
 	std::ofstream outFile;
 	outFile.open("userDB.txt");
-	for (int i = 0; i <u.size(); i++)
+	for (int i = 0; i <userVect.size(); i++)
 	{
-		outFile << u[i].getUID() << "," << u[i].getUserName() << "," << u[i].getFirstN() << "," << u[i].getLastN() << "," << u[i].getPassword() << "," << u[i].getUserType() << std::endl;
+		outFile << userVect[i].getUID() << "," << userVect[i].getUserName() << "," << userVect[i].getFirstN() << "," << userVect[i].getLastN() << "," << userVect[i].getPassword() << "," << userVect[i].getUserType() << std::endl;
 	}
 	outFile.close();
 }
@@ -306,14 +301,6 @@ void addUser(std::vector<User>& u, int id, std::string un, std::string fn, std::
 {
 	User tempU(id, un, fn, ln, pw, ut);
 	u.push_back(tempU);
-}
-
-
-// This function is used to add books from the CSV
-void importBook(std::vector<Book>& bookVect, int bn, std::string t, std::string a, std::string g, int c, int y, int np, int nc, int p, std::string co)
-{
-	Book tempB(bn, t, a, g, c, y, np, nc, p, co);	
-	bookVect.push_back(tempB);
 }
 
 // This will simply change the bool li to false so 
@@ -351,13 +338,11 @@ void addBook(std::vector<Book>&bookVect)
 	std::string title;
 	std::string author;
 	int year;
-	std::string catcher;		// Used to catch any residual data int he input stream buffer
-
+	
 	// Get a title (std::string). if the string is empty, tell the user that a title is required
-	//std::cin.ignore(INT_MAX);
-	//std::cin.clear();
-	std::getline(std::cin, catcher);
+	//std::getline(std::cin, catcher);
 	std::cout << "new Title: ";
+	std::getline(std::cin, title);
 	std::getline(std::cin, title);
 	// Get an Author (std::string). if the string is empty, tell the user that an author is required
 	std::cout << "\nAuthor name: ";
@@ -369,4 +354,68 @@ void addBook(std::vector<Book>&bookVect)
 
 	Book tempBook(title, author, year);
 	bookVect.push_back(tempBook);
+	exportBookFile(bookVect);
+}
+
+// This function will take the value of the book vector and 
+// export it to the bookDB.txt file.
+
+void exportBookFile(std::vector<Book> bookVect)
+{
+	std::ofstream outFile("bookDB.txt");
+
+	for (int i = 0; i < bookVect.size(); i++)
+	{
+		outFile << bookVect[i].getBookNo() << "," << bookVect[i].getTitle() << "," << bookVect[i].getAuthor() << "," << bookVect[i].getGenre() << "," << bookVect[i].getChpt() << "," << bookVect[i].getYear() << "," << bookVect[i].getPages() << "," << bookVect[i].getChpt() << "," << bookVect[i].getCheckedOut() << std::endl;
+	}
+}
+
+// This function is used to add books from the CSV file
+void importBook(std::vector<Book>& bookVect, std::string bookNo, std::string title, std::string author, std::string genre, int c, int y, int nc, int p, std::string co)
+{
+	Book tempB(bookNo, title, author, genre, c, y, nc, p, co);
+	bookVect.push_back(tempB);
+}
+
+// This function will take the Book vector by reference and
+// edit it. The admin can vew all all books through listBooks,
+// Or 
+void editBook(std::vector<Book>& bookVect)
+{
+	std::cout << "Unable to edit books right now" << std::endl;
+	std::cout << "Enter a book name" << std::endl;
+}
+
+void searchBook(std::vector<Book> bookVect, User user, bool loggedIn)
+{
+	std::string searchName;
+	std::cout << "Unable to search books right now" << std::endl;
+	std::cout << "Enter a book name" << std::endl;
+	std::cin >> searchName;
+
+	for (int i = 0; i < bookVect.size(); i++)
+	{
+		if (searchName == bookVect[i].getTitle)
+		{
+			viewBook(bookVect[i], loggedIn, user);		// TODO
+		}
+	}
+}
+
+// This function will show information about the book
+// title heading, Short desrcription, and some menu options at the bottom depending on the userType:
+// Borrow, Edit, Main Menu
+void viewBook(Book& book, bool loggedIn, User user)
+{
+	;		//TODO
+}
+
+// This function will allow a user to borrow a book
+// only if loggedIn is true, user type is 'student'
+// user does not already have a book checked out,
+// and book is not already checked out
+void borrowBook(Book& book, bool loggedIn, User& user)
+{
+	;		// TODO
+	std::cout << "Can't borrow books yet. This feature isn't ready." << std::endl;
 }

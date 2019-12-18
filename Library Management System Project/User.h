@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <string>
+
 class User
 {
 	int uid;					// User ID
