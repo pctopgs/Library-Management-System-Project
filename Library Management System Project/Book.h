@@ -7,7 +7,7 @@ class Book
     std::string author;
     std::string genre;
     std::string content;
-	std::string synopsis;			// A shorts description of the book
+	std::string desc;			// A short description of the book (about 1 sentence for now)
     int year;
     int numChpt;
 	int pages;
@@ -28,7 +28,8 @@ class Book
     void setChpt(int);
 	void setCheckedOut(std::string);
 	void setBookNo(std::string);				// Used for if the book is being imported from file
-	void setNewBookNo(std::string, std::string, int);					
+	void setNewBookNo(std::string, std::string, int);
+	void setDesc(std::string);
     
     std::string getTitle();
     std::string getAuthor();
@@ -39,4 +40,5 @@ class Book
 	std::string getBookNo();
 	bool getCheckedOut();
     int getChpt();
+	std::string getDesc();
 };

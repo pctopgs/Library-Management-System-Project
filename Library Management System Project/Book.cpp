@@ -85,6 +85,10 @@ void Book::setNewBookNo(std::string title, std::string author, int year)
 	std::string titleFirstTwo = title.substr(0,1);
 	bookNo = authorLastTwo + yearString + titleFirstTwo;
 }
+void Book::setDesc(std::string aDesc)
+{
+	desc = aDesc;
+}
 
 std::string Book::getTitle()
 {
@@ -121,4 +125,8 @@ bool Book::getCheckedOut()
 int Book::getChpt()
 {
 	return numChpt;
+}
+std::string Book::getDesc()
+{
+	return desc;
 }
