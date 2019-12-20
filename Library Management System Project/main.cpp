@@ -2,6 +2,7 @@
 #include <vector>
 #include <fstream>					// This is to use User files and Book files
 #include <sstream>
+#include <iomanip>
 
 bool showMenu(std::vector<User>&, std::vector<Book>&, bool&, int&);
 bool getChoice(int, std::vector<User>&, std::vector<Book>&, int&, bool&);		// The user needs to be passed by reference
@@ -11,15 +12,18 @@ void signOut(std::vector<User>&, bool&);
 void importFile(std::vector<User>&, std::vector<Book>&);
 void addUser(std::vector<User>& u, int id, std::string un, std::string fn, std::string ln, std::string pw, std::string ut);
 void exportUserFile(std::vector<User>);
-void importBook(std::vector<Book>& bookVect, std::string bookNo, std::string t, std::string a, std::string g, int c, int y, int nc, int p, std::string co);
-void listBooks(std::vector<Book> b);
+void importBook(std::vector<Book>&, std::string bookNo, std::string t, std::string a, std::string g, int c, int y, int nc, int p, std::string co);
+void listBooks(std::vector<Book>);
 void addBook(std::vector<Book>&);
 void exportBookFile(std::vector<Book>);
-void searchBook(std::vector<Book>, User, bool);
-void viewBook(Book&, bool, User);
-void deleteBook(Book&, bool, User);
-void optionChoice(int, Book&, bool, User&);
-void showOptions(Book&, bool, User&);
+void searchBook(std::vector<Book>&, User, bool);
+void viewBook(std::vector<Book>&, int, bool, User);
+void deleteBook(std::vector<Book>&, int, bool, User);
+void optionChoice(int, std::vector<Book>&, int, bool, User&);
+void showOptions(std::vector<Book>&, int, bool, User&);
+void editBook(std::vector<Book>&, int, bool, User);
+void borrowBook(std::vector<Book>&, int, bool, User&);
+void returnBook(std::vector<Book>&, int, bool, User&);
 
 // Main Function
 int main()
@@ -52,18 +56,16 @@ bool showMenu(std::vector<User>& userVect,std::vector<Book>& bookVect, bool& log
 		std::cout << "Signed on as " << userVect[i].getUserName() << std::endl;
 		if (userVect[i].getUserType() == "admin")
 		{
-			std::cout << "                   1. View Books" << std::endl;
+			std::cout << "                   1. Browse Library" << std::endl;
 			std::cout << "                   2. Search Books" << std::endl;
 			std::cout << "                   3. Add Book" << std::endl;
-			std::cout << "                   4. Remove Book" << std::endl;
-			std::cout << "                   5. Edit Book" << std::endl;
-			std::cout << "                   6. Add User" << std::endl;
-			std::cout << "                   7. Sign Out" << std::endl;
-			std::cout << "                   8. View Profile" << std::endl;
+			std::cout << "                   4. Add User" << std::endl;
+			std::cout << "                   5. Sign Out" << std::endl;
+			std::cout << "                   6. View Profile" << std::endl;
 		}
 		else if (userVect[i].getUserType() == "student")
 		{
-			std::cout << "                   1. View Books" << std::endl;
+			std::cout << "                   1. Browse Library" << std::endl;
 			std::cout << "                   2. Search Books" << std::endl;
 			std::cout << "                   3. Checkout Book" << std::endl;
 			std::cout << "                   4. Return Book" << std::endl;
@@ -75,7 +77,7 @@ bool showMenu(std::vector<User>& userVect,std::vector<Book>& bookVect, bool& log
 	else if (loggedIn == false)
 	{
 		std::cout << "Signed on as guest" << std::endl;
-		std::cout << "                   1. View Books" << std::endl;
+		std::cout << "                   1. Browse Library" << std::endl;
 		std::cout << "                   2. Search Books" << std::endl;
 		std::cout << "                   3. Sign In" << std::endl;
 		std::cout << "                   4. Sign Up" << std::endl;
@@ -106,13 +108,11 @@ bool getChoice(int choice, std::vector<User>& u, std::vector<Book>& bookVect, in
 				break;
 			case 3: addBook(bookVect);
 				break;
-			case 4:;	// Depreciated
+			case 4:;
 				break;
-			case 5:;// Depreciated editBook(bookVect);
+			case 5: signOut(u, li);
 				break;
-			case 6:;
-				break;
-			case 7: signOut(u, li);
+			case 6: signOut(u, li);
 				break;
 			case 0: exit(0);
 				break;
@@ -317,15 +317,16 @@ void listBooks(std::vector<Book> b)
 {
 	if (b.size() == 0)
 	{
-		std::cout << "There are now books to display." << std::endl;
+		std::cout << "There are no books to display." << std::endl;
 	}
 	else
 	{
 		// Display the Headings
-		std::cout << "\nBook Number" << "Title" << "Author" << "Genre" << "Content" << "Year" << std::endl;
+		std::cout << "\nBook Number " << " Title" << " Author" << " Genre" << " Content" << " Year" << std::endl;
+		std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
 		for (int i = 0; i < b.size(); i++)
 		{
-			std::cout << b[i].getTitle() << b[i].getAuthor() << b[i].getYear() << std::endl;
+			std::cout << b[i].getTitle() << " " << b[i].getAuthor() << " " << b[i].getYear() << " " << std::endl;
 		}
 	}
 }
@@ -381,15 +382,15 @@ void importBook(std::vector<Book>& bookVect, std::string bookNo, std::string tit
 
 // This function will list the attributes for the book and asks the user
 // to enter a number that corresponds to the attribute they want to edit
-void editBook(Book book, bool loggedIn, User user)
+void editBook(std::vector<Book>& bookVect, int book, bool loggedIn, User user)
 {
 	int choice;
 	std::string choiceStr;
 	std::string newEntry;
 	std::cout << "\nUnable to edit books right now. This feature isn't ready\n\n";
 	// list the options that can be changed
-	std::cout << "     BOOK EDITOR" << std::endl;
-	std::cout << "Select an attribute to change" << std::endl;
+	std::cout << "             BOOK EDITOR" << std::endl;
+	std::cout << "Select an attribute to change:" << std::endl;
 	std::cout << "1. Title     2. Author     3. Year Published" << std::endl;
 	std::cout << "4. Genre     5. Content    6. Description" << std::endl;
 	std::cout << "0. Cancel" << std::endl;
@@ -401,63 +402,75 @@ void editBook(Book book, bool loggedIn, User user)
 	if (choice == 1)
 	{
 		// Edit Title
-		std::cout << "The current title is: " << book.getTitle();
+		std::cout << "The current title is: " << bookVect[book].getTitle();
 		std::cout << "\nEnter a new title: ";
 		std::getline(std::cin, newEntry);
-		book.setTitle(newEntry);
+		bookVect[book].setTitle(newEntry);
+		exportBookFile(bookVect);
 	}
 	else if (choice == 2)
 	{
 		// Edit Author
-		std::cout << "The current author for " << book.getTitle() << " is: " << book.getAuthor();
+		std::cout << "The current author for " << bookVect[book].getTitle() << " is: " << bookVect[book].getAuthor();
 		std::cout << "\nEnter a new author: ";
 		std::getline(std::cin, newEntry);
-		book.setAuthor(newEntry);
+		bookVect[book].setAuthor(newEntry);
+		exportBookFile(bookVect);
 	}
 	else if (choice == 3)
 	{
 		// Edit Year
-		std::cout << "The current year published for " << book.getTitle() << " is: " << book.getYear();
+		std::cout << "The current year published for " << bookVect[book].getTitle() << " is: " << bookVect[book].getYear();
 		std::cout << "\nEnter a new year: ";
 		std::getline(std::cin, newEntry);
+		int numEntry = stoi(newEntry);
+		bookVect[book].setYear(numEntry);
+		exportBookFile(bookVect);
 	}
 	else if (choice == 4)
 	{
 		// Edit Genre
-		std::cout << "The current genre for " << book.getTitle() << " is: " << book.getGenre();
+		std::cout << "The current genre for " << bookVect[book].getTitle() << " is: " << bookVect[book].getGenre();
 		std::cout << "\nEnter a new genre: ";
 		std::getline(std::cin, newEntry);
+		bookVect[book].setGenre(newEntry);
+		exportBookFile(bookVect);
 	}
 	else if (choice == 5)
 	{
 		// Edit Content
-		std::cout << "The current content for " << book.getTitle() << " is: " << book.getContent();
+		std::cout << "The current content for " << bookVect[book].getTitle() << " is: " << bookVect[book].getContent();
 		std::cout << "\nEnter a new type of content: ";
 		std::getline(std::cin, newEntry);
+		bookVect[book].setContent(newEntry);
+		exportBookFile(bookVect);
 	}
 	else if (choice == 6)
 	{
 		// Edit Description
-		std::cout << "The current description for " << book.getTitle() << " is: " << book.getDesc();
-		std::cout << "\nEnter a different content for this book: ";
+		std::cout << "The current description for " << bookVect[book].getTitle() << " is: " << bookVect[book].getDesc();
+		std::cout << "\nEnter a different description for this book: ";
 		std::getline(std::cin, newEntry);
+		bookVect[book].setDesc(newEntry);
+		exportBookFile(bookVect);
 	}
 }
 
-void searchBook(std::vector<Book> bookVect, User user, bool loggedIn)
+void searchBook(std::vector<Book>& bookVect, User user, bool loggedIn)
 {
 	std::string searchName;
-	int searchCount;			// Keeps track of the number of 
+	//int searchCount;			// Keeps track of the number of 
 	std::cout << "\nThis feature is in beta right now...." << std::endl;
 	std::cout << "Enter a book name: ";
 	//std::cin >> searchName;
-	std::getline(std::cin, searchName);	
+	std::getline(std::cin, searchName);
+	std::getline(std::cin, searchName);
 
 	for (int i = 0; i < bookVect.size(); i++)
 	{
 		if (searchName == bookVect[i].getTitle())
 		{
-			viewBook(bookVect[i], loggedIn, user);		// TODO
+			viewBook(bookVect, i, loggedIn, user);		// TODO
 		}
 	}
 }
@@ -465,27 +478,28 @@ void searchBook(std::vector<Book> bookVect, User user, bool loggedIn)
 // This function will show information about the book
 // title heading, Short desrcription, and some menu options at the bottom depending on the userType:
 // Borrow, Edit, Main Menu
-void viewBook(Book& book, bool loggedIn, User user)
+void viewBook(std::vector<Book>& bookVect, int book, bool loggedIn, User user)
 {
 	// TODO
 	std::cout << "--This feature is still in beta--\n";
-	std::cout << "\n\n           " << book.getTitle() << std::endl;
+	std::cout << "\n\n           " << bookVect[book].getTitle() << std::endl;
+	std::cout << bookVect[book].getAuthor() << "               " << bookVect[book].getYear() << std::endl;
 	std::cout << "-------------------------------" << std::endl;
-	std::cout << book.getDesc() << std::endl;
-	showOptions(book,loggedIn, user);  // TODO
+	std::cout << bookVect[book].getDesc() << std::endl;
+	showOptions(bookVect, book, loggedIn, user);  // TODO
 }
 
 // This function will allow a user to borrow a book
 // only if loggedIn is true, user type is 'student'
 // user does not already have a book checked out,
 // and book is not already checked out
-void borrowBook(Book& book, bool loggedIn, User& user)
+void borrowBook(std::vector<Book>& bookVect, int book, bool loggedIn, User& user)
 {
 	// TODO
 	std::cout << "Can't borrow books yet. This feature isn't ready.\n\n" << std::endl;
 }
 
-void returnBook(Book& book, bool loggedIn, User& user)
+void returnBook(std::vector<Book>& bookVect, int book, bool loggedIn, User& user)
 {
 	;
 }
@@ -493,38 +507,37 @@ void returnBook(Book& book, bool loggedIn, User& user)
 // This is an entirly new menu that shows the options a user can do with a book
 // it lists out the options and then calls another function to handle the choice
 // made by the user.
-void showOptions(Book& book, bool loggedIn, User& user)
+void showOptions(std::vector<Book>& bookVect, int book, bool loggedIn, User& user)
 {
 	int choice;
 	std::string choiceStr;
-	std::cout << "No options yet\n\n";
+	//std::cout << "No options yet\n\n";
 	// Options depending on userType: borrow, return, delete, edit, back
 	std::cout << "1. Borrow         2. Return         3. Edit        4. Delete\n\n";
 	std::cout << "Enter a choice: ";
 	std::getline(std::cin, choiceStr);
 	choice = stoi(choiceStr);
-	optionChoice(choice, book, loggedIn, user);		// TODO:
+	optionChoice(choice, bookVect, book, loggedIn, user);		// TODO:
 }
 
 // This function will take the choice, the book, the logged in state, and the user and call other functions based on the choice
-
-void optionChoice(int choice, Book& book, bool loggedIn, User& user)
+void optionChoice(int choice, std::vector<Book>& bookVect, int book, bool loggedIn, User& user)
 {
 	switch (choice)
 	{
-	case 1: borrowBook(book, loggedIn, user);
+	case 1: borrowBook(bookVect, book, loggedIn, user);
 		break;
-	case 2: returnBook(book, loggedIn, user);
+	case 2: returnBook(bookVect, book, loggedIn, user);
 		break;
-	case 3: editBook(book, loggedIn, user);
+	case 3: editBook(bookVect, book, loggedIn, user);
 		break;
-	case 4: deleteBook(book, loggedIn, user);
+	case 4: deleteBook(bookVect, book, loggedIn, user);
 		break;
 	}
 }
 
-void deleteBook(Book& book, bool loggedIn, User user)
+void deleteBook(std::vector<Book>& bookVect, int book, bool loggedIn, User user)
 {
-	std::cout << "Can't quite delete books yet." << std::endl;
+	std::cout << "Can't quite delete books yet....." << std::endl;
 	// TODO
 }

@@ -1,1 +1,6 @@
-ng1997H,Harry Potter,J.K Rowling,,0,1997,0,0,0
+in1998A,A clash of Kings,George R.R. Martin,,0,1998,0,0,204
+ng1997H,Harry Potter and the Philosopher's Stone,J.K. Rowling,,0,1997,0,0,204
+ng1998H,Harry Potter and The Chamber of Secrets,J.K. Rowling,,0,1998,0,0,0
+ng1999H,Harry Potter and The Prisoner of Azkaban,J.K. Rowling,,0,1999,0,0,0
+ng2000H,Harry Potter and The Goblet of Fire,J.K. Rowling,,0,2000,0,0,0
+in1996A,A Game of Thrones,George R.R. Martin,,0,1996,0,0,0
