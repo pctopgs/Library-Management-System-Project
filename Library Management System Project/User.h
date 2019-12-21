@@ -5,7 +5,7 @@
 class User
 {
 	int uid;					// User ID
-	static int countStat;
+	//static int countStat;
 	int count = 0;
 	std::string userName;		// Username
 	std::string firstN;			// User first name
@@ -55,18 +55,6 @@ public:
 		
 		std::cout << this->getUserName() << " was created" << std::endl;
 	}
-	/*
-	User(int id, std::string name, std::string pass, std::string type = "student")
-	{
-		int idNum = id + 1000;
-		setUID(idNum);
-		setUserName(name);
-		setPassword(pass);
-		setUserType("student");
-
-		std::cout << this->getUserName() << " was created" << std::endl;
-	}
-	*/
 	User(int id, std::string un, std::string fn, std::string ln, std::string pw, std::string ut)
 	{
 		// This overloaded function is intended to load in User data from the file

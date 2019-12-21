@@ -1,9 +1,2 @@
-﻿  main.cpp
-c:\users\2219147\onedrive\testchamber\library management system project\library management system project\main.cpp(178): warning C4018: '<': signed/unsigned mismatch
-c:\users\2219147\onedrive\testchamber\library management system project\library management system project\main.cpp(220): warning C4018: '<': signed/unsigned mismatch
-c:\users\2219147\onedrive\testchamber\library management system project\library management system project\main.cpp(294): warning C4018: '<': signed/unsigned mismatch
-c:\users\2219147\onedrive\testchamber\library management system project\library management system project\main.cpp(327): warning C4018: '<': signed/unsigned mismatch
-c:\users\2219147\onedrive\testchamber\library management system project\library management system project\main.cpp(370): warning C4018: '<': signed/unsigned mismatch
-c:\users\2219147\onedrive\testchamber\library management system project\library management system project\main.cpp(469): warning C4018: '<': signed/unsigned mismatch
-  Library Management System Project.vcxproj -> C:\Users\2219147\OneDrive\testChamber\Library Management System Project\Debug\Library Management System Project.exe
+﻿  Library Management System Project.vcxproj -> C:\Users\2219147\OneDrive\testChamber\Library Management System Project\Debug\Library Management System Project.exe
   Library Management System Project.vcxproj -> C:\Users\2219147\OneDrive\testChamber\Library Management System Project\Debug\Library Management System Project.pdb (Full PDB)

@@ -2,7 +2,7 @@
 
 class Book
 {
-	std::string bookNo;
+	int bookNo;
     std::string title;
     std::string author;
     std::string genre;
@@ -11,14 +11,16 @@ class Book
     int year;
     int numChpt;
 	int pages;
+	static int numBooks;
 	bool checkedOut;
 
     public:
-	Book(std::string bookNo, std::string t, std::string a, std::string g, int c, int y, int nc, int p, std::string co);
+	// This contructor is called when importing books from the bookDB file
+	Book(int bookNo, std::string t, std::string a, std::string g, int c, int y, int nc, int p, std::string co);
 	// Used in conjunction with addBook to add a new book
 	// (all attributes will have default values except title, auther
 	// and year)
-	Book::Book(std::string title, std::string author, int year, std::string genre = "", int content = 0, int numPages = 0, int numChpt = 0, std::string checkedOut = "f");
+	Book::Book(int,std::string title, std::string author, int year, std::string genre = "", int content = 0, int numPages = 0, int numChpt = 0, std::string checkedOut = "f");
     void setTitle(std::string);
     void setAuthor(std::string);
     void setGenre(std::string);
@@ -27,8 +29,8 @@ class Book
     void setPages(int);
     void setChpt(int);
 	void setCheckedOut(std::string);
-	void setBookNo(std::string);				// Used for if the book is being imported from file
-	void setNewBookNo(std::string, std::string, int);
+	void setBookNo(int);				// Used for if the book is being imported from file
+	void setNewBookNo(int);
 	void setDesc(std::string);
     
     std::string getTitle();
@@ -37,7 +39,7 @@ class Book
     std::string getContent();
     int getYear();
     int getPages();
-	std::string getBookNo();
+	int getBookNo();
 	bool getCheckedOut();
     int getChpt();
 	std::string getDesc();

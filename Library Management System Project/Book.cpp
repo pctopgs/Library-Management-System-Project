@@ -1,6 +1,7 @@
 #include "Book.h"
 
-Book::Book(std::string bookNo, std::string t, std::string a, std::string g, int c, int y, int nc, int p, std::string co)
+// This contructor is called when importing books from the bookDB file
+Book::Book(int bookNo, std::string t, std::string a, std::string g, int c, int y, int nc, int p, std::string co)
 {
 	setBookNo(bookNo);
 	setTitle(t);
@@ -15,9 +16,9 @@ Book::Book(std::string bookNo, std::string t, std::string a, std::string g, int 
 // Used in conjunction with addBook to add a new book
 // (all attributes will have default values except title, auther
 // and year)
-Book::Book(std::string title, std::string author, int year, std::string genre, int content, int numPages, int numChpt, std::string checkedOut)
+Book::Book(int numBooks, std::string title, std::string author, int year, std::string genre, int content, int numPages, int numChpt, std::string checkedOut)
 {
-	setNewBookNo(title, author, year);
+	setNewBookNo(numBooks);
 	setTitle(title);
 	setAuthor(author);
 	setGenre(genre);
@@ -68,7 +69,7 @@ void Book::setCheckedOut(std::string co)
 	else
 		std::cout << "There is an issue with checkedOut info" << std::endl;
 }
-void Book::setBookNo(std::string num)
+void Book::setBookNo(int num)
 {
 	bookNo = num;
 }
@@ -78,12 +79,9 @@ void Book::setBookNo(std::string num)
 // and the year
 // and create a new int  concantonated based on the following format:
 // LAST2AUTHOR + YEAR + FIRST2TITLE
-void Book::setNewBookNo(std::string title, std::string author, int year)
+void Book::setNewBookNo(int numBook)
 {
-	std::string yearString = std::to_string(year);		// creates a string version of the year
-	std::string authorLastTwo = author.substr(author.length() - 2);
-	std::string titleFirstTwo = title.substr(0,1);
-	bookNo = authorLastTwo + yearString + titleFirstTwo;
+	bookNo = numBook + 100;
 }
 void Book::setDesc(std::string aDesc)
 {
@@ -114,7 +112,7 @@ int Book::getPages()
 {
 	return pages;
 }
-std::string Book::getBookNo()
+int Book::getBookNo()
 {
 	return bookNo;
 }
