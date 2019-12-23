@@ -154,6 +154,7 @@
     <ClInclude Include="User.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="bookDB.txt" />
     <Text Include="logs.txt" />
     <Text Include="userDB.txt" />
   </ItemGroup>

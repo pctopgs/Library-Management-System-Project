@@ -16,7 +16,7 @@ void importBook(std::vector<Book>&, int bookNo, std::string t, std::string a, st
 void listBooks(std::vector<Book>);
 void addBook(std::vector<Book>&);
 void exportBookFile(std::vector<Book>);
-void searchBook(std::vector<Book>&, User, bool);
+void searchBook(std::vector<Book>&, bool, User user = User(300));
 void viewBook(std::vector<Book>&, int, bool, User);
 void deleteBook(std::vector<Book>&, int, bool, User);
 void optionChoice(int, std::vector<Book>&, int, bool, User&);
@@ -24,6 +24,8 @@ void showBookOptions(std::vector<Book>&, int, bool, User&);
 void editBook(std::vector<Book>&, int, bool, User);
 void borrowBook(std::vector<Book>&, int, bool, User&);
 void returnBook(std::vector<Book>&, int, bool, User&);
+void listBook(std::vector<Book>, int);
+void browseBooks(std::vector<Book> bookVect, bool loggedIn, User user = User(300), int book = 0);
 
 // Main Function
 int main()
@@ -48,6 +50,7 @@ bool showMenu(std::vector<User>& userVect,std::vector<Book>& bookVect, bool& log
 {
 	// Shows the main menu based on logged in state and the type of user. 
 	// If the logged in state is false, the menu for Guest will be shown
+	//std::string choice;
 	int choice;
 	std::cout << "====================================" << std::endl;
 
@@ -102,9 +105,9 @@ bool getChoice(int choice, std::vector<User>& u, std::vector<Book>& bookVect, in
 		{
 			switch (choice)
 			{
-			case 1: listBooks(bookVect);
+			case 1: browseBooks(bookVect, li, u[i]);
 				break;
-			case 2: searchBook(bookVect, u[i], li);
+			case 2: searchBook(bookVect, li, u[i]);
 				break;
 			case 3: addBook(bookVect);
 				break;
@@ -144,9 +147,9 @@ bool getChoice(int choice, std::vector<User>& u, std::vector<Book>& bookVect, in
 	{
 		switch (choice)
 		{
-		case 1:listBooks(bookVect);
+		case 1:browseBooks(bookVect, li); //listBooks(bookVect);
 			break;
-		case 2:searchBook(bookVect, u[i], li);
+		case 2:searchBook(bookVect, li);
 			break;
 		case 3: signIn(u, i, li);			// Passes the User vector to the signIn() function
 			break;
@@ -154,7 +157,7 @@ bool getChoice(int choice, std::vector<User>& u, std::vector<Book>& bookVect, in
 			break;
 		case 5:;
 			break;
-		case 0: again = false; //exit(0);
+		case 0: again = false;
 			break;			
 		}
 	}	
@@ -361,7 +364,6 @@ void addBook(std::vector<Book>&bookVect)
 
 // This function will take the value of the book vector and 
 // export it to the bookDB.txt file.
-
 void exportBookFile(std::vector<Book> bookVect)
 {
 	std::ofstream outFile("bookDB.txt");
@@ -386,7 +388,6 @@ void editBook(std::vector<Book>& bookVect, int book, bool loggedIn, User user)
 	int choice;
 	std::string choiceStr;
 	std::string newEntry;
-	//std::cout << "\nUnable to edit books right now. This feature isn't ready\n\n";
 	// list the options that can be changed
 	std::cout << "             BOOK EDITOR {BETA}" << std::endl;
 	std::cout << "Select an attribute to change:" << std::endl;
@@ -455,25 +456,7 @@ void editBook(std::vector<Book>& bookVect, int book, bool loggedIn, User user)
 	}
 }
 
-void searchBook(std::vector<Book>& bookVect, User user, bool loggedIn)
-{
-	std::string searchName;
-	//int searchCount;			// Keeps track of the number of 
-	std::cout << "\nThis feature is in beta right now...." << std::endl;
-	std::cout << "Enter a book name: ";
-	//std::cin >> searchName;
-	std::getline(std::cin, searchName);
-	std::getline(std::cin, searchName);
 
-	for (int i = 0; i < bookVect.size(); i++)
-	{
-		std::cout << "Searching...\n\n";
-		if (searchName == bookVect[i].getTitle())
-		{
-			viewBook(bookVect, i, loggedIn, user);		// TODO
-		}
-	}
-}
 
 // This function will show information about the book
 // title heading, Short desrcription, and some menu options at the bottom depending on the userType:
@@ -511,8 +494,6 @@ void showBookOptions(std::vector<Book>& bookVect, int book, bool loggedIn, User&
 {
 	int choice;
 	std::string choiceStr;
-	//std::cout << "No options yet\n\n";
-	// Options depending on userType: borrow, return, delete, edit, back
 	std::cout << "1. Borrow         2. Return         3. Edit        4. Delete";
 	std::cout << "\n5. Go Back\n";
 	std::cout << "Enter a choice: ";
@@ -543,4 +524,78 @@ void deleteBook(std::vector<Book>& bookVect, int book, bool loggedIn, User user)
 {
 	std::cout << "Can't quite delete books yet....." << std::endl;
 	// TODO
+}
+
+void browseBooks(std::vector<Book> bookVect, bool loggedIn, User user, int book)
+{
+	std::string searchKey;
+	std::getline(std::cin, searchKey);
+	do
+	{		
+		bool bookFound = false;
+		//std::string searchKey;
+		book = 0;
+		std::cout << "\nEnter the book number of the book you'd like to view, or m to go back to the main menu\n";
+		for (int i = 0; i < bookVect.size(); i++)
+		{
+			listBook(bookVect, i);
+		}
+		std::cout << "\nBook Number: ";
+		std::getline(std::cin, searchKey);
+		//std::getline(std::cin, searchKey);
+		if (searchKey != "m")
+		{
+			for (int i = 0; i < bookVect.size() && !bookFound; i++)
+			{
+				if (stoi(searchKey) == bookVect[i].getBookNo())
+				{
+					viewBook(bookVect, i, loggedIn, user);
+					bookFound = true;
+				}
+			}
+		}		
+	} while (searchKey != "m");
+}
+
+void searchBook(std::vector<Book>& bookVect, bool loggedIn, User user)
+{
+	std::string searchTerm;
+	std::string getChoice;
+	bool found = false;	
+	std::cout << "\nThis feature is in beta right now...." << std::endl;
+	std::cout << "Enter a book name: ";
+	std::getline(std::cin, searchTerm);
+	std::getline(std::cin, searchTerm);
+
+	do
+	{
+		bool bookFound = false;
+		for (int book = 0; book < bookVect.size(); book++)
+		{
+			if (searchTerm == bookVect[book].getTitle())
+			{
+				found = true;
+				listBook(bookVect, book);  // List each book 
+			}
+		}
+
+		std::cout << "Enter the book number of the book you'd like to view ('m' to go back to the main menu): ";
+		std::getline(std::cin, getChoice);
+		if (getChoice != "m")
+		{
+			for (int book = 0; book < bookVect.size() && !bookFound; book++)
+			{
+				if (stoi(getChoice) == bookVect[book].getBookNo())
+				{
+					viewBook(bookVect, book, loggedIn, user);
+					bookFound = true;
+				}
+			}
+		}		
+	} while (getChoice != "m");			// This is to go back to the search results after the user has viewed a book 	
+}
+
+void listBook(std::vector<Book> bookVect, int book)
+{
+	std::cout << std::setw(15) << std::left << bookVect[book].getBookNo() << std::setw(43) << std::left << bookVect[book].getTitle() << std::setw(23) << std::left << bookVect[book].getAuthor() << std::setw(20) << std::left << bookVect[book].getGenre() << std::setw(10) << bookVect[book].getContent() << std::setw(10) << std::left << bookVect[book].getYear() << std::setw(15) << std::endl;
 }

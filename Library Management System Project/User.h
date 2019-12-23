@@ -14,6 +14,15 @@ class User
 	std::string userType;		// "admin, student, or guest"
 	
 public:
+	User()
+	{
+		setUID(300);
+		setUserName("Guest");
+		setUserType("guest");
+		setFirstN(" ");
+		setLastN(" ");
+		setPassword(" ");
+	}
 	User(int id)
 	{
 		if (id == 500)
@@ -25,6 +34,7 @@ public:
 			setLastN("");
 			setPassword(".");
 		}
+		
 		else if (id == 300)
 		{
 			setUID(id);
