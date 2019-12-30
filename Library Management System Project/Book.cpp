@@ -11,10 +11,11 @@ Book::Book(int bookNo, std::string t, std::string a, std::string g, int c, int y
 	setYear(y);
 	setChpt(nc);
 	setPages(p);
+	setCheckedOut(co);
 }
 
 // Used in conjunction with addBook to add a new book
-// (all attributes will have default values except title, auther
+// (all attributes will have default values except title, author
 // and year)
 Book::Book(int numBooks, std::string title, std::string author, int year, std::string genre, int content, int numPages, int numChpt, std::string checkedOut)
 {
@@ -116,9 +117,18 @@ int Book::getBookNo()
 {
 	return bookNo;
 }
-bool Book::getCheckedOut()
+std::string Book::getCheckedOut()
 {
-	return checkedOut;
+	std::string checkedOutValue;
+	if (checkedOut)
+	{
+		checkedOutValue = "t";
+	}
+	else if (!checkedOut)
+	{
+		checkedOutValue = "f";
+	}
+	return checkedOutValue;
 }
 int Book::getChpt()
 {

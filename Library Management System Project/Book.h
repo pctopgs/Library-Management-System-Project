@@ -3,7 +3,7 @@
 class Book
 {
 	int bookNo;
-    std::string title;
+    std::string title;			//	may need to turn this into a vector to make it better to search
     std::string author;
     std::string genre;
     std::string content;
@@ -12,7 +12,7 @@ class Book
     int numChpt;
 	int pages;
 	static int numBooks;
-	bool checkedOut;
+	bool checkedOut;			// Whether or not the book has been checked out	
 
     public:
 	// This contructor is called when importing books from the bookDB file
@@ -40,7 +40,8 @@ class Book
     int getYear();
     int getPages();
 	int getBookNo();
-	bool getCheckedOut();
+	std::string getCheckedOut();
     int getChpt();
 	std::string getDesc();
+
 };
