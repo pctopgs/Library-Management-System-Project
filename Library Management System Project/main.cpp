@@ -42,6 +42,7 @@ int main()
 	{
 		loop = showMenu(users,books,loggedIn,index);
 		exportUserFile(users);
+		std::cout << "\n\n";
 	} while (loop);
 	return 0;
 }
@@ -153,8 +154,6 @@ bool getChoice(int choice, std::vector<User>& u, std::vector<Book>& bookVect, in
 			break;
 		case 4: signUp(u);			// Calls the signUp function. Passes the user vector to it
 			break;
-		case 5:;
-			break;
 		case 0: again = false;
 			break;			
 		}
@@ -164,40 +163,56 @@ bool getChoice(int choice, std::vector<User>& u, std::vector<Book>& bookVect, in
 
 // This function takes the reference of user vectors and the reference of index
 // And then changes the values if 
-void signIn(std::vector<User>&u, int& index, bool& li)
+void signIn(std::vector<User>& userVect, int& index, bool& isLoggedIn)
 {
-	std::string name;
+	std::string userNameSearchKey;
 	std::string pass;
 	int i = 0;
+	int passwordRetry = 0;
+	int userRetry = 0;
 	bool keepSearching = true;
-	bool found = false;
-	bool signedIn = true;
-	std::cout << "Username: ";
-	std::cin >> name;
-	if (keepSearching || !found)
+	bool userFound = false;
+	
+	while (!userFound && userRetry < 3 && userNameSearchKey != "b")
 	{
-		for (i; i < u.size(); i++)
+		std::cout << "\nEnter a username, or 'b' to go back" << std::endl;
+		std::cout << "Username: ";
+		std::cin >> userNameSearchKey;
+		for (i; i < userVect.size(); i++)
 		{
-			if (name == u[i].getUserName())
+			if (userNameSearchKey == userVect[i].getUserName())
 			{
-				std::cout << "Password: ";
-				std::cin >> pass;
-				if (pass == u[i].getPassword())
+				userFound = true;
+				while (!isLoggedIn && passwordRetry < 3)
 				{
-					std::cout << "\n\nWelcome " << u[i].getUserName() << std::endl;		// Welcomes the user
-					index = i;			// When this function ends
-					li = true;
-				}
-				found = true;
+					std::cout << "Password: ";
+					std::cin >> pass;
+					if (pass == userVect[i].getPassword())
+					{
+						std::cout << "\nWelcome " << userVect[i].getUserName() << std::endl;		// Welcomes the user
+						index = i;			// When this function ends
+						isLoggedIn = true;
+					}
+					else
+					{
+						std::cout << "\nIncorrect password. Try again.\n";
+						passwordRetry++;			// Increment the number of retries the user has done
+					}
+				}			
 			}
 		}
-		keepSearching = false;
+
+		if (!userFound && userNameSearchKey != "b")
+		{
+			std::cout << "\nUser not found.\n";
+			userRetry++;
+		}
+		if (userRetry >= 3)
+		{
+			std::cout << "Too many incorrect attempts." << std::endl;
+		}
 	}
-	if (!keepSearching && !found)
-	{
-		std::cout << "\nUser not found: ";
-		std::cout << std::endl;
-	}
+	
 }
 
 // This function will take the User vector as an argument
@@ -216,6 +231,8 @@ void signUp(std::vector<User>& u)
 	bool found = false;
 	std::cout << "New Username: ";
 	std::cin >> name;
+
+	// TODO: Implement a general search function for the program
 	if (keepSearching || !found)
 	{
 		for (i; i < u.size(); i++)
