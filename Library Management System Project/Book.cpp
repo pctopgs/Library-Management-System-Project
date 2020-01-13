@@ -28,6 +28,7 @@ Book::Book(int numBooks, std::string title, std::string author, int year, std::s
 	setPages(numPages);
 	setChpt(numChpt);
 	setCheckedOut(checkedOut);
+	std::cout << title << " was added to the library.\n";
 }
 void Book::setTitle(std::string aTitle)
 {

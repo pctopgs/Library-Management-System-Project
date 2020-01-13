@@ -7,8 +7,8 @@ class User
 	int uid;					// User ID
 	int count = 0;
 	std::string userName;		// Username
-	std::string firstN;			// User first name
-	std::string lastN;			// User last name
+	std::string firstName;			// User first name
+	std::string lastName;			// User last name
 	std::string password;		// Password
 	std::string userType;		// "admin, student, or guest"
 	int bookNo;					// The book that the user has checked out represented by the book number
@@ -67,7 +67,7 @@ public:
 		setUserType("student");
 		setBookNo(0);
 		
-		std::cout << this->getUserName() << " was created" << std::endl;
+		std::cout << "The user " << this->getUserName() << " was created" << std::endl;
 	}
 	User(int id, std::string un, std::string fn, std::string ln, std::string pw, int bn, std::string ut)
 	{
@@ -98,11 +98,11 @@ public:
 	}
 	std::string getFirstN()
 	{
-		return firstN;
+		return firstName;
 	}
 	std::string getLastN()
 	{
-		return lastN;
+		return lastName;
 	}
 
 	int getBookNo()
@@ -124,11 +124,11 @@ public:
 	}
 	void setFirstN(std::string fn)
 	{
-		firstN = fn;
+		firstName = fn;
 	}
 	void setLastN(std::string ln)
 	{
-		lastN = ln;
+		lastName = ln;
 	}
 	void setPassword(std::string pass)
 	{

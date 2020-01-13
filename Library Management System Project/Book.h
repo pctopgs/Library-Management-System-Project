@@ -17,6 +17,7 @@ class Book
     public:
 	// This contructor is called when importing books from the bookDB file
 	Book(int bookNo, std::string t, std::string a, std::string g, int c, int y, int nc, int p, std::string co);
+
 	// Used in conjunction with addBook to add a new book
 	// (all attributes will have default values except title, auther
 	// and year)

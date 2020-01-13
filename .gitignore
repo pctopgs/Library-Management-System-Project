@@ -28,3 +28,9 @@ Library Management System Project/Debug/Library Management System Project.log
 Library Management System Project/Debug/main.obj
 Library Management System Project/Debug/vc140.idb
 Library Management System Project/Debug/vc140.pdb
+Library Management System Project/userDB.tsv
+*.pdb
+Library Management System Project/Debug/vc140.pdb
+*.obj
+*.obj
+*.exe
