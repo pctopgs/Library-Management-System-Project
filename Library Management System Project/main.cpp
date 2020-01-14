@@ -619,6 +619,15 @@ void browseBooks(std::vector<Book>& bookVect, bool loggedIn, User& user, int boo
 
 void searchBook(std::vector<Book>& bookVect, bool loggedIn, User user)
 {
+	/*
+		User enters a term
+		search the term
+		create a list
+		if a book is found and its book number isn't already on the list
+			add that book book number to the list
+			repeat until all the books have been searched
+		Show the results of the search by listing out the books
+	*/
 	std::string searchTerm;
 	std::string getChoice;
 	bool found = false;	

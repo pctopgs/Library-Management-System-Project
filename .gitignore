@@ -34,3 +34,11 @@ Library Management System Project/Debug/vc140.pdb
 *.obj
 *.obj
 *.exe
+*.tlog
+*.tlog
+*.vcxproj
+*.filters
+*.tlog
+Library Management System Project/Debug/Library .42C41171.tlog/link.write.1.tlog
+Library Management System Project/Debug/Library .42C41171.tlog/Library Management System Project.lastbuildstate
+Debug/userDB.tsv
