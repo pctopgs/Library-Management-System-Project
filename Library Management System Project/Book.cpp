@@ -1,32 +1,28 @@
 #include "Book.h"
 
 // This contructor is called when importing books from the bookDB file
-Book::Book(int bookNo, std::string t, std::string a, std::string g, int c, int y, int nc, int p, std::string co)
+Book::Book(int bookNo, std::string title, std::string author, std::string genre, int c, int y, int nc, int p, int co, int authID)
 {
 	setBookNo(bookNo);
-	setTitle(t);
-	setAuthor(a);
-	setGenre(g);
+	setTitle(title);
+	setAuthor(author);
+	setGenre(genre);
 	setChpt(c);
 	setYear(y);
 	setChpt(nc);
 	setPages(p);
 	setCheckedOut(co);
+	setAuthorID(authID);
 }
 
-// Used in conjunction with addBook to add a new book
+// Used in conjunction with addBook() to add a new book
 // (all attributes will have default values except title, author
 // and year)
-Book::Book(int numBooks, std::string title, std::string author, int year, std::string genre, int content, int numPages, int numChpt, std::string checkedOut)
+//Book::Book(int numBooks, std::string title, std::string author, int year, std::string genre, int content, int numPages, int numChpt, int checkedOut)
+Book::Book(int numBooks, std::string title, int authID, int year, int checkedOut) :
+	title(title), authorID(authID), year(year)
 {
 	setNewBookNo(numBooks);
-	setTitle(title);
-	setAuthor(author);
-	setGenre(genre);
-	setChpt(content);
-	setYear(year);
-	setPages(numPages);
-	setChpt(numChpt);
 	setCheckedOut(checkedOut);
 	std::cout << title << " was added to the library.\n";
 }
@@ -58,18 +54,9 @@ void Book::setChpt(int aChpt)
 {
     numChpt = aChpt;
 }
-void Book::setCheckedOut(std::string co)
+void Book::setCheckedOut(int co)
 {
-	if (co == "t")
-	{
-		checkedOut = true;
-	}
-	else if (co == "f")
-	{
-		checkedOut = false;
-	}
-	else
-		std::cout << "There is an issue with checkedOut info" << std::endl;
+	checkedOut = co;
 }
 void Book::setBookNo(int num)
 {
@@ -88,6 +75,11 @@ void Book::setNewBookNo(int numBook)
 void Book::setDesc(std::string aDesc)
 {
 	desc = aDesc;
+}
+
+void Book::setAuthorID(int authID)
+{
+	authorID = authID;
 }
 
 std::string Book::getTitle()
@@ -118,9 +110,10 @@ int Book::getBookNo()
 {
 	return bookNo;
 }
-std::string Book::getCheckedOut()
+//std::string Book::getCheckedOut()
+bool Book::getCheckedOut()
 {
-	std::string checkedOutValue;
+	/*std::string checkedOutValue;
 	if (checkedOut)
 	{
 		checkedOutValue = "t";
@@ -130,6 +123,8 @@ std::string Book::getCheckedOut()
 		checkedOutValue = "f";
 	}
 	return checkedOutValue;
+	*/
+	return checkedOut;
 }
 int Book::getChpt()
 {
@@ -138,4 +133,32 @@ int Book::getChpt()
 std::string Book::getDesc()
 {
 	return desc;
+}
+
+void Book::showThis()
+{
+	std::cout << this << std::endl;
+}
+
+bool Book::operator <(Book book)
+{
+	bool lessThan;
+
+	if (this->getTitle() < book.getTitle())
+	{
+		lessThan = true;
+	}
+	else
+	{
+		lessThan = false;
+	}
+
+	return lessThan;
+}
+
+int Book::getAuthorID(){
+	if (authorID)
+		return authorID;
+	else
+		return 0000000;
 }

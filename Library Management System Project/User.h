@@ -15,14 +15,10 @@ class User
 	// Book bookBorrowed;
 	
 public:
-	User()
+	User():
+		uid(300), userName("Guest"), userType("guest"), firstName(" "), lastName(" "), password(" ")
 	{
-		setUID(300);
-		setUserName("Guest");
-		setUserType("guest");
-		setFirstN(" ");
-		setLastN(" ");
-		setPassword(" ");
+		;
 	}
 	User(int id)
 	{
@@ -80,7 +76,7 @@ public:
 		setUserType(ut);
 		setBookNo(bn);
 	}
-	int getUID()
+	int getUID() const
 	{
 		return uid;
 	}

@@ -1,4 +1,5 @@
 #include "User.h"
+#include "Author.h"
 
 class Book
 {
@@ -13,26 +14,32 @@ class Book
 	int pages;
 	static int numBooks;
 	bool checkedOut;			// Whether or not the book has been checked out	
+    int authorID;
 
     public:
 	// This contructor is called when importing books from the bookDB file
-	Book(int bookNo, std::string t, std::string a, std::string g, int c, int y, int nc, int p, std::string co);
+	Book(int bookNo, std::string, std::string, std::string, int, int, int, int, int, int);
 
 	// Used in conjunction with addBook to add a new book
 	// (all attributes will have default values except title, auther
 	// and year)
-	Book::Book(int,std::string title, std::string author, int year, std::string genre = "", int content = 0, int numPages = 0, int numChpt = 0, std::string checkedOut = "f");
+	//Book::Book(int,std::string title, std::string author, int year, std::string genre = "", int content = 0, int numPages = 0, int numChpt = 0, int checkedOut = 0);
+	//Book::Book(int, std::string title, int authID, int year, std::string genre = "", int content = 0, int numPages = 0, int numChpt = 0, int checkedOut = 0);
+	Book::Book(int numBooks, std::string title, int authID, int year, int checkedOut = false);
     void setTitle(std::string);
     void setAuthor(std::string);
     void setGenre(std::string);
     void setContent(std::string);
+	//std::string getCheckedOut();
+	bool getCheckedOut();
     void setYear(int);
     void setPages(int);
     void setChpt(int);
-	void setCheckedOut(std::string);
+	void setCheckedOut(int);
 	void setBookNo(int);				// Used for if the book is being imported from file
 	void setNewBookNo(int);
 	void setDesc(std::string);
+	void setAuthorID(int);
     
     std::string getTitle();
     std::string getAuthor();
@@ -41,8 +48,12 @@ class Book
     int getYear();
     int getPages();
 	int getBookNo();
-	std::string getCheckedOut();
+	
     int getChpt();
 	std::string getDesc();
+	void showThis();
 
+	bool operator <(Book book);
+
+	int getAuthorID();
 };
