@@ -135,11 +135,6 @@ std::string Book::getDesc()
 	return desc;
 }
 
-void Book::showThis()
-{
-	std::cout << this << std::endl;
-}
-
 bool Book::operator <(Book book)
 {
 	bool lessThan;

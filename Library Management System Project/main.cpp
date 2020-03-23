@@ -41,7 +41,7 @@ TODO
 - Add the author ID to the books to distinguish if they are linked to the Author class - Complete
 - Fix the browse books function to start showing books again -complete
 - Make the books export with author ID
-- 
+- Getting subscript out of range run time error
 
 */
 
@@ -368,7 +368,14 @@ void importFile(std::vector<User>& userVect, std::vector<Book>& bookVect, std::v
 		{
 			attribute.push_back(parseLine);
 		}
-		importAuthor(authorVect, stoi(attribute[0]), attribute[1], attribute[2],attribute[3]);  // TODO: implement an importAuthor() function
+		if (attribute.size() == 3)
+		{
+			importAuthor(authorVect, stoi(attribute[0]), attribute[1], attribute[2]);
+		}
+		else
+		{
+			importAuthor(authorVect, stoi(attribute[0]), attribute[1], attribute[2], attribute[3]);  // TODO: implement an importAuthor() function
+		}
 		attribute.clear();
 	}
 }

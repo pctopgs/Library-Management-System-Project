@@ -4,11 +4,11 @@
 class Book
 {
 	int bookNo;
-    std::string title;			//	may need to turn this into a vector to make it better to search
+    std::string title;			
     std::string author;
     std::string genre;
     std::string content;
-	std::string desc;			// A short description of the book (about 1 sentence for now)
+	std::string desc;			
     int year;
     int numChpt;
 	int pages;
@@ -23,14 +23,11 @@ class Book
 	// Used in conjunction with addBook to add a new book
 	// (all attributes will have default values except title, auther
 	// and year)
-	//Book::Book(int,std::string title, std::string author, int year, std::string genre = "", int content = 0, int numPages = 0, int numChpt = 0, int checkedOut = 0);
-	//Book::Book(int, std::string title, int authID, int year, std::string genre = "", int content = 0, int numPages = 0, int numChpt = 0, int checkedOut = 0);
 	Book::Book(int numBooks, std::string title, int authID, int year, int checkedOut = false);
     void setTitle(std::string);
     void setAuthor(std::string);
     void setGenre(std::string);
     void setContent(std::string);
-	//std::string getCheckedOut();
 	bool getCheckedOut();
     void setYear(int);
     void setPages(int);
@@ -45,15 +42,14 @@ class Book
     std::string getAuthor();
     std::string getGenre();
     std::string getContent();
+	std::string getDesc();
     int getYear();
     int getPages();
 	int getBookNo();
-	
+	int getAuthorID();	
     int getChpt();
-	std::string getDesc();
-	void showThis();
 
 	bool operator <(Book book);
 
-	int getAuthorID();
+
 };
