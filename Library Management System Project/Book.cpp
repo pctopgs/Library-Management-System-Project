@@ -135,6 +135,11 @@ std::string Book::getDesc()
 	return desc;
 }
 
+void Book::showThis()
+{
+	std::cout << this << std::endl;
+}
+
 bool Book::operator <(Book book)
 {
 	bool lessThan;
@@ -155,5 +160,5 @@ int Book::getAuthorID(){
 	if (authorID)
 		return authorID;
 	else
-		return 0000000;
+		return 0;
 }

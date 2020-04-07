@@ -27,6 +27,8 @@ public:
 		pName = penName;
 	}
 
+	// This overloaded constructor is used with the importAuthor function to import an Author from the author file
+	// The parameters is takes are for numOfAuthors, authorID, fName, lName
 	Author(int uniqueID, std::string firstName, std::string lastName)
 	{
 		//numOfAuthors = numberOfAuthors;

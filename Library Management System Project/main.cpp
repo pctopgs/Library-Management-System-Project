@@ -31,7 +31,7 @@ void browseBooks(std::vector<Book>& bookVect, std::vector<Author>&, bool loggedI
 void viewProfile(std::vector<User>&, std::vector<Book>, int, User&);
 void editProfile(User& targetUser, User actingUser);
 void addAuthor(std::vector<Author> &);		// This function will add a new author to the
-void importAuthor(std::vector<Author> &authorVect, int, std::string firstName, std::string lastName, std::string penName);
+void importAuthor(std::vector<Author> &authorVect, int, std::string firstName, std::string lastName, std::string penName = " ");
 void listAuthor(std::vector<Author> &authorVect, int index);
 void browseAuthor(std::vector<Author>&);
 
@@ -41,7 +41,7 @@ TODO
 - Add the author ID to the books to distinguish if they are linked to the Author class - Complete
 - Fix the browse books function to start showing books again -complete
 - Make the books export with author ID
-- Getting subscript out of range run time error
+- Getting subscript out of range run time error - Fixed
 
 */
 
@@ -322,7 +322,7 @@ void importFile(std::vector<User>& userVect, std::vector<Book>& bookVect, std::v
 	}
 	inFile.close();
 
-	// Getting the books data base file
+	// Getting the books database file
 	inFile.open("bookDB.tsv");
 	if (!inFile)
 	{
@@ -495,7 +495,7 @@ void editBook(std::vector<Book>& bookVect, std::vector<Author>& authorVect, int 
 	std::string choiceStr;
 	std::string newEntry;
 	// list the options that can be changed
-	std::cout << "             BOOK EDITOR {BETA}" << std::endl;
+	std::cout << "\n             BOOK EDITOR {BETA}" << std::endl;
 	std::cout << "Select an attribute to change:" << std::endl;
 	std::cout << "1. Title     2. Author     3. Year Published" << std::endl;
 	std::cout << "4. Genre     5. Content    6. Description" << std::endl;
@@ -563,23 +563,41 @@ void editBook(std::vector<Book>& bookVect, std::vector<Author>& authorVect, int 
 	}
 	else if (choice == 7)
 	{
-		int authorNum;
-		browseAuthor(authorVect);
-		std::cout << "0 - Author Not Listed" << std::endl;
-		std::cout << "Select the author: ";
-		std::cin >> authorNum;
-		if (authorNum == 0)
+		std::string authorNum;
+		do
 		{
-			addAuthor(authorVect);
-		}
-		for (int i = 0; i < authorVect.size(); i++)
-		{
-			if (authorNum == authorVect[i].getAuthorID())
+			browseAuthor(authorVect);
+			std::cout << "0 - Author Not Listed" << std::endl;
+			std::cout << "b - Go Back" << std::endl;
+			//std::string authorNum;
+			std::cout << "Select the author: ";
+			std::getline(std::cin,authorNum);
+			if (authorNum == "b")
 			{
-				bookVect[book].setAuthorID(authorNum);
-				std::cout << "The authorID for " << bookVect[book].getTitle() << " was changed to " << authorVect[i].getAuthorID() << std::endl;
+				;
 			}
-		}
+			else if (stoi(authorNum) == 0)
+			{
+				addAuthor(authorVect);
+			}
+			else if (stoi(authorNum) > 0)
+			{
+				for (int i = 0; i < authorVect.size(); i++)
+				{
+					if (stoi(authorNum) == authorVect[i].getAuthorID())
+					{
+						// std::cout << "before" << std::endl;
+						bookVect[book].setAuthorID(stoi(authorNum));
+						// std::cout << "after" << std::endl;
+						std::cout << "The authorID for " << bookVect[book].getTitle() << " was changed to " << bookVect[book].getAuthorID() << std::endl;
+					}
+				}
+			}
+			else
+			{
+				std::cout << "Invalid input" << std::endl;
+			}
+		} while (authorNum != "b" && stoi(authorNum) >= 0);	
 	}
 }
 
@@ -698,7 +716,7 @@ void browseBooks(std::vector<Book>& bookVect, std::vector<Author>& authorVect, b
 		for (int i = 0; i < bookVect.size(); i++)
 		{
 			listBook(bookVect, i);
-			std::cout << "Here" << std::endl;
+			//std::cout << "Here" << std::endl;
 		}
 		std::cout << "\nEnter the book number of the book you'd like to view, or 'b' to go back to the main menu\n";
 		std::cout << "\nBook Number: ";
@@ -832,7 +850,7 @@ void viewBook(std::vector<Book>& bookVect, std::vector<Author>& authorVect, int 
 	std::cout << "\n\n           " << bookVect[book].getTitle() << std::endl;
 	std::cout << bookVect[book].getAuthor() << "               " << bookVect[book].getYear() << std::endl;
 	std::cout << "-------------------------------" << std::endl;
-	std::cout << "Author ID" << bookVect[book].getAuthorID() << std::endl;
+	std::cout << "Author ID: " << bookVect[book].getAuthorID() << std::endl; // This is temporary
 	std::cout << bookVect[book].getDesc() << std::endl;
 	showBookOptions(bookVect, authorVect, book, loggedIn, user);
 }
@@ -901,7 +919,7 @@ void editProfile(User& targetUser, User actingUser)
 	std::cout << "3. User Type  : " << targetUser.getUserType() << std::endl;
 }
 
-void importAuthor(std::vector<Author> &authorVect,int authID, std::string firstName, std::string lastName, std::string penName = " ")
+void importAuthor(std::vector<Author> &authorVect,int authID, std::string firstName, std::string lastName, std::string penName)
 {	
 	if (penName == " ")
 	{
@@ -923,7 +941,7 @@ void exportAuthorFile(std::vector<Author> authorVect)
 	outFile.open("authorDB.tsv");
 	for (int i = 0; i < authorVect.size(); i++)
 	{
-		outFile << authorVect[i].getAuthorID() << "\t" << authorVect[i].getFName() << "\t" << authorVect[i].getLName() << "\t" << authorVect[i].getPName();
+		outFile << authorVect[i].getAuthorID() << "\t" << authorVect[i].getFName() << "\t" << authorVect[i].getLName() << "\t" << authorVect[i].getPName() << std::endl;
 	}
 	outFile.close();
 }
@@ -960,5 +978,6 @@ void browseAuthor(std::vector<Author> &authorVect)
 	for (int i = 0; i < authorVect.size(); i++)
 	{
 		listAuthor(authorVect, i);
+		std::cout << std::endl;
 	}
 }
