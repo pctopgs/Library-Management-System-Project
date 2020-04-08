@@ -473,7 +473,7 @@ void exportBookFile(std::vector<Book>& bookVect)
 
 	for (int i = 0; i < bookVect.size(); i++)
 	{
-		outFile << bookVect[i].getBookNo() << "\t" << bookVect[i].getTitle() << "\t" << bookVect[i].getAuthor() << "\t" << bookVect[i].getGenre() << "\t" << bookVect[i].getChpt() << "\t" << bookVect[i].getYear() << "\t" << bookVect[i].getPages() << "\t" << bookVect[i].getChpt() << "\t" << bookVect[i].getCheckedOut() << bookVect[i].getAuthorID() << std::endl;
+		outFile << bookVect[i].getBookNo() << "\t" << bookVect[i].getTitle() << "\t" << bookVect[i].getAuthor() << "\t" << bookVect[i].getGenre() << "\t" << bookVect[i].getChpt() << "\t" << bookVect[i].getYear() << "\t" << bookVect[i].getPages() << "\t" << bookVect[i].getChpt() << "\t" << bookVect[i].getCheckedOut() << "\t" << bookVect[i].getAuthorID() << std::endl;
 	}
 }
 
@@ -497,8 +497,8 @@ void editBook(std::vector<Book>& bookVect, std::vector<Author>& authorVect, int 
 	// list the options that can be changed
 	std::cout << "\n             BOOK EDITOR {BETA}" << std::endl;
 	std::cout << "Select an attribute to change:" << std::endl;
-	std::cout << "1. Title     2. Author     3. Year Published" << std::endl;
-	std::cout << "4. Genre     5. Content    6. Description" << std::endl;
+	std::cout << "1. Title     \n2. Author     3. Year Published" << std::endl;
+	std::cout << "\n4. Genre     \n5. Content    6. Description" << std::endl;
 	std::cout << "7. Author ID" << std::endl;
 	std::cout << "0. Cancel" << std::endl;
 	std::cout << "\nOption: ";
@@ -590,6 +590,7 @@ void editBook(std::vector<Book>& bookVect, std::vector<Author>& authorVect, int 
 						bookVect[book].setAuthorID(stoi(authorNum));
 						// std::cout << "after" << std::endl;
 						std::cout << "The authorID for " << bookVect[book].getTitle() << " was changed to " << bookVect[book].getAuthorID() << std::endl;
+						exportBookFile(bookVect);
 					}
 				}
 			}
@@ -669,7 +670,7 @@ void showBookOptions(std::vector<Book>& bookVect, std::vector<Author>& authorVec
 {
 	int choice;
 	std::string choiceStr;
-	std::cout << "1. Borrow         2. Return         3. Edit        4. Delete";
+	std::cout << "1. Borrow         \n2. Return         \n3. Edit        \n4. Delete";
 	std::cout << "\n5. Go Back\n";
 	std::cout << "Enter a choice: ";
 	std::getline(std::cin, choiceStr);
