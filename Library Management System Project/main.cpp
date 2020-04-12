@@ -107,6 +107,7 @@ bool showMenu(std::vector<User>& userVect,std::vector<Book>& bookVect, std::vect
 		std::cout << "                   2. Search Books" << std::endl;
 		std::cout << "                   3. Sign In" << std::endl;
 		std::cout << "                   4. Sign Up" << std::endl;
+		std::cout << "                   5. Browse Authors" << std::endl;
 	}	
 	else
 	{
@@ -179,6 +180,8 @@ bool getChoice(int choice, std::vector<User>& userVect, std::vector<Book>& bookV
 		case 3: signIn(userVect, userIndex, li);			// Passes the User vector to the signIn() function
 			break;
 		case 4: signUp(userVect);			// Calls the signUp function. Passes the user vector to it
+			break;
+		case 5: browseAuthor(authorVect);
 			break;
 		case 0: again = false;
 			break;			
@@ -969,13 +972,14 @@ void addAuthor(std::vector<Author> &authorVect)
 
 void listAuthor(std::vector<Author> &authorVect, int index)
 {
-	std::cout << authorVect[index].getAuthorID() << "\t" << authorVect[index].getFName() << "\t" << authorVect[index].getLName() << "\t" << authorVect[index].getPName();
+	std::cout << std::setw(15) << std::left << authorVect[index].getAuthorID() << std::setw(20) << std::left << authorVect[index].getFName() << std::setw(20) << std::left << authorVect[index].getLName() << authorVect[index].getPName();
 }
 
 void browseAuthor(std::vector<Author> &authorVect)
 {
 	//showAuthorheading();
-	std::cout << "Author ID" << "\t" << "First Name" << "\t" << "Last Name" << "\t" << "Pen Name" << std::endl;
+	std::cout << std::setw(15) << std::left <<  "Author ID" << std::setw(20) << std::left << "First Name" << std::setw(20) << std::left << "Last Name" << "Pen Name" << std::endl;
+	std::cout << "===========================================================================" << std::endl;
 	for (int i = 0; i < authorVect.size(); i++)
 	{
 		listAuthor(authorVect, i);
