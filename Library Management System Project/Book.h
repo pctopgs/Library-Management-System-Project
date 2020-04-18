@@ -30,7 +30,6 @@ class Book
     void setAuthor(std::string);
     void setGenre(std::string);
     void setContent(std::string);
-	//std::string getCheckedOut();
 	bool getCheckedOut();
     void setYear(int);
     void setPages(int);

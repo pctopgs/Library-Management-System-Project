@@ -42,7 +42,7 @@ TODO
 - Fix the browse books function to start showing books again -complete
 - Make the books export with author ID
 - Getting subscript out of range run time error - Fixed
-
+- Redo the signIn function
 */
 
 
@@ -196,7 +196,6 @@ void signIn(std::vector<User>& userVect, int& index, bool& isLoggedIn)
 {
 	std::string userNameSearchKey;
 	std::string pass;
-	int i = 0;
 	int passwordRetry = 0;
 	int userRetry = 0;
 	bool keepSearching = true;
@@ -207,7 +206,7 @@ void signIn(std::vector<User>& userVect, int& index, bool& isLoggedIn)
 		std::cout << "\nEnter a username, or 'b' to go back" << std::endl;
 		std::cout << "Username: ";
 		std::cin >> userNameSearchKey;
-		for (i; i < userVect.size(); i++)
+		for (int i = 0; i < userVect.size(); i++)
 		{
 			if (userNameSearchKey == userVect[i].getUserName())
 			{
@@ -934,9 +933,7 @@ void importAuthor(std::vector<Author> &authorVect,int authID, std::string firstN
 	{
 		Author tempAuthor(authID, firstName, lastName, penName);
 		authorVect.push_back(tempAuthor);
-	}
-	
-	
+	}	
 }
 
 void exportAuthorFile(std::vector<Author> authorVect)
