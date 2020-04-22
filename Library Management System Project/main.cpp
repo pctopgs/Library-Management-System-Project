@@ -5,7 +5,7 @@
 #include <sstream>
 #include <iomanip>
 
-bool showMenu(std::vector<User>&, std::vector<Book>&, std::vector<Author>, bool&, int&);
+bool showMainMenu(std::vector<User>&, std::vector<Book>&, std::vector<Author>, bool&, int&);
 bool getChoice(int, std::vector<User>&, std::vector<Book>&, std::vector<Author>& , int&, bool&);		// The user needs to be passed by reference
 void signIn(std::vector<User>&, int&, bool&);
 void signUp(std::vector<User>&);
@@ -21,7 +21,7 @@ void exportBookFile(std::vector<Book>&);
 void searchBook(std::vector<Book>&, std::vector<Author>&, bool, User user = User(300));
 void viewBook(std::vector<Book>&, std::vector<Author>&, int, bool, User&);
 void deleteBook(std::vector<Book>&, int, bool, User);
-void optionChoice(int, std::vector<Book>&, std::vector<Author>&, int, bool, User&);
+void optionChoice(std::string, std::vector<Book>&, std::vector<Author>&, int, bool, User&);
 void showBookOptions(std::vector<Book>&, std::vector<Author>&, int, bool, User&);
 void editBook(std::vector<Book>&, std::vector<Author>&, int, bool, User);
 void borrowBook(std::vector<Book>&, int, bool, User&);
@@ -60,7 +60,7 @@ int main()
 	std::cout << "          Library Management System" << std::endl;
 	do
 	{
-		loop = showMenu(userVect,bookVect, authorVect, loggedIn,index);
+		loop = showMainMenu(userVect,bookVect, authorVect, loggedIn,index);
 		exportUserFile(userVect);
 		std::cout << "\n\n";
 	} while (loop);
@@ -69,7 +69,7 @@ int main()
 
 // Shows menu and gets a choice from the user
 // Calls the get choice function
-bool showMenu(std::vector<User>& userVect,std::vector<Book>& bookVect, std::vector<Author> authorVect, bool& loggedIn, int& i)
+bool showMainMenu(std::vector<User>& userVect,std::vector<Book>& bookVect, std::vector<Author> authorVect, bool& loggedIn, int& i)
 {
 	// Shows the main menu based on logged in state and the type of user. 
 	// If the logged in state is false, the menu for Guest will be shown
@@ -665,38 +665,6 @@ void returnBook(std::vector<Book>& bookVect, bool loggedIn, User& user)
 	}
 }
 
-// This is an entirly new menu that shows the options a user can do with a book
-// it lists out the options and then calls another function to handle the choice
-// made by the user.
-void showBookOptions(std::vector<Book>& bookVect, std::vector<Author>& authorVect, int book, bool loggedIn, User& user)
-{
-	int choice;
-	std::string choiceStr;
-	std::cout << "1. Borrow         \n2. Return         \n3. Edit        \n4. Delete";
-	std::cout << "\n5. Go Back\n";
-	std::cout << "Enter a choice: ";
-	std::getline(std::cin, choiceStr);
-	choice = stoi(choiceStr);
-	optionChoice(choice, bookVect, authorVect, book, loggedIn, user);		// TODO:
-}
-
-// This function will take the choice, the book, the logged in state, and the user and call other functions based on the choice
-void optionChoice(int choice, std::vector<Book>& bookVect, std::vector<Author>& authorVect, int book, bool loggedIn, User& user)
-{
-	switch (choice)
-	{
-	case 1: borrowBook(bookVect, book, loggedIn, user);
-		break;
-	case 2: returnBook(bookVect, loggedIn, user);
-		break;
-	case 3: editBook(bookVect, authorVect, book, loggedIn, user);
-		break;
-	case 4: deleteBook(bookVect, book, loggedIn, user);
-		break;
-	case 5:;		// Go back
-		break;
-	}
-}
 
 void deleteBook(std::vector<Book>& bookVect, int book, bool loggedIn, User user)
 {
@@ -832,8 +800,7 @@ void searchBook(std::vector<Book>& bookVect, std::vector<Author>& authorVect, bo
 				{
 					viewBook(bookVect, authorVect, book, loggedIn, user);
 					bookFound = true;
-				}
-				
+				}				
 			}
 		}		
 	} while (getChoice != "b");			// This is to go back to the search results after the user has viewed a book 	
@@ -856,6 +823,51 @@ void viewBook(std::vector<Book>& bookVect, std::vector<Author>& authorVect, int 
 	std::cout << "Author ID: " << bookVect[book].getAuthorID() << std::endl; // This is temporary
 	std::cout << bookVect[book].getDesc() << std::endl;
 	showBookOptions(bookVect, authorVect, book, loggedIn, user);
+}
+
+// This is an entirly new menu that shows the options a user can do with a book
+// it lists out the options and then calls another function to handle the choice
+// made by the user.
+void showBookOptions(std::vector<Book>& bookVect, std::vector<Author>& authorVect, int book, bool loggedIn, User& user)
+{
+	//int choice;
+	std::string choice;
+	std::string choiceStr;
+	std::cout << "1. Borrow         \n2. Return         \n3. Edit        \n4. Delete";
+	std::cout << "\nb. Go Back\n";
+	std::cout << "Enter a choice: ";
+	std::getline(std::cin, choice);
+	//choice = stoi(choiceStr);
+	optionChoice(choice, bookVect, authorVect, book, loggedIn, user);		// TODO:
+}
+
+// This function will take the choice, the book, the logged in state, and the user and call other functions based on the choice
+void optionChoice(std::string choice, std::vector<Book>& bookVect, std::vector<Author>& authorVect, int book, bool loggedIn, User& user)
+{
+	if (choice == "b")
+	{
+		;
+	}
+	else if (stoi(choice) == 1)
+	{
+		borrowBook(bookVect, book, loggedIn, user);
+	}
+	else if (stoi(choice) == 2)
+	{
+		returnBook(bookVect, loggedIn, user);
+	}
+	else if (stoi(choice) == 3)
+	{
+		editBook(bookVect, authorVect, book, loggedIn, user);
+	}
+	else if (stoi(choice) == 4)
+	{
+		deleteBook(bookVect, book, loggedIn, user);
+	}
+	else
+	{
+		std::cout << "That's not a valid choice." << std::endl;
+	}
 }
 
 // This function will allow the user to view and edit his/her profile. Similar to the view book function

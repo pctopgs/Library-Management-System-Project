@@ -56,3 +56,4 @@ Library Management System Project.VC.VC.opendb
 .vs/Library Management System Project/v16/.suo
 *.idb
 *.user
+*.tlog
