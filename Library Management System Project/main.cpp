@@ -203,44 +203,56 @@ void signIn(std::vector<User>& userVect, int& index, bool& isLoggedIn)
 	
 	while (!userFound && userRetry < 3 && userNameSearchKey != "b")
 	{
-		std::cout << "\nEnter a username, or 'b' to go back" << std::endl;
-		std::cout << "Username: ";
-		std::cin >> userNameSearchKey;
-		for (int i = 0; i < userVect.size(); i++)
+		try
 		{
-			if (userNameSearchKey == userVect[i].getUserName())
+			if (userRetry >= 3)
 			{
-				userFound = true;
-				while (!isLoggedIn && passwordRetry < 3)
+				throw 2;
+			}
+			std::cout << "\nEnter a username, or 'b' to go back" << std::endl;
+			std::cout << "Username: ";
+			std::cin >> userNameSearchKey;
+			if (userNameSearchKey == "b")
+			{
+				break;
+			}
+			std::cout << "Password: ";
+			std::cin >> pass;
+			for (int i = 0; i < userVect.size(); i++)
+			{
+				if (userNameSearchKey == userVect[i].getUserName())
 				{
-					std::cout << "Password: ";
-					std::cin >> pass;
+					userFound = true;
 					if (pass == userVect[i].getPassword())
 					{
-						std::cout << "\nWelcome " << userVect[i].getUserName() << std::endl;		// Welcomes the user
+						std::cout << "\nWelcome " << userVect[i].getUserName();		// Welcomes the user
 						index = i;			// When this function ends
 						isLoggedIn = true;
 					}
 					else
 					{
-						std::cout << "\nIncorrect password. Try again.\n";
-						passwordRetry++;			// Increment the number of retries the user has done
-					}
-				}			
+						throw 1;
+					}					
+				}
+			}
+			if (!userFound && userNameSearchKey != "b")
+			{
+				throw 1;
 			}
 		}
-
-		if (!userFound && userNameSearchKey != "b")
+		catch(int x)
 		{
-			std::cout << "\nUser not found.\n";
-			userRetry++;
-		}
-		if (userRetry >= 3)
-		{
-			std::cout << "Too many incorrect attempts." << std::endl;
+			if (x == 1)
+			{
+				std::cout << "\nError " << x << ": Incorrect username or password." << std::endl;
+				userRetry++;
+				if (userRetry >= 3)
+				{
+					std::cout << "Too many incorrect attempts. Going back to the main menu." << std::endl;
+				}
+			}			
 		}
 	}
-	
 }
 
 // This function will take the User vector as an argument
