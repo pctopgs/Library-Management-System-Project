@@ -14,7 +14,6 @@ void importFile(std::vector<User>&, std::vector<Book>&, std::vector<Author>&);
 void addUser(std::vector<User>& u, int id, std::string un, std::string fn, std::string ln, std::string pw, int bn, std::string ut);
 void exportUserFile(std::vector<User>);
 void importBook(std::vector<Book>&, int bookNo, std::string t, std::string a, std::string g, int c, int y, int nc, int p, std::string co, int authorID = 0000000);
-//void importBook(std::vector<Book>&, int bookNo, std::string t, std::string a, std::string g, int c, int y, int nc, int p, bool co);
 void showHeading();
 void addBook(std::vector<Book>&, std::vector<Author>);
 void exportBookFile(std::vector<Book>&);
@@ -37,12 +36,10 @@ void browseAuthor(std::vector<Author>&);
 
 /*
 TODO
-- Complete addAuthor function - Complete
-- Add the author ID to the books to distinguish if they are linked to the Author class - Complete
-- Fix the browse books function to start showing books again -complete
-- Make the books export with author ID
-- Getting subscript out of range run time error - Fixed
-- Redo the signIn function
+- Revert the signIn function - Done
+- Attach an author ID to each book - 
+- Restrict editing books to Administrators - 
+- "Decouple" the relationship between userID and userType - 
 */
 
 
@@ -120,24 +117,24 @@ bool showMainMenu(std::vector<User>& userVect,std::vector<Book>& bookVect, std::
 	return getChoice(choice, userVect, bookVect, authorVect, i, loggedIn);
 }
 
-bool getChoice(int choice, std::vector<User>& userVect, std::vector<Book>& bookVect, std::vector<Author>& authorVect, int& userIndex, bool& li)
+bool getChoice(int choice, std::vector<User>& userVect, std::vector<Book>& bookVect, std::vector<Author>& authorVect, int& userIndex, bool& isLoggedIn)
 {
 	bool again = true;
-	if (li)
+	if (isLoggedIn)
 	{
 		if (userVect[userIndex].getUserType() == "admin")
 		{
 			switch (choice)
 			{
-			case 1: browseBooks(bookVect, authorVect, li, userVect[userIndex]);
+			case 1: browseBooks(bookVect, authorVect, isLoggedIn, userVect[userIndex]);
 				break;
-			case 2: searchBook(bookVect, authorVect, li, userVect[userIndex]);
+			case 2: searchBook(bookVect, authorVect, isLoggedIn, userVect[userIndex]);
 				break;
 			case 3: addBook(bookVect, authorVect);
 				break;
 			case 4:;
 				break;
-			case 5: signOut(userVect, li);
+			case 5: signOut(userVect, isLoggedIn);
 				break;
 			case 6: viewProfile(userVect, bookVect, userVect[userIndex].getUID(), userVect[userIndex]);;
 				break;
@@ -153,13 +150,13 @@ bool getChoice(int choice, std::vector<User>& userVect, std::vector<Book>& bookV
 		{
 			switch (choice)
 			{
-			case 1: browseBooks(bookVect, authorVect, li, userVect[userIndex]);
+			case 1: browseBooks(bookVect, authorVect, isLoggedIn, userVect[userIndex]);
 				break;
-			case 2: searchBook(bookVect, authorVect, li, userVect[userIndex]);;
+			case 2: searchBook(bookVect, authorVect, isLoggedIn, userVect[userIndex]);;
 				break;
-			case 3: returnBook(bookVect, li, userVect[userIndex]);
+			case 3: returnBook(bookVect, isLoggedIn, userVect[userIndex]);
 				break;
-			case 4: signOut(userVect, li);
+			case 4: signOut(userVect, isLoggedIn);
 				break;
 			case 5: viewProfile(userVect, bookVect, userVect[userIndex].getUID(), userVect[userIndex]);
 				break;
@@ -173,11 +170,11 @@ bool getChoice(int choice, std::vector<User>& userVect, std::vector<Book>& bookV
 	{
 		switch (choice)
 		{
-		case 1:browseBooks(bookVect, authorVect, li); 
+		case 1:browseBooks(bookVect, authorVect, isLoggedIn); 
 			break;
-		case 2:searchBook(bookVect, authorVect, li);
+		case 2:searchBook(bookVect, authorVect, isLoggedIn);
 			break;
-		case 3: signIn(userVect, userIndex, li);			// Passes the User vector to the signIn() function
+		case 3: signIn(userVect, userIndex, isLoggedIn);			// Passes the User vector to the signIn() function
 			break;
 		case 4: signUp(userVect);			// Calls the signUp function. Passes the user vector to it
 			break;
@@ -203,54 +200,45 @@ void signIn(std::vector<User>& userVect, int& index, bool& isLoggedIn)
 	
 	while (!userFound && userRetry < 3 && userNameSearchKey != "b")
 	{
-		try
+		if (userRetry >= 3)
 		{
-			if (userRetry >= 3)
+			throw 2;
+		}
+		std::cout << "\nEnter a username, or 'b' to go back" << std::endl;
+		std::cout << "Username: ";
+		std::cin >> userNameSearchKey;
+		if (userNameSearchKey == "b")
+		{
+			break;
+		}
+		std::cout << "Password: ";
+		std::cin >> pass;
+		for (int i = 0; i < userVect.size(); i++)
+		{
+			if (userNameSearchKey == userVect[i].getUserName())
 			{
-				throw 2;
-			}
-			std::cout << "\nEnter a username, or 'b' to go back" << std::endl;
-			std::cout << "Username: ";
-			std::cin >> userNameSearchKey;
-			if (userNameSearchKey == "b")
-			{
-				break;
-			}
-			std::cout << "Password: ";
-			std::cin >> pass;
-			for (int i = 0; i < userVect.size(); i++)
-			{
-				if (userNameSearchKey == userVect[i].getUserName())
+				userFound = true;
+				if (pass == userVect[i].getPassword())
 				{
-					userFound = true;
-					if (pass == userVect[i].getPassword())
-					{
-						std::cout << "\nWelcome " << userVect[i].getUserName();		// Welcomes the user
-						index = i;			// When this function ends
-						isLoggedIn = true;
-					}
-					else
-					{
-						throw 1;
-					}					
+					std::cout << "\nWelcome " << userVect[i].getUserName();		// Welcomes the user
+					index = i;			// When this function ends
+					isLoggedIn = true;
 				}
-			}
-			if (!userFound && userNameSearchKey != "b")
-			{
-				throw 1;
+				else
+				{
+					throw 1;
+				}					
 			}
 		}
-		catch(int x)
+		if (!userFound && userNameSearchKey != "b")
 		{
-			if (x == 1)
+			//throw 1;
+			std::cout << "\nError: Incorrect username or password." << std::endl;
+			userRetry++;
+			if (userRetry >= 3)
 			{
-				std::cout << "\nError " << x << ": Incorrect username or password." << std::endl;
-				userRetry++;
-				if (userRetry >= 3)
-				{
-					std::cout << "Too many incorrect attempts. Going back to the main menu." << std::endl;
-				}
-			}			
+				std::cout << "Too many incorrect attempts. Going back to the main menu." << std::endl;
+			}
 		}
 	}
 }
@@ -423,8 +411,8 @@ void signOut(std::vector<User>& u, bool& li)
 
 void showHeading()
 {	
-	std::cout << "\n" << std::setw(15) << std::left << "Book Number" << std::setw(43) << std::left << "Title" << std::setw(23) << std::left << "Author" << std::setw(20) << std::left << "Genre" << std::setw(10) << std::left << "Content" << std::setw(10) << std::left << "Year" << std::endl;
-	std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
+	std::cout << "\n" << std::setw(15) << std::left << "Book Number" << std::setw(43) << std::left << "Title" << std::setw(23) << std::left << "Author" << std::setw(20) << std::left << "Genre" << std::setw(10) << std::left << "Content" << std::setw(10) << std::left << "Year"  << "Author ID" << std::endl;
+	std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
 }
 
 // This is an admin only function that is used to add books to the data base
@@ -511,10 +499,10 @@ void editBook(std::vector<Book>& bookVect, std::vector<Author>& authorVect, int 
 	// list the options that can be changed
 	std::cout << "\n             BOOK EDITOR {BETA}" << std::endl;
 	std::cout << "Select an attribute to change:" << std::endl;
-	std::cout << "1. Title     \n2. Author     3. Year Published" << std::endl;
-	std::cout << "\n4. Genre     \n5. Content    6. Description" << std::endl;
-	std::cout << "7. Author ID" << std::endl;
-	std::cout << "0. Cancel" << std::endl;
+	std::cout << "1. Title     \n2. Author     \n3. Year Published";
+	std::cout << "\n4. Genre     \n5. Content    \n6. Description";
+	std::cout << "\n7. Author ID";
+	std::cout << "\n0. Cancel" << std::endl;
 	std::cout << "\nOption: ";
 	std::getline(std::cin, choiceStr);
 	choice = stoi(choiceStr);
@@ -584,7 +572,7 @@ void editBook(std::vector<Book>& bookVect, std::vector<Author>& authorVect, int 
 			std::cout << "0 - Author Not Listed" << std::endl;
 			std::cout << "b - Go Back" << std::endl;
 			//std::string authorNum;
-			std::cout << "Select the author: ";
+			std::cout << "\nSelect the author: ";
 			std::getline(std::cin,authorNum);
 			if (authorNum == "b")
 			{
@@ -694,6 +682,7 @@ void browseBooks(std::vector<Book>& bookVect, std::vector<Author>& authorVect, b
 		//std::string searchKey;
 		book = 0;
 		
+		// Show the table heading
 		showHeading();
 		std::cout <<"Number of books" << bookVect.size() << std::endl;
 		for (int i = 0; i < bookVect.size(); i++)
@@ -820,7 +809,7 @@ void searchBook(std::vector<Book>& bookVect, std::vector<Author>& authorVect, bo
 
 void listBook(std::vector<Book> bookVect, int book)
 {
-	std::cout << std::setw(15) << std::left << bookVect[book].getBookNo() << std::setw(43) << std::left << bookVect[book].getTitle() << std::setw(23) << std::left << bookVect[book].getAuthor() << std::setw(20) << std::left << bookVect[book].getGenre() << std::setw(10) << bookVect[book].getContent() << std::setw(10) << std::left << bookVect[book].getYear() << std::setw(15) << std::endl;
+	std::cout << std::setw(15) << std::left << bookVect[book].getBookNo() << std::setw(43) << std::left << bookVect[book].getTitle() << std::setw(23) << std::left << bookVect[book].getAuthor() << std::setw(20) << std::left << bookVect[book].getGenre() << std::setw(10) << bookVect[book].getContent() << std::setw(10) << std::left << bookVect[book].getYear() << bookVect[book].getAuthorID() << std::setw(15) << std::endl;
 }
 
 // This function will show information about the book

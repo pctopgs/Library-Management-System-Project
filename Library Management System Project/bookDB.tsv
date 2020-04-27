@@ -1,19 +1,19 @@
-100	A Game of Thrones	George R.R. Martin		0	1996	0	0	0	0
-101	A Clash of Kings	George R.R. Martin		0	1998	0	0	0	0
-102	A Storm of Swords	George R.R. Martin		0	2000	0	0	0	0
-103	Harry Potter and The Philosopher's Stone	J.K. Rowling		0	1997	0	0	0	0
-104	Harry Potter and The Chamber of Secrets	J.K. Rowling		0	1998	0	0	0	0
-105	Harry Potter and The Prisoner of Azkaban	J.K. Rowling		0	1999	0	0	0	0
-106	Harry Potter and The Goblet of Fire	J.K. Rowling 		0	2000	0	0	0	0
-107	Harry Potter and The Order of The Phoenix	J.K. Rowling	Fantasy	0	2003	0	0	0	0
-108	Harry Potter and The Half-Blood Prince	J.K. Rowling		0	2005	0	0	0	0
-109	Harry Potter and The Deathly Hallows	J.K. Rowling		0	2007	0	0	0	0
-110	A Feast for Crows	George R.R. Martin		0	2005	0	0	0	0
-111	A Dance with Dragons	George R.R. Martin		0	2011	0	0	0	0
-112	Fantastic Beasts and Where to Find Them	J.K. Rowling		0	2001	0	0	0	0
-113	The Hobbit	J.R.R. Tolkien		0	1937	0	0	0	0
-114	The Fellowship of the Ring	J.R.R. Tolkien		0	1954	0	0	1	0
-115	The Two Towers	J.R.R. Tolkien		0	1954	0	0	0	0
+100	A Game of Thrones	George R.R. Martin		0	1996	0	0	0	99
+101	A Clash of Kings	George R.R. Martin		0	1998	0	0	0	99
+102	A Storm of Swords	George R.R. Martin		0	2000	0	0	0	99
+103	Harry Potter and The Philosopher's Stone	J.K. Rowling		0	1997	0	0	0	101
+104	Harry Potter and The Chamber of Secrets	J.K. Rowling		0	1998	0	0	0	101
+105	Harry Potter and The Prisoner of Azkaban	J.K. Rowling		0	1999	0	0	0	101
+106	Harry Potter and The Goblet of Fire	J.K. Rowling 		0	2000	0	0	0	101
+107	Harry Potter and The Order of The Phoenix	J.K. Rowling	Fantasy	0	2003	0	0	0	101
+108	Harry Potter and The Half-Blood Prince	J.K. Rowling		0	2005	0	0	0	101
+109	Harry Potter and The Deathly Hallows	J.K. Rowling		0	2007	0	0	0	101
+110	A Feast for Crows	George R.R. Martin		0	2005	0	0	0	99
+111	A Dance with Dragons	George R.R. Martin		0	2011	0	0	0	99
+112	Fantastic Beasts and Where to Find Them	J.K. Rowling		0	2001	0	0	0	101
+113	The Hobbit	J.R.R. Tolkien		0	1937	0	0	0	102
+114	The Fellowship of the Ring	J.R.R. Tolkien		0	1954	0	0	1	102
+115	The Two Towers	J.R.R. Tolkien		0	1954	0	0	0	102
 116	The Return of the King	J.R.R. Tolkien		0	1955	0	0	0	0
 117	Snow Crash	Neal Stephenson		0	1992	0	0	0	0
 118	Nineteen Eighty-Four	George Orwell		0	1949	0	0	0	0

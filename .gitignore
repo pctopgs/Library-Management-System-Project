@@ -57,3 +57,6 @@ Library Management System Project.VC.VC.opendb
 *.idb
 *.user
 *.tlog
+*.1.tlog
+*.tlog
+*.tlog
