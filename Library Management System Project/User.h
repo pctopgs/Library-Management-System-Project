@@ -20,38 +20,73 @@ public:
 	{
 		;
 	}
-	User(int id)
+	//User(int id)
+	//{
+	//	// This constructor is normally used to create temporary, on the fly users in order to get a certain part of the program to work
+	//	if (id == 500)
+	//	{
+	//		setUID(id);
+	//		setUserName("Administrator");
+	//		setUserType("admin");
+	//		setFirstN("");
+	//		setLastN("");
+	//		setPassword(".");
+	//	}
+	//	
+	//	else if (id == 300)
+	//	{
+	//		setUID(id);
+	//		setUserName("Guest");
+	//		setUserType("guest");
+	//		setFirstN(" ");
+	//		setLastN(" ");
+	//		setPassword(" ");
+	//	}
+	//	else if (id >= 1000)
+	//	{
+	//		setUID(id);
+	//		setUserName("Guest");
+	//		setUserType("guest");
+	//		setFirstN(" ");
+	//		setLastN(" ");
+	//		setPassword(" ");
+	//	}
+	//	
+	//}
+
+	User(std::string userType)
 	{
-		// This constructor is normally used to create temporary, on the fly users in order to get a certain part of the program to work
-		if (id == 500)
+		// This constructor is a modified test version to create temporary, on the fly users 
+		// based on userType instead of userID in order to get a certain part of the program to work
+		if (userType == "admin")
 		{
-			setUID(id);
+			setUID(500);
 			setUserName("Administrator");
-			setUserType("admin");
+			setUserType(userType);
 			setFirstN("");
 			setLastN("");
 			setPassword(".");
 		}
-		
-		else if (id == 300)
+
+		else if (userType == "guest")
 		{
-			setUID(id);
+			setUID(300);
 			setUserName("Guest");
-			setUserType("guest");
+			setUserType(userType);
 			setFirstN(" ");
 			setLastN(" ");
 			setPassword(" ");
 		}
-		else if (id >= 1000)
+		else if (userType >= "user")
 		{
-			setUID(id);
-			setUserName("Guest");
-			setUserType("guest");
+			setUID(1000);
+			setUserName("Standard");
+			setUserType(userType);
 			setFirstN(" ");
 			setLastN(" ");
 			setPassword(" ");
 		}
-		
+
 	}
 	User(int id, std::string name, std::string pass)
 	{

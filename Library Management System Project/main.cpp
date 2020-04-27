@@ -17,7 +17,7 @@ void importBook(std::vector<Book>&, int bookNo, std::string t, std::string a, st
 void showHeading();
 void addBook(std::vector<Book>&, std::vector<Author>);
 void exportBookFile(std::vector<Book>&);
-void searchBook(std::vector<Book>&, std::vector<Author>&, bool, User user = User(300));
+void searchBook(std::vector<Book>&, std::vector<Author>&, bool, User user = User("guest"));
 void viewBook(std::vector<Book>&, std::vector<Author>&, int, bool, User&);
 void deleteBook(std::vector<Book>&, int, bool, User);
 void optionChoice(std::string, std::vector<Book>&, std::vector<Author>&, int, bool, User&);
@@ -26,7 +26,7 @@ void editBook(std::vector<Book>&, std::vector<Author>&, int, bool, User);
 void borrowBook(std::vector<Book>&, int, bool, User&);
 void returnBook(std::vector<Book>&, bool, User&);
 void listBook(std::vector<Book>, int);
-void browseBooks(std::vector<Book>& bookVect, std::vector<Author>&, bool loggedIn, User& user = User(300), int book = 0);
+void browseBooks(std::vector<Book>& bookVect, std::vector<Author>&, bool loggedIn, User& user = User("guest"), int book = 0);
 void viewProfile(std::vector<User>&, std::vector<Book>, int, User&);
 void editProfile(User& targetUser, User actingUser);
 void addAuthor(std::vector<Author> &);		// This function will add a new author to the
@@ -39,7 +39,7 @@ TODO
 - Revert the signIn function - Done
 - Attach an author ID to each book - 
 - Restrict editing books to Administrators - 
-- "Decouple" the relationship between userID and userType - 
+- "Decouple" the relationship between userID and userType - Done
 */
 
 
@@ -302,9 +302,9 @@ void importFile(std::vector<User>& userVect, std::vector<Book>& bookVect, std::v
 	std::string parseLine;
 	std::vector<std::string> attribute;
 	std::ifstream inFile("userDB.tsv");				// imports the user file
-	if (!inFile)
+	if (!inFile)									// If unable to import the user file, create a new user file and add the administrator as the first user
 	{
-		userVect.push_back(User{500});
+		userVect.push_back(User{"admin"});
 		std::cout << "No User data base file found" << std::endl;
 		std::cout << "Creating a new user data base file.\n\n" << std::endl;
 		std::ofstream tempOut("userDB.txt");
