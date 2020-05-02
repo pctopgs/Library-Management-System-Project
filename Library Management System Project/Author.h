@@ -1,6 +1,5 @@
 #pragma once
 // The Author class
-
 class Author
 {
 private:

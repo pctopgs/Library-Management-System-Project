@@ -37,9 +37,10 @@ void browseAuthor(std::vector<Author>&);
 /*
 TODO
 - Revert the signIn function - Done
-- Attach an author ID to each book - 
+- Attach an author ID to each book - Done
 - Restrict editing books to Administrators - 
 - "Decouple" the relationship between userID and userType - Done
+- Implement book deletion
 */
 
 
@@ -226,18 +227,14 @@ void signIn(std::vector<User>& userVect, int& index, bool& isLoggedIn)
 				}
 				else
 				{
-					throw 1;
+					std::cout << "Incorrect user"
+					std::cout << "\nError: Incorrect username or password." << std::endl;
+					userRetry++;
+					if (userRetry >= 3)
+					{
+						std::cout << "Too many incorrect attempts. Going back to the main menu." << std::endl;
+					}
 				}					
-			}
-		}
-		if (!userFound && userNameSearchKey != "b")
-		{
-			//throw 1;
-			std::cout << "\nError: Incorrect username or password." << std::endl;
-			userRetry++;
-			if (userRetry >= 3)
-			{
-				std::cout << "Too many incorrect attempts. Going back to the main menu." << std::endl;
 			}
 		}
 	}
