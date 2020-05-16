@@ -74,3 +74,6 @@ Library Management System Project/Debug/Library .42C41171.tlog/Library Managemen
 .vs/Library Management System Project/v14/.suo
 .vs/Library Management System Project/v14/.suo
 Library Management System Project/Debug/Library .42C41171.tlog/Library Management System Project.lastbuildstate
+*.ipdb
+*.iobj
+*.lastbuildstate

@@ -46,30 +46,30 @@ TODO
 - Attach an author ID to each book - Done
 - Restrict editing books to Administrators - 
 - "Decouple" the relationship between userID and userType - Done
-- Implement book deletion
+- Implement book deletion - in progress
 */
 
 
-// Main Function
-//int main()
-//{
-//	std::vector<User> userVect;
-//	std::vector<Book> bookVect;
-//	std::vector<Author> authorVect;
-//	int index = -1;				
-//	bool loop = true;
-//	bool loggedIn = false;
-//	importFile(userVect, bookVect, authorVect);
-//
-//	std::cout << "          Library Management System" << std::endl;
-//	do
-//	{
-//		loop = showMainMenu(userVect,bookVect, authorVect, loggedIn,index);
-//		exportUserFile(userVect);
-//		std::cout << "\n\n";
-//	} while (loop);
-//	return 0;	
-//}
+ //Main Function
+int main()
+{
+	std::vector<User> userVect;
+	std::vector<Book> bookVect;
+	std::vector<Author> authorVect;
+	int index = -1;				
+	bool loop = true;
+	bool loggedIn = false;
+	importFile(userVect, bookVect, authorVect);
+
+	std::cout << "          Library Management System" << std::endl;
+	do
+	{
+		loop = showMainMenu(userVect,bookVect, authorVect, loggedIn,index);
+		exportUserFile(userVect);
+		std::cout << "\n\n";
+	} while (loop);
+	return 0;	
+}
 
 // Shows menu and gets a choice from the user
 // Calls the get choice function
@@ -675,11 +675,14 @@ void deleteBook(std::vector<Book>& bookVect, int book, bool loggedIn, User user)
 	std::cout << "\nAre you sure you want to delete this book?" << std::endl;
 	std::cout << "This action cannot be undone" << std::endl;
 	std::cout << "Enter y to continue or n to cancel: ";
-	std::cin >> choice;
+	//std::cin >> choice;
+	std::getline(std::cin, choice);
 
 	if (choice == "y")
 	{
 		std::cout << "Cool!" << std::endl;
+		std::cout << bookVect[book].getTitle() << " was removed from the libary" << std::endl;
+		bookVect.erase(bookVect.begin() + book);
 	}
 }
 
