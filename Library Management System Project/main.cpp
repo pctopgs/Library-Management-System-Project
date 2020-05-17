@@ -46,7 +46,8 @@ TODO
 - Attach an author ID to each book - Done
 - Restrict editing books to Administrators - 
 - "Decouple" the relationship between userID and userType - Done
-- Implement book deletion - in progress
+- Implement book deletio - Done
+- Only allow Admin users to delete books and other objects
 */
 
 
@@ -669,6 +670,12 @@ void returnBook(std::vector<Book>& bookVect, bool loggedIn, User& user)
 
 void deleteBook(std::vector<Book>& bookVect, int book, bool loggedIn, User user)
 {
+	if (user.getUserType() != "admin")
+	{
+		printf("Invalid Input");
+		return;
+	}
+
 	std::string choice;
 	std::cout << "\n~Book removal is in beta~" << std::endl;
 	// TODO
@@ -848,7 +855,11 @@ void showBookOptions(std::vector<Book>& bookVect, std::vector<Author>& authorVec
 	//int choice;
 	std::string choice;
 	std::string choiceStr;
-	std::cout << "1. Borrow         \n2. Return         \n3. Edit        \n4. Delete";
+	std::cout << "1. Borrow         \n2. Return         \n3. Edit";
+	if (user.getUserType() == "admin")
+	{
+		std::cout << "\n4. Delete";
+	}
 	std::cout << "\nb. Go Back\n";
 	std::cout << "Enter a choice: ";
 	std::getline(std::cin, choice);
