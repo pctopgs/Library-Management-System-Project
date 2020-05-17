@@ -46,8 +46,8 @@ TODO
 - Attach an author ID to each book - Done
 - Restrict editing books to Administrators - 
 - "Decouple" the relationship between userID and userType - Done
-- Implement book deletio - Done
-- Only allow Admin users to delete books and other objects
+- Implement book deletion - Done
+- Only allow Admin users to delete books and other objects - Done
 */
 
 
@@ -290,7 +290,7 @@ void signUp(std::vector<User>& u)
 		}
 		else
 		{
-			User tempU(u.size(), name, password);
+			User tempU(static_cast<int>(u.size()), name, password);
 			u.push_back(tempU);
 			exportUserFile(u);
 			passwordsMatch = true;
@@ -464,7 +464,7 @@ void addBook(std::vector<Book>&bookVect, std::vector<Author> authorVect)
 	std::cin >> year;
 
 	//Book tempBook(bookVect.size(),title, author, year);
-	Book tempBook(bookVect.size(), title, stoi(authorID), year);
+	Book tempBook(static_cast<int>(bookVect.size()), title, stoi(authorID), year);
 	bookVect.push_back(tempBook);
 	exportBookFile(bookVect);
 }
@@ -641,7 +641,7 @@ void returnBook(std::vector<Book>& bookVect, bool loggedIn, User& user)
 	// Then change the checkedOut variable in the book to f
 	// change the bookNo in the the user to 0
 	int beginning = 0;
-	int end = bookVect.size() - 1;
+	int end = static_cast<int>(bookVect.size()) - 1;
 	bool found = false;
 
 	// TODO: COMPLETE BINARY SEARCH
@@ -988,7 +988,6 @@ void exportAuthorFile(std::vector<Author> authorVect)
 void addAuthor(std::vector<Author> &authorVect)
 {
 	std::string firstName, lastName, penName;
-	char choice;
 	std::cout << "Add New Author {Beta}" << std::endl;
 	std::cout << "Author First Name: ";
 	std::cin >> firstName;
@@ -1000,7 +999,7 @@ void addAuthor(std::vector<Author> &authorVect)
 	std::getline(std::cin, penName);
 	std::getline(std::cin, penName);
 
-	Author tempAuthor(firstName, lastName, penName, authorVect.size());
+	Author tempAuthor(firstName, lastName, penName, static_cast<int>(authorVect.size()));
 	authorVect.push_back(tempAuthor);
 	exportAuthorFile(authorVect);
 }
