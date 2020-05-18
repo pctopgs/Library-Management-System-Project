@@ -18,6 +18,7 @@ void signOut(std::vector<User>&, bool&);
 void addUser(std::vector<User>& u, int id, std::string un, std::string fn, std::string ln, std::string pw, int bn, std::string ut);
 void viewProfile(std::vector<User>&, std::vector<Book>, int, User&);
 void editProfile(User& targetUser, User actingUser);
+void browseUsers(std::vector<User>& userVect, User& user);
 
 // Book functions
 void importBook(std::vector<Book>&, int bookNo, std::string t, std::string a, std::string g, int c, int y, int nc, int p, std::string co, int authorID = 0000000);
@@ -140,7 +141,7 @@ bool getChoice(int choice, std::vector<User>& userVect, std::vector<Book>& bookV
 				break;
 			case 3: addBook(bookVect, authorVect);
 				break;
-			case 4:;
+			case 4: browseUsers(userVect, userVect[userIndex]);
 				break;
 			case 5: signOut(userVect, isLoggedIn);
 				break;
@@ -1019,4 +1020,9 @@ void browseAuthor(std::vector<Author> &authorVect)
 		listAuthor(authorVect, i);
 		std::cout << std::endl;
 	}
+}
+
+void browseUsers(std::vector<User>& userVect, User& user)
+{
+	;
 }
