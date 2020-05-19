@@ -145,7 +145,7 @@ bool getChoice(int choice, std::vector<User>& userVect, std::vector<Book>& bookV
 				break;
 			case 5: signOut(userVect, isLoggedIn);
 				break;
-			case 6: viewProfile(userVect, bookVect, userVect[userIndex].getUID(), userVect[userIndex]);;
+			case 6: viewProfile(userVect, bookVect, userVect[userIndex].getUserID(), userVect[userIndex]);;
 				break;
 			case 7: browseAuthor(authorVect);
 				break;
@@ -167,7 +167,7 @@ bool getChoice(int choice, std::vector<User>& userVect, std::vector<Book>& bookV
 				break;
 			case 4: signOut(userVect, isLoggedIn);
 				break;
-			case 5: viewProfile(userVect, bookVect, userVect[userIndex].getUID(), userVect[userIndex]);
+			case 5: viewProfile(userVect, bookVect, userVect[userIndex].getUserID(), userVect[userIndex]);
 				break;
 			case 0: again = false;
 				break;
@@ -398,7 +398,7 @@ void exportUserFile(std::vector<User> userVect)
 	outFile.open("userDB.tsv");
 	for (int i = 0; i <userVect.size(); i++)
 	{
-		outFile << userVect[i].getUID() << "\t" << userVect[i].getUserName() << "\t" << userVect[i].getFirstN() << "\t" << userVect[i].getLastN() << "\t" << userVect[i].getPassword() << "\t" << userVect[i].getBookNo() << "\t" << userVect[i].getUserType() << std::endl;
+		outFile << userVect[i].getUserID() << "\t" << userVect[i].getUserName() << "\t" << userVect[i].getFirstN() << "\t" << userVect[i].getLastN() << "\t" << userVect[i].getPassword() << "\t" << userVect[i].getBookNo() << "\t" << userVect[i].getUserType() << std::endl;
 	}
 	outFile.close();
 }
@@ -908,10 +908,10 @@ void viewProfile(std::vector<User>& userVect, std::vector<Book> bookVect, int us
 	bool bookFound;
 	for (userIndex; userIndex < userVect.size() || userFound == false; userIndex++)
 	{
-		if (userID == userVect[userIndex].getUID())
+		if (userID == userVect[userIndex].getUserID())
 		{
 			std::cout << "Index      : " << userIndex << std::endl;
-			std::cout << "ID         : " << userVect[userIndex].getUID() << std::endl;
+			std::cout << "ID         : " << userVect[userIndex].getUserID() << std::endl;
 			std::cout << "Username   : " << userVect[userIndex].getUserName() << std::endl;
 			std::cout << "First Name : " << userVect[userIndex].getFirstN() << std::endl;
 			std::cout << "Last Name  : " << userVect[userIndex].getLastN() << std::endl;
@@ -1010,6 +1010,11 @@ void listAuthor(std::vector<Author> &authorVect, int index)
 	std::cout << std::setw(15) << std::left << authorVect[index].getAuthorID() << std::setw(20) << std::left << authorVect[index].getFName() << std::setw(20) << std::left << authorVect[index].getLName() << authorVect[index].getPName();
 }
 
+void listUser(std::vector<User>& userVect, int index)
+{
+	std::cout << std::setw(15) << std::left << userVect[index].getUserID() << std::setw(20) << std::left << userVect[index].getFirstN() << std::setw(20) << std::left << userVect[index].getLastN() << userVect[index].getUserType();
+}
+
 void browseAuthor(std::vector<Author> &authorVect)
 {
 	//showAuthorheading();
@@ -1024,5 +1029,11 @@ void browseAuthor(std::vector<Author> &authorVect)
 
 void browseUsers(std::vector<User>& userVect, User& user)
 {
-	;
+	std::cout << std::setw(15) << std::left << "User ID" << std::setw(20) << std::left << "First Name" << std::setw(20) << std::left << "Last Name" << "User Type" << std::endl;
+	std::cout << "===========================================================================" << std::endl;
+	for (int i = 0; i < userVect.size(); i++)
+	{
+		listUser(userVect, i);
+		std::cout << std::endl;
+	}
 }

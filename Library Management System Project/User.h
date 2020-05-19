@@ -4,7 +4,7 @@
 
 class User
 {
-	int uid;					// User ID
+	int userID;					// User ID
 	int count = 0;
 	std::string userName;		// Username
 	std::string firstName;			// User first name
@@ -16,7 +16,7 @@ class User
 	
 public:
 	User():
-		uid(300), userName("Guest"), userType("guest"), firstName(" "), lastName(" "), password(" ")
+		userID(300), userName("Guest"), userType("guest"), firstName(" "), lastName(" "), password(" ")
 	{
 		;
 	}
@@ -27,7 +27,7 @@ public:
 		// based on userType instead of userID in order to get a certain part of the program to work
 		if (userType == "admin")
 		{
-			setUID(500);
+			setUserID(500);
 			setUserName("Administrator");
 			setUserType(userType);
 			setFirstN("");
@@ -37,7 +37,7 @@ public:
 
 		else if (userType == "guest")
 		{
-			setUID(300);
+			setUserID(300);
 			setUserName("Guest");
 			setUserType(userType);
 			setFirstN(" ");
@@ -46,7 +46,7 @@ public:
 		}
 		else if (userType >= "user")
 		{
-			setUID(1000);
+			setUserID(1000);
 			setUserName("Standard");
 			setUserType(userType);
 			setFirstN(" ");
@@ -59,7 +59,7 @@ public:
 	{
 		// This constructor is used when creating a brand new user. The new user is automatically assigned "student" for its userType
 		int idNum = id + 1000;
-		setUID(idNum);
+		setUserID(idNum);
 		setUserName(name);
 		setPassword(pass);
 		setUserType("student");
@@ -70,7 +70,7 @@ public:
 	User(int id, std::string un, std::string fn, std::string ln, std::string pw, int bn, std::string ut)
 	{
 		// This overloaded function is intended to load in User data from the file
-		setUID(id);
+		setUserID(id);
 		setUserName(un);
 		setFirstN(fn);
 		setLastN(ln);
@@ -78,9 +78,9 @@ public:
 		setUserType(ut);
 		setBookNo(bn);
 	}
-	int getUID() const
+	int getUserID() const
 	{
-		return uid;
+		return userID;
 	}
 	std::string getUserName()
 	{
@@ -108,13 +108,13 @@ public:
 		return bookNo;
 	}
 	
-	void setUID()
+	void setUserID()
 	{
-		uid = count + 1000;
+		userID = count + 1000;
 	}
-	void setUID(int id)			// Overloaded setUID function
+	void setUserID(int id)			// Overloaded setUID function
 	{
-		uid = id;
+		userID = id;
 	}
 	void setUserName(std::string name)
 	{
