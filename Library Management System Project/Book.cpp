@@ -140,22 +140,6 @@ void Book::showThis()
 	std::cout << this << std::endl;
 }
 
-bool Book::operator <(Book book)
-{
-	bool lessThan;
-
-	if (this->getTitle() < book.getTitle())
-	{
-		lessThan = true;
-	}
-	else
-	{
-		lessThan = false;
-	}
-
-	return lessThan;
-}
-
 int Book::getAuthorID(){
 	if (authorID)
 		return authorID;

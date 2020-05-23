@@ -141,4 +141,6 @@ public:
 	{
 		bookNo = num;
 	}
+
+	friend std::ostream &operator<<(std::ostream& out, User user);
 };

@@ -41,6 +41,22 @@ void importAuthor(std::vector<Author> &authorVect, int, std::string firstName, s
 void listAuthor(std::vector<Author> &authorVect, int index);
 void browseAuthor(std::vector<Author>&);
 
+// Operator overloads
+// Operator<<
+
+std::ostream& operator<<(std::ostream & out, Book book)
+	{
+		//out << bookObj.getTitle();
+		out << std::setw(15) << std::left << book.getBookNo() << std::setw(43) << std::left << book.getTitle() << std::setw(23) << std::left << book.getAuthor() << std::setw(20) << std::left << book.getGenre() << std::setw(10) << book.getContent() << std::setw(10) << std::left << book.getYear() << book.getAuthorID() << std::setw(15) << std::endl;
+		return out;
+	}
+
+std::ostream& operator<<(std::ostream& out, User user)
+{
+	out << user.getUserName();
+	//out << std::setw(15) << std::left << bookVect[book].getBookNo() << std::setw(43) << std::left << bookVect[book].getTitle() << std::setw(23) << std::left << bookVect[book].getAuthor() << std::setw(20) << std::left << bookVect[book].getGenre() << std::setw(10) << bookVect[book].getContent() << std::setw(10) << std::left << bookVect[book].getYear() << bookVect[book].getAuthorID() << std::setw(15) << std::endl;
+	return out;
+}
 /*
 TODO
 - Revert the signIn function - Done
@@ -831,7 +847,8 @@ void searchBook(std::vector<Book>& bookVect, std::vector<Author>& authorVect, bo
 
 void listBook(std::vector<Book> bookVect, int book)
 {
-	std::cout << std::setw(15) << std::left << bookVect[book].getBookNo() << std::setw(43) << std::left << bookVect[book].getTitle() << std::setw(23) << std::left << bookVect[book].getAuthor() << std::setw(20) << std::left << bookVect[book].getGenre() << std::setw(10) << bookVect[book].getContent() << std::setw(10) << std::left << bookVect[book].getYear() << bookVect[book].getAuthorID() << std::setw(15) << std::endl;
+	//std::cout << std::setw(15) << std::left << bookVect[book].getBookNo() << std::setw(43) << std::left << bookVect[book].getTitle() << std::setw(23) << std::left << bookVect[book].getAuthor() << std::setw(20) << std::left << bookVect[book].getGenre() << std::setw(10) << bookVect[book].getContent() << std::setw(10) << std::left << bookVect[book].getYear() << bookVect[book].getAuthorID() << std::setw(15) << std::endl;
+	std::cout << bookVect[book] << std::endl;
 }
 
 // This function will show information about the book

@@ -58,7 +58,11 @@ class Book
 	std::string getDesc();
 	void showThis();
 
-	bool operator <(Book book);
+	//bool operator <(Book book);
 
 	int getAuthorID();
+
+	// External functions
+
+	friend std::ostream &operator<<(std::ostream& out, Book bookObjbookObj);
 };
