@@ -34,7 +34,8 @@ Book::Book(int numBooks, std::string title, int authID, int year, int checkedOut
 
 void Book::setTitle(std::string aTitle)
 {
-	// Trying to change the set title
+	// Trying to change the set title function to break the string in  the parameter and put
+	// them in an array of strings. The ultimate goal is to make the title easier to search..
 	title = aTitle;
 }
 void Book::setAuthor(std::string aAuthor)
