@@ -37,6 +37,7 @@ void Book::setTitle(std::string aTitle)
 	// Trying to change the set title function to break the string in  the parameter and put
 	// them in an array of strings. The ultimate goal is to make the title easier to search..
 	title = aTitle;
+	//std::vector<std::string> titles;
 }
 void Book::setAuthor(std::string aAuthor)
 {

@@ -710,8 +710,10 @@ void deleteBook(std::vector<Book>& bookVect, int book, bool loggedIn, User user)
 	}
 }
 
+
 void browseBooks(std::vector<Book>& bookVect, std::vector<Author>& authorVect, bool loggedIn, User& user, int book)
 {
+	/// This function is to browse the 
 	std::string searchKey;
 	std::getline(std::cin, searchKey);
 	do
