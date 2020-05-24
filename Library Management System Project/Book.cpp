@@ -26,9 +26,16 @@ Book::Book(int numBooks, std::string title, int authID, int year, int checkedOut
 	setCheckedOut(checkedOut);
 	std::cout << title << " was added to the library.\n";
 }
+//void Book::setTitle(std::string aTitle)
+//{
+//    title = aTitle;
+//}
+
+
 void Book::setTitle(std::string aTitle)
 {
-    title = aTitle;
+	// Trying to change the set title
+	title = aTitle;
 }
 void Book::setAuthor(std::string aAuthor)
 {
