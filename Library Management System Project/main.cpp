@@ -23,7 +23,7 @@ void browseUsers(std::vector<User>& userVect, User& user);
 // Book functions
 void importBook(std::vector<Book>&, int bookNo, std::string t, std::string a, std::string g, int c, int y, int nc, int p, std::string co, int authorID = 0000000);
 void addBook(std::vector<Book>&, std::vector<Author>);
-void searchBook(std::vector<Book>&, std::vector<Author>&, bool, User user = User("guest"));
+void searchBook(std::vector<Book>&, std::vector<Author>&, bool, User);
 void viewBook(std::vector<Book>&, std::vector<Author>&, int, User&);
 void showBookHeading();
 void bookOptionChoice(std::string, std::vector<Book>&, std::vector<Author>&, int, User&);
