@@ -198,7 +198,7 @@ bool getChoice(int choice, std::vector<User>& userVect, std::vector<Book>& bookV
 		{
 		case 1:browseBooks(bookVect, authorVect, userVect[userIndex]); 
 			break;
-		case 2:searchBook(bookVect, authorVect, isLoggedIn);
+		case 2:searchBook(bookVect, authorVect, userVect[userIndex]);
 			break;
 		case 3: signIn(userVect, userIndex, isLoggedIn);			// Passes the User vector to the signIn() function
 			break;
