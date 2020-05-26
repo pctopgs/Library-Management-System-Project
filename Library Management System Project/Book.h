@@ -12,7 +12,7 @@ class Book
     int year;
     int numChpt;
 	int pages;
-	static int numBooks;
+	static int numberOfBooks;
 	bool checkedOut;			// Whether or not the book has been checked out	
     int authorID;
 
@@ -25,7 +25,7 @@ class Book
 	// and year)
 	//Book::Book(int,std::string title, std::string author, int year, std::string genre = "", int content = 0, int numPages = 0, int numChpt = 0, int checkedOut = 0);
 	//Book::Book(int, std::string title, int authID, int year, std::string genre = "", int content = 0, int numPages = 0, int numChpt = 0, int checkedOut = 0);
-	Book(int numBooks, std::string title, int authID, int year, int checkedOut = false);
+	Book(int numberOfBooks, std::string title, int authID, int year, int checkedOut = false);
 
 	// Destructor
 	~Book()

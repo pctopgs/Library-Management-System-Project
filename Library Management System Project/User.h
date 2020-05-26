@@ -4,14 +4,14 @@
 
 class User
 {
-	int userID;					// User ID
+	int userID = 0;					// User ID
 	int count = 0;
 	std::string userName;		// Username
 	std::string firstName;			// User first name
 	std::string lastName;			// User last name
 	std::string password;		// Password
 	std::string userType;		// "admin, student, or guest"
-	int bookNo;					// The book that the user has checked out represented by the book number
+	int bookNo = -1;					// The book that the user has checked out represented by the book number
 	// Book bookBorrowed;
 	
 public:

@@ -5,20 +5,21 @@
 #include <sstream>
 #include <iomanip>
 
-bool showMainMenu(std::vector<User>&, std::vector<Book>&, std::vector<Author>, bool&, int&);
-bool getChoice(int, std::vector<User>&, std::vector<Book>&, std::vector<Author>&, int&, bool&);		// The user needs to be passed by reference
-void importFile(std::vector<User>&, std::vector<Book>&, std::vector<Author>&);
+bool showMainMenu(std::vector<User>&, std::vector<Book>&, std::vector<Author>, User *currentLoggedInUser, int&);
+bool getChoice(int, std::vector<User>&, std::vector<Book>&, std::vector<Author>&, int&, User *currentLoggedInUser);		// The user needs to be passed by reference
+void importFiles(std::vector<User>&, std::vector<Book>&, std::vector<Author>&);
 void exportUserFile(std::vector<User>);
 void exportBookFile(std::vector<Book>&);
 
 // User functions
-void signIn(std::vector<User>&, int&, bool&);
+void signIn(std::vector<User>&, /*int&,*/ User *currentLoggedInUser);
 void signUp(std::vector<User>&);
-void signOut(std::vector<User>&, bool&);
+void signOut(/*std::vector<User>&,*/ User *currentLoggedInUser);
 void addUser(std::vector<User>& u, int id, std::string un, std::string fn, std::string ln, std::string pw, int bn, std::string ut);
-void viewProfile(std::vector<User>&, std::vector<Book>, int, User&);
+//void viewProfile(std::vector<User>&, std::vector<Book>, int, User&);
+void viewProfile(std::vector<User>& userVect, std::vector<Book> bookVect, int userID, User& user, User* currentLoggedInUser);
 void editProfile(User& targetUser, User actingUser);
-void browseUsers(std::vector<User>& userVect, User& user);
+void browseUsers(std::vector<User>& userVect, User* currentLoggedInUser);
 
 // Book functions
 void importBook(std::vector<Book>&, int bookNo, std::string t, std::string a, std::string g, int c, int y, int nc, int p, std::string co, int authorID = 0000000);
@@ -28,7 +29,7 @@ void viewBook(std::vector<Book>&, std::vector<Author>&, int, User&);
 void showBookHeading();
 void bookOptionChoice(std::string, std::vector<Book>&, std::vector<Author>&, int, User&);
 void showBookOptions(std::vector<Book>&, std::vector<Author>&, int, User&);
-void editBook(std::vector<Book>&, std::vector<Author>&, int, bool, User);
+void editBook(std::vector<Book>&, std::vector<Author>&, int, User currentLoggedInUser, User);
 void borrowBook(std::vector<Book>&, int, User&);
 //void browseBooks(std::vector<Book>& bookVect, std::vector<Author>&, bool loggedIn, User& user = User("guest"), int book = 0);
 void browseBooks(std::vector<Book>& bookVect, std::vector<Author>&, User& user);
@@ -60,30 +61,41 @@ std::ostream& operator<<(std::ostream& out, User user)
 }
 /*
 TODO
-- Revert the signIn function - Done
-- Attach an author ID to each book - Done
-- Restrict editing books to Administrators - 
-- "Decouple" the relationship between userID and userType - Done
-- Implement book deletion - Done
-- Only allow Admin users to delete books and other objects - Done
+- Create a variable that stores the current logged in user
+- Implement the currentUser to essentially take the play
+- Changed showMainMenu(), signOut, signIn(), and getChoice() to take a pointer to User (currentLoggedInUser)
+- Changed signOut to take a pointer to User (&guestUser)
+- Changed signOut to assign nullptr to currentLoggedInUser
 */
 
 
  //Main Function
 int main()
 {
+	User guestUser("guest");			// This is the default user when the program starts
+	//std::cout << "guestUser address in main: " << &guestUser << std::endl;
+	// The current user holds the state for the current user signedin.
+	// I made it a pointer because it will be assigned the address of the current signedin user
+	// It needs the address of the current user because th current user could be modified though this variable
+	User *currentUser = &guestUser;
+	/*std::cout << "currentUser pointer in main: " << currentUser << std::endl;
+	std::cout << "currentUser address in main: " << &currentUser << std::endl;*/
 	std::vector<User> userVect;
 	std::vector<Book> bookVect;
 	std::vector<Author> authorVect;
 	int index = -1;				
 	bool loop = true;
-	bool loggedIn = false;
-	importFile(userVect, bookVect, authorVect);
+	//bool loggedIn = false;
+	importFiles(userVect, bookVect, authorVect);
 
 	std::cout << "          Library Management System" << std::endl;
 	do
 	{
-		loop = showMainMenu(userVect,bookVect, authorVect, loggedIn,index);
+		if (currentUser == nullptr)
+		{
+			currentUser = &guestUser;
+		}
+		loop = showMainMenu(userVect,bookVect, authorVect, currentUser, index);
 		exportUserFile(userVect);
 		std::cout << "\n\n";
 	} while (loop);
@@ -92,38 +104,41 @@ int main()
 
 // Shows menu and gets a choice from the user
 // Calls the get choice function
-bool showMainMenu(std::vector<User>& userVect,std::vector<Book>& bookVect, std::vector<Author> authorVect, bool& loggedIn, int& i)
+bool showMainMenu(std::vector<User>& userVect,std::vector<Book>& bookVect, std::vector<Author> authorVect, User *currentLoggedInUser, int& i)
 {
+
+	/*std::cout << "currentLoggedInUser pointer in showMainMenu: " << currentLoggedInUser << std::endl;
+	std::cout << "currentLoggedInUser address in showMainMenu: " << &currentLoggedInUser << std::endl;*/
 	// Shows the main menu based on logged in state and the type of user. 
 	// If the logged in state is false, the menu for Guest will be shown
 	//std::string choice;
 	int choice;
+	
 	std::cout << "====================================" << std::endl;
 
-	if (loggedIn)
+	if ((*currentLoggedInUser).getUserType() == "admin")
 	{
-		std::cout << "Signed on as " << userVect[i].getUserName() << std::endl;
-		if (userVect[i].getUserType() == "admin")
-		{
-			std::cout << "                   1. Browse Library" << std::endl;
-			std::cout << "                   2. Search Books" << std::endl;
-			std::cout << "                   3. Add Book" << std::endl;
-			std::cout << "                   4. View Users (Broken option)" << std::endl;
-			std::cout << "                   5. Sign Out" << std::endl;
-			std::cout << "                   6. View Profile (beta)" << std::endl;
-			std::cout << "                   7. Browse Authors" << std::endl;
-			std::cout << "                   8. Add Author" << std::endl;
-		}
-		else if (userVect[i].getUserType() == "student")
-		{
-			std::cout << "                   1. Browse Library" << std::endl;
-			std::cout << "                   2. Search Books" << std::endl;
-			std::cout << "                   3. Return Book" << std::endl;
-			std::cout << "                   4. Sign Out" << std::endl;
-			std::cout << "                   5. View Profile (beta)" << std::endl;
-		}
+		std::cout << "Signed on as " << (*currentLoggedInUser).getUserName() << std::endl;
+		std::cout << "                   1. Browse Library" << std::endl;
+		std::cout << "                   2. Search Books" << std::endl;
+		std::cout << "                   3. Add Book" << std::endl;
+		std::cout << "                   4. View Users (Broken option)" << std::endl;
+		std::cout << "                   5. Sign Out" << std::endl;
+		std::cout << "                   6. View Profile (beta)" << std::endl;
+		std::cout << "                   7. Browse Authors" << std::endl;
+		std::cout << "                   8. Add Author" << std::endl;
 	}
-	else if (loggedIn == false)
+	else if ((*currentLoggedInUser).getUserType() == "student")
+	{
+		std::cout << "Signed on as " << (*currentLoggedInUser).getUserName() << std::endl;
+		std::cout << "                   1. Browse Library" << std::endl;
+		std::cout << "                   2. Search Books" << std::endl;
+		std::cout << "                   3. Return Book" << std::endl;
+		std::cout << "                   4. Sign Out" << std::endl;
+		std::cout << "                   5. View Profile (beta)" << std::endl;
+	}
+	
+	else if ((*currentLoggedInUser).getUserType() == "guest")
 	{
 		std::cout << "Signed on as guest" << std::endl;
 		std::cout << "                   1. Browse Library" << std::endl;
@@ -139,56 +154,54 @@ bool showMainMenu(std::vector<User>& userVect,std::vector<Book>& bookVect, std::
 	std::cout << "                   0. Exit" << std::endl;
 	std::cout << "        Enter a choice: ";
 	std::cin >> choice;
-
-	return getChoice(choice, userVect, bookVect, authorVect, i, loggedIn);
+	
+	return getChoice(choice, userVect, bookVect, authorVect, i, currentLoggedInUser);
 }
 
-bool getChoice(int choice, std::vector<User>& userVect, std::vector<Book>& bookVect, std::vector<Author>& authorVect, int& userIndex, bool& isLoggedIn)
+bool getChoice(int choice, std::vector<User>& userVect, std::vector<Book>& bookVect, std::vector<Author>& authorVect, int& userIndex, User *currentLoggedInUser)
 {
 	bool again = true;
-	if (isLoggedIn)
+
+	if (userVect[userIndex].getUserType() == "admin")
 	{
-		if (userVect[userIndex].getUserType() == "admin")
+		switch (choice)
 		{
-			switch (choice)
-			{
-			case 1: browseBooks(bookVect, authorVect, userVect[userIndex]);
-				break;
-			case 2: searchBook(bookVect, authorVect, userVect[userIndex]);
-				break;
-			case 3: addBook(bookVect, authorVect);
-				break;
-			case 4: browseUsers(userVect, userVect[userIndex]);
-				break;
-			case 5: signOut(userVect, isLoggedIn);
-				break;
-			case 6: viewProfile(userVect, bookVect, userVect[userIndex].getUserID(), userVect[userIndex]);;
-				break;
-			case 7: browseAuthor(authorVect);
-				break;
-			case 8: addAuthor(authorVect);
-				break;
-			case 0: again = false;
-				break;
-			}
+		case 1: browseBooks(bookVect, authorVect, userVect[userIndex]);
+			break;
+		case 2: searchBook(bookVect, authorVect, userVect[userIndex]);
+			break;
+		case 3: addBook(bookVect, authorVect);
+			break;
+		case 4: browseUsers(userVect, currentLoggedInUser);
+			break;
+		case 5: signOut(currentLoggedInUser);
+			break;
+		case 6: viewProfile(userVect, bookVect, userVect[userIndex].getUserID(), userVect[userIndex], currentLoggedInUser);;
+			break;
+		case 7: browseAuthor(authorVect);
+			break;
+		case 8: addAuthor(authorVect);
+			break;
+		case 0: again = false;
+			break;
 		}
-		if (userVect[userIndex].getUserType() == "student")
+	}
+	if (userVect[userIndex].getUserType() == "student")
+	{
+		switch (choice)
 		{
-			switch (choice)
-			{
-			case 1: browseBooks(bookVect, authorVect, userVect[userIndex]);
-				break;
-			case 2: searchBook(bookVect, authorVect, userVect[userIndex]);;
-				break;
-			case 3: returnBook(bookVect, userVect[userIndex]);
-				break;
-			case 4: signOut(userVect, isLoggedIn);
-				break;
-			case 5: viewProfile(userVect, bookVect, userVect[userIndex].getUserID(), userVect[userIndex]);
-				break;
-			case 0: again = false;
-				break;
-			}
+		case 1: browseBooks(bookVect, authorVect, userVect[userIndex]);
+			break;
+		case 2: searchBook(bookVect, authorVect, userVect[userIndex]);;
+			break;
+		case 3: returnBook(bookVect, userVect[userIndex]);
+			break;
+		case 4: signOut(currentLoggedInUser);
+			break;
+		case 5: viewProfile(userVect, bookVect, userVect[userIndex].getUserID(), userVect[userIndex], currentLoggedInUser);
+			break;
+		case 0: again = false;
+			break;
 		}
 	}
 	
@@ -200,7 +213,7 @@ bool getChoice(int choice, std::vector<User>& userVect, std::vector<Book>& bookV
 			break;
 		case 2:searchBook(bookVect, authorVect, userVect[userIndex]);
 			break;
-		case 3: signIn(userVect, userIndex, isLoggedIn);			// Passes the User vector to the signIn() function
+		case 3: signIn(userVect, /*userIndex,*/ currentLoggedInUser);			// Passes the User vector to the signIn() function
 			break;
 		case 4: signUp(userVect);			// Calls the signUp function. Passes the user vector to it
 			break;
@@ -213,20 +226,19 @@ bool getChoice(int choice, std::vector<User>& userVect, std::vector<Book>& bookV
 	return again;
 }
 
-// This function takes the reference of user vectors and the reference of index
-// And then changes the values if 
-void signIn(std::vector<User>& userVect, int& index, bool& isLoggedIn)
+// This function takes the reference of user vector (userVect) and a pointer (currentLoggedInUser)
+// The function asks the user to sign in. If it finds a match, then the pointer will be given the memory address of
+// The match and then return
+void signIn(std::vector<User>& userVect/*, int& index*/, User *currentLoggedInUser)
 {
 	std::string userNameSearchKey;
 	std::string pass;
-	int passwordRetry = 0;
-	int userRetry = 0;
-	bool keepSearching = true;
+	int signInRetry = 0;
 	bool userFound = false;
 	
-	while (!userFound && userRetry < 3 && userNameSearchKey != "b")
+	while (!userFound && signInRetry < 3 && userNameSearchKey != "b")
 	{
-		if (userRetry >= 3)
+		if (signInRetry >= 3)
 		{
 			throw 2;
 		}
@@ -245,15 +257,15 @@ void signIn(std::vector<User>& userVect, int& index, bool& isLoggedIn)
 			{
 				userFound = true;
 				std::cout << "\nWelcome " << userVect[i].getUserName();		// Welcomes the user
-				index = i;			// When this function ends
-				isLoggedIn = true;
+				//index = i;			// When this function ends
+				currentLoggedInUser = &userVect[i];
 				break;
 			}
 			else
 			{
 				std::cout << "\nError: Incorrect username or password." << std::endl;
-				userRetry++;
-				if (userRetry >= 3)
+				signInRetry++;
+				if (signInRetry >= 3)
 				{
 					std::cout << "Too many incorrect attempts. Going back to the main menu." << std::endl;
 				}
@@ -278,7 +290,7 @@ void signUp(std::vector<User>& u)
 	int passwordRetry = 0;
 	int i = 0;
 	bool passwordsMatch = false;	
-	bool keepSearching = true;
+	//bool keepSearching = true;
 	bool userFound = false;
 
 	std::cout << "New Username: ";
@@ -316,7 +328,7 @@ void signUp(std::vector<User>& u)
 	}
 }
 
-void importFile(std::vector<User>& userVect, std::vector<Book>& bookVect, std::vector<Author>& authorVect)
+void importFiles(std::vector<User>& userVect, std::vector<Book>& bookVect, std::vector<Author>& authorVect)
 {
 	std::string tempLine;
 	std::string parseLine;
@@ -424,9 +436,13 @@ void exportUserFile(std::vector<User> userVect)
 // This will simply change the bool li to false so 
 // when the emain functions do/while loop calls the showMenu function, 
 // The li will be false and show the menu for Guest
-void signOut(std::vector<User>& u, bool& li)
+
+// This function will take the pointer to a user (licurrentLoggedInUser)
+// and assign it to null pointer
+// back in the main function, the do/while loop will see that licurrentLoggedInUser is null and then assign it to the address of the guest user
+void signOut(User *licurrentLoggedInUser)
 {
-	li = false;			
+	licurrentLoggedInUser = nullptr;			
 }
 
 void showBookHeading()
@@ -958,7 +974,7 @@ void bookOptionChoice(std::string choice, std::vector<Book>& bookVect, std::vect
 
 // This function will allow the user to view and edit his/her profile. Similar to the view book function
 // The vector to be searched examined, the book vector, the user that is viewing the profile, and the user to be viewed
-void viewProfile(std::vector<User>& userVect, std::vector<Book> bookVect, int userID, User& user)
+void viewProfile(std::vector<User>& userVect, std::vector<Book> bookVect, int userID, User& user, User* currentLoggedInUser)
 {
 	std::cout << "\n\n--View profile {Beta}--" << std::endl;
 	int userIndex;
@@ -1086,8 +1102,9 @@ void browseAuthor(std::vector<Author> &authorVect)
 	}
 }
 
-void browseUsers(std::vector<User>& userVect, User& user)
+void browseUsers(std::vector<User>& userVect, User *currentLoggedInUser)
 {
+	// TODO: Modify this function to operate based on the userType in the second parameter
 	std::cout << std::setw(15) << std::left << "User ID" << std::setw(20) << std::left << "First Name" << std::setw(20) << std::left << "Last Name" << "User Type" << std::endl;
 	std::cout << "===========================================================================" << std::endl;
 	for (int i = 0; i < userVect.size(); i++)
