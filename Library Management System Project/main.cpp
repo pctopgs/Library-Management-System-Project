@@ -16,7 +16,6 @@ void signIn(std::vector<User>&, /*int&,*/ User *currentLoggedInUser);
 void signUp(std::vector<User>&);
 void signOut(/*std::vector<User>&,*/ User *currentLoggedInUser);
 void addUser(std::vector<User>& u, int id, std::string un, std::string fn, std::string ln, std::string pw, int bn, std::string ut);
-//void viewProfile(std::vector<User>&, std::vector<Book>, int, User&);
 void viewProfile(std::vector<User>& userVect, std::vector<Book> bookVect, int userID, User& user, User* currentLoggedInUser);
 void editProfile(User& targetUser, User actingUser);
 void browseUsers(std::vector<User>& userVect, User* currentLoggedInUser);
@@ -31,7 +30,6 @@ void bookOptionChoice(std::string, std::vector<Book>&, std::vector<Author>&, int
 void showBookOptions(std::vector<Book>&, std::vector<Author>&, int, User&);
 void editBook(std::vector<Book>&, std::vector<Author>&, int, User currentLoggedInUser, User);
 void borrowBook(std::vector<Book>&, int, User&);
-//void browseBooks(std::vector<Book>& bookVect, std::vector<Author>&, bool loggedIn, User& user = User("guest"), int book = 0);
 void browseBooks(std::vector<Book>& bookVect, std::vector<Author>& authorVect, User* currentLoggedInUser);
 void returnBook(std::vector<Book>& bookVect, User* currentLoggedInUser);
 void listBook(std::vector<Book>, int);
@@ -43,8 +41,6 @@ void importAuthor(std::vector<Author> &authorVect, int, std::string firstName, s
 void listAuthor(std::vector<Author> &authorVect, int index);
 void browseAuthor(std::vector<Author>&);
 
-// Operator overloads
-// Operator<<
 
 std::ostream& operator<<(std::ostream & out, Book book)
 	{
