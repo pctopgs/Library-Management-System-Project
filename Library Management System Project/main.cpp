@@ -27,7 +27,7 @@ void searchBook(std::vector<Book>& bookVect, std::vector<Author>& authorVect, Us
 void viewBook(std::vector<Book>& bookVect, std::vector<Author>& authorVect, int book, User* currentLoggedInUser);
 void showBookHeading();
 void bookOptionChoice(std::string, std::vector<Book>&, std::vector<Author>&, int, User&);
-void showBookOptions(std::vector<Book>& bookVect, std::vector<Author>& authorVect, int book, User* currentLoggedInUser)
+void showBookOptions(std::vector<Book>& bookVect, std::vector<Author>& authorVect, int book, User* currentLoggedInUser);
 void editBook(std::vector<Book>&, std::vector<Author>&, int, User currentLoggedInUser, User);
 void borrowBook(std::vector<Book>&, int, User&);
 void browseBooks(std::vector<Book>& bookVect, std::vector<Author>& authorVect, User* currentLoggedInUser);
