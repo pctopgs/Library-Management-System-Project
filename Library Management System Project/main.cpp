@@ -33,7 +33,7 @@ void borrowBook(std::vector<Book>& bookVect, int book, User* currentLoggedInUser
 void browseBooks(std::vector<Book>& bookVect, std::vector<Author>& authorVect, User* currentLoggedInUser);
 void returnBook(std::vector<Book>& bookVect, User* currentLoggedInUser);
 void listBook(std::vector<Book>, int);
-void deleteBook(std::vector<Book>&, int, User);
+void deleteBook(std::vector<Book>& bookVect, int book, User* currentLoggedInUser);
 
 // Author functions
 void addAuthor(std::vector<Author> &);		// This function will add a new author to the
@@ -57,8 +57,8 @@ std::ostream& operator<<(std::ostream& out, User user)
 }
 /*
 TODO
-- Create a variable that stores the current logged in user
-- Implemented the currentUser to essentially take the place of the loggedIn bool
+- Create a variable that stores the current logged in user - Done
+- Implemented the currentUser to essentially take the place of the loggedIn bool - In progress..
 */
 
 
@@ -693,9 +693,9 @@ void returnBook(std::vector<Book>& bookVect, User *currentLoggedInUser)
 }
 
 
-void deleteBook(std::vector<Book>& bookVect, int book, User user)
+void deleteBook(std::vector<Book>& bookVect, int book, User *currentLoggedInUser)
 {
-	if (user.getUserType() != "admin")
+	if ((*currentLoggedInUser).getUserType() != "admin")
 	{
 		printf("Invalid Input");
 		return;
