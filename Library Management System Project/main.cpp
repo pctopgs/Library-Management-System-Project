@@ -28,7 +28,7 @@ void viewBook(std::vector<Book>& bookVect, std::vector<Author>& authorVect, int 
 void showBookHeading();
 void bookOptionChoice(std::string choice, std::vector<Book>& bookVect, std::vector<Author>& authorVect, int book, User* currentLoggedInUser);
 void showBookOptions(std::vector<Book>& bookVect, std::vector<Author>& authorVect, int book, User* currentLoggedInUser);
-void editBook(std::vector<Book>&, std::vector<Author>&, int, User currentLoggedInUser, User);
+void editBook(std::vector<Book>& bookVect, std::vector<Author>& authorVect, int book, User* uscurrentLoggedInUserer);
 void borrowBook(std::vector<Book>& bookVect, int book, User* currentLoggedInUser);
 void browseBooks(std::vector<Book>& bookVect, std::vector<Author>& authorVect, User* currentLoggedInUser);
 void returnBook(std::vector<Book>& bookVect, User* currentLoggedInUser);
@@ -518,7 +518,7 @@ void importBook(std::vector<Book>& bookVect, int bookNo, std::string title, std:
 
 // This function will list the attributes for the book and asks the user
 // to enter a number that corresponds to the attribute they want to edit
-void editBook(std::vector<Book>& bookVect, std::vector<Author>& authorVect, int book, User user)
+void editBook(std::vector<Book>& bookVect, std::vector<Author>& authorVect, int book, User *uscurrentLoggedInUserer)
 {
 	int choice;
 	std::string choiceStr;
