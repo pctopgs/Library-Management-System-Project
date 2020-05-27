@@ -78,3 +78,6 @@ Library Management System Project/Debug/Library .42C41171.tlog/Library Managemen
 *.iobj
 *.lastbuildstate
 Library Management System Project/overloading.cpp
+*.cbp
+Library Management System Project/Library Management System Project.cscope_file_list
+*.layout

@@ -62,10 +62,7 @@ std::ostream& operator<<(std::ostream& out, User user)
 /*
 TODO
 - Create a variable that stores the current logged in user
-- Implement the currentUser to essentially take the play
-- Changed showMainMenu(), signOut, signIn(), and getChoice() to take a pointer to User (currentLoggedInUser)
-- Changed signOut to take a pointer to User (&guestUser)
-- Changed signOut to assign nullptr to currentLoggedInUser
+- Implemented the currentUser to essentially take the place of the loggedIn bool
 */
 
 
@@ -77,7 +74,7 @@ int main()
 	// The current user holds the state for the current user signedin.
 	// I made it a pointer because it will be assigned the address of the current signedin user
 	// It needs the address of the current user because th current user could be modified though this variable
-	User *currentUser = &guestUser;
+	User *currentLoggedInUser = &guestUser;
 	/*std::cout << "currentUser pointer in main: " << currentUser << std::endl;
 	std::cout << "currentUser address in main: " << &currentUser << std::endl;*/
 	std::vector<User> userVect;
@@ -91,11 +88,11 @@ int main()
 	std::cout << "          Library Management System" << std::endl;
 	do
 	{
-		if (currentUser == nullptr)
+		if (currentLoggedInUser == nullptr)
 		{
-			currentUser = &guestUser;
+			currentLoggedInUser = &guestUser;
 		}
-		loop = showMainMenu(userVect,bookVect, authorVect, currentUser, index);
+		loop = showMainMenu(userVect,bookVect, authorVect, currentLoggedInUser, index);
 		exportUserFile(userVect);
 		std::cout << "\n\n";
 	} while (loop);
@@ -974,6 +971,8 @@ void bookOptionChoice(std::string choice, std::vector<Book>& bookVect, std::vect
 
 // This function will allow the user to view and edit his/her profile. Similar to the view book function
 // The vector to be searched examined, the book vector, the user that is viewing the profile, and the user to be viewed
+// This function is meant for the user to see his own profile and the profile of others. If the user is viewing his own 
+// profile, then he will have options to change password, 
 void viewProfile(std::vector<User>& userVect, std::vector<Book> bookVect, int userID, User& user, User* currentLoggedInUser)
 {
 	std::cout << "\n\n--View profile {Beta}--" << std::endl;
