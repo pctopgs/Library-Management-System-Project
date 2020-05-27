@@ -26,10 +26,10 @@ void addBook(std::vector<Book>&, std::vector<Author>);
 void searchBook(std::vector<Book>& bookVect, std::vector<Author>& authorVect, User* currentLoggedInUser);
 void viewBook(std::vector<Book>& bookVect, std::vector<Author>& authorVect, int book, User* currentLoggedInUser);
 void showBookHeading();
-void bookOptionChoice(std::string, std::vector<Book>&, std::vector<Author>&, int, User&);
+void bookOptionChoice(std::string choice, std::vector<Book>& bookVect, std::vector<Author>& authorVect, int book, User* currentLoggedInUser);
 void showBookOptions(std::vector<Book>& bookVect, std::vector<Author>& authorVect, int book, User* currentLoggedInUser);
 void editBook(std::vector<Book>&, std::vector<Author>&, int, User currentLoggedInUser, User);
-void borrowBook(std::vector<Book>&, int, User&);
+void borrowBook(std::vector<Book>& bookVect, int book, User* currentLoggedInUser);
 void browseBooks(std::vector<Book>& bookVect, std::vector<Author>& authorVect, User* currentLoggedInUser);
 void returnBook(std::vector<Book>& bookVect, User* currentLoggedInUser);
 void listBook(std::vector<Book>, int);
@@ -635,16 +635,16 @@ void editBook(std::vector<Book>& bookVect, std::vector<Author>& authorVect, int 
 // only if loggedIn is true, user type is 'student'
 // user does not already have a book checked out,
 // and book is not already checked out
-void borrowBook(std::vector<Book>& bookVect, int book , User& user)
+void borrowBook(std::vector<Book>& bookVect, int book , User *currentLoggedInUser)
 {
 	// Borrow book works for now
-	if (user.getBookNo() == 0)		// Checks to see if user already has a book checked out
+	if ((*currentLoggedInUser).getBookNo() == 0)		// Checks to see if user already has a book checked out
 	{
 		// Will need to optimize this better to combine the two if conditions in one line
 		//std::cout << bookVect[book].getCheckedOut() << std::endl;
 		if (bookVect[book].getCheckedOut() == false)	// Checks to see if the book is not checked out...
 		{
-			user.setBookNo(bookVect[book].getBookNo());
+			(*currentLoggedInUser).setBookNo(bookVect[book].getBookNo());
 			bookVect[book].setCheckedOut(true);
 			std::cout << "\nYou borrowed \"" << bookVect[book].getTitle() << "\". Happy reading!\n";
 			exportBookFile(bookVect);
@@ -935,7 +935,7 @@ void showBookOptions(std::vector<Book>& bookVect, std::vector<Author>& authorVec
 }
 
 // This function will take the choice, the book, the logged in state, and the user and call other functions based on the choice
-void bookOptionChoice(std::string choice, std::vector<Book>& bookVect, std::vector<Author>& authorVect, int book, User& user)
+void bookOptionChoice(std::string choice, std::vector<Book>& bookVect, std::vector<Author>& authorVect, int book, User *currentLoggedInUser)
 {
 	if (choice == "b")
 	{
@@ -943,19 +943,19 @@ void bookOptionChoice(std::string choice, std::vector<Book>& bookVect, std::vect
 	}
 	else if (stoi(choice) == 1)
 	{
-		borrowBook(bookVect, book, user);
+		borrowBook(bookVect, book, currentLoggedInUser);
 	}
 	else if (stoi(choice) == 2)
 	{
-		returnBook(bookVect, user);
+		returnBook(bookVect, currentLoggedInUser);
 	}
 	else if (stoi(choice) == 3)
 	{
-		editBook(bookVect, authorVect, book, user);
+		editBook(bookVect, authorVect, book, currentLoggedInUser);
 	}
 	else if (stoi(choice) == 4)
 	{
-		deleteBook(bookVect, book, user);
+		deleteBook(bookVect, book, currentLoggedInUser);
 	}
 	else
 	{
