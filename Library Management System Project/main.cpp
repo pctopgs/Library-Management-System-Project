@@ -24,10 +24,10 @@ void browseUsers(std::vector<User>& userVect, User* currentLoggedInUser);
 void importBook(std::vector<Book>&, int bookNo, std::string t, std::string a, std::string g, int c, int y, int nc, int p, std::string co, int authorID = 0000000);
 void addBook(std::vector<Book>&, std::vector<Author>);
 void searchBook(std::vector<Book>& bookVect, std::vector<Author>& authorVect, User* currentLoggedInUser);
-void viewBook(std::vector<Book>&, std::vector<Author>&, int, User&);
+void viewBook(std::vector<Book>& bookVect, std::vector<Author>& authorVect, int book, User* currentLoggedInUser);
 void showBookHeading();
 void bookOptionChoice(std::string, std::vector<Book>&, std::vector<Author>&, int, User&);
-void showBookOptions(std::vector<Book>&, std::vector<Author>&, int, User&);
+void showBookOptions(std::vector<Book>& bookVect, std::vector<Author>& authorVect, int book, User* currentLoggedInUser)
 void editBook(std::vector<Book>&, std::vector<Author>&, int, User currentLoggedInUser, User);
 void borrowBook(std::vector<Book>&, int, User&);
 void browseBooks(std::vector<Book>& bookVect, std::vector<Author>& authorVect, User* currentLoggedInUser);
@@ -167,7 +167,7 @@ bool getChoice(int choice, std::vector<User>& userVect, std::vector<Book>& bookV
 			break;
 		case 5: signOut(currentLoggedInUser);
 			break;
-		case 6: viewProfile(userVect, bookVect, currentLoggedInUser.getUserID(), currentLoggedInUser, currentLoggedInUser);
+		case 6: //viewProfile(userVect, bookVect, currentLoggedInUser.getUserID(), currentLoggedInUser, currentLoggedInUser);
 			break;
 		case 7: browseAuthor(authorVect);
 			break;
@@ -189,7 +189,7 @@ bool getChoice(int choice, std::vector<User>& userVect, std::vector<Book>& bookV
 			break;
 		case 4: signOut(currentLoggedInUser);
 			break;
-		case 5: viewProfile(userVect, bookVect, currentLoggedInUser.getUserID(), currentLoggedInUser, currentLoggedInUser);
+		case 5: //viewProfile(userVect, bookVect, currentLoggedInUser.getUserID(), currentLoggedInUser, currentLoggedInUser);
 			break;
 		case 0: again = false;
 			break;
@@ -662,9 +662,9 @@ void borrowBook(std::vector<Book>& bookVect, int book , User& user)
 
 void returnBook(std::vector<Book>& bookVect, User *currentLoggedInUser)
 {
-	// if the bookNo in the user matches book in bookVect
+	// if the bookNo in the (*currentLoggedInUser) matches book in bookVect
 	// Then change the checkedOut variable in the book to f
-	// change the bookNo in the the user to 0
+	// change the bookNo in the the (*currentLoggedInUser) to 0
 	int beginning = 0;
 	int end = static_cast<int>(bookVect.size()) - 1;
 	bool found = false;
@@ -672,20 +672,20 @@ void returnBook(std::vector<Book>& bookVect, User *currentLoggedInUser)
 	// TODO: COMPLETE BINARY SEARCH
 	while(beginning < end || found == false)
 	{
-		if (user.getBookNo() == bookVect[end / 2].getBookNo())
+		if ((*currentLoggedInUser).getBookNo() == bookVect[end / 2].getBookNo())
 		{
 			found = true;
 			bookVect[end / 2].setCheckedOut(false);
-			user.setBookNo(0);
+			(*currentLoggedInUser).setBookNo(0);
 			exportBookFile(bookVect);
 			std::cout << "\nYou returned \"" << bookVect[end / 2].getTitle() << "\"" << std::endl;
 			std::cout << "Thank you!" << std::endl;
 		}
-		else if (user.getBookNo() < bookVect[end / 2].getBookNo())
+		else if ((*currentLoggedInUser).getBookNo() < bookVect[end / 2].getBookNo())
 		{
 			end = end / 2;
 		}
-		else if (user.getBookNo() > bookVect[end / 2].getBookNo())
+		else if ((*currentLoggedInUser).getBookNo() > bookVect[end / 2].getBookNo())
 		{
 			beginning = end / 2;
 		}
@@ -786,7 +786,7 @@ void browseBooks(std::vector<Book>& bookVect, std::vector<Author>& authorVect, U
 			{
 				if (stoi(searchKey) == bookVect[i].getBookNo())
 				{
-					viewBook(bookVect, authorVect, i, user);
+					viewBook(bookVect, authorVect, i, currentLoggedInUser);
 					bookFound = true;
 				}
 			}
@@ -885,7 +885,7 @@ void searchBook(std::vector<Book>& bookVect, std::vector<Author>& authorVect, Us
 				if (stoi(getChoice) == bookVect[book].getBookNo())
 				//if (stoi(getChoice) == bookVect[book].getBookNo())
 				{
-					viewBook(bookVect, authorVect, book, user);
+					viewBook(bookVect, authorVect, book, currentLoggedInUser);
 					bookFound = true;
 				}				
 			}
@@ -903,7 +903,7 @@ void listBook(std::vector<Book> bookVect, int book)
 // title heading, Short desrcription, and some menu options at the bottom depending on the userType.
 // It takes the user vector, book vector, author vector, an int that represents the book index, and the user
 // Borrow, Edit, Main Menu
-void viewBook(std::vector<Book>& bookVect, std::vector<Author>& authorVect, int book, User& user)
+void viewBook(std::vector<Book>& bookVect, std::vector<Author>& authorVect, int book, User *currentLoggedInUser)
 {
 	std::cout << "--View Book {Beta}--\n";
 	std::cout << "\n\n           " << bookVect[book].getTitle() << std::endl;
@@ -911,19 +911,19 @@ void viewBook(std::vector<Book>& bookVect, std::vector<Author>& authorVect, int 
 	std::cout << "-------------------------------" << std::endl;
 	std::cout << "Author ID: " << bookVect[book].getAuthorID() << std::endl; // This is temporary
 	std::cout << bookVect[book].getDesc() << std::endl;
-	showBookOptions(bookVect, authorVect, book, user);
+	showBookOptions(bookVect, authorVect, book, currentLoggedInUser);
 }
 
 // This is an entirly new menu that shows the options a user can do with a book
 // it lists out the options and then calls another function to handle the choice
 // made by the user.
-void showBookOptions(std::vector<Book>& bookVect, std::vector<Author>& authorVect, int book, User& user)
+void showBookOptions(std::vector<Book>& bookVect, std::vector<Author>& authorVect, int book, User *currentLoggedInUser)
 {
 	//int choice;
 	std::string choice;
 	std::string choiceStr;
 	std::cout << "1. Borrow         \n2. Return         \n3. Edit";
-	if (user.getUserType() == "admin")
+	if ((*currentLoggedInUser).getUserType() == "admin")
 	{
 		std::cout << "\n4. Delete";
 	}
@@ -931,7 +931,7 @@ void showBookOptions(std::vector<Book>& bookVect, std::vector<Author>& authorVec
 	std::cout << "Enter a choice: ";
 	std::getline(std::cin, choice);
 	//choice = stoi(choiceStr);
-	bookOptionChoice(choice, bookVect, authorVect, book, user);		// TODO:
+	bookOptionChoice(choice, bookVect, authorVect, book, currentLoggedInUser);		// TODO:
 }
 
 // This function will take the choice, the book, the logged in state, and the user and call other functions based on the choice
