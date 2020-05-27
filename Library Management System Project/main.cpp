@@ -33,7 +33,7 @@ void editBook(std::vector<Book>&, std::vector<Author>&, int, User currentLoggedI
 void borrowBook(std::vector<Book>&, int, User&);
 //void browseBooks(std::vector<Book>& bookVect, std::vector<Author>&, bool loggedIn, User& user = User("guest"), int book = 0);
 void browseBooks(std::vector<Book>& bookVect, std::vector<Author>& authorVect, User* currentLoggedInUser);
-void returnBook(std::vector<Book>&, User&);
+void returnBook(std::vector<Book>& bookVect, User* currentLoggedInUser);
 void listBook(std::vector<Book>, int);
 void deleteBook(std::vector<Book>&, int, User);
 
@@ -664,7 +664,7 @@ void borrowBook(std::vector<Book>& bookVect, int book , User& user)
 	}
 }
 
-void returnBook(std::vector<Book>& bookVect, User& user)
+void returnBook(std::vector<Book>& bookVect, User *currentLoggedInUser)
 {
 	// if the bookNo in the user matches book in bookVect
 	// Then change the checkedOut variable in the book to f
