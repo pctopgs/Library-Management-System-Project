@@ -5,8 +5,8 @@
 class Book
 {
 	int bookNo;
-    std::string title;			
-	std::vector<std::string> titleVect;
+    //std::string title;			
+	std::vector<std::string> title;
     std::string author;
     std::string genre;
     std::string content;
@@ -49,8 +49,8 @@ class Book
 	void setDesc(std::string);
 	void setAuthorID(int);
     
-    std::string getTitle();
-	std::string getTitleParsed();
+    //std::string getTitle();
+	std::string getTitle();
     std::string getAuthor();
     std::string getGenre();
     std::string getContent();

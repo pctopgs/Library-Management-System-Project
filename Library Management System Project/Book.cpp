@@ -21,22 +21,23 @@ Book::Book(int bookNo, std::string title, std::string author, std::string genre,
 // and year)
 //Book::Book(int numBooks, std::string title, std::string author, int year, std::string genre, int content, int numPages, int numChpt, int checkedOut)
 Book::Book(int numBooks, std::string title, int authID, int year, int checkedOut) :
-	title(title), authorID(authID), year(year)
+	authorID(authID), year(year)
 {
+	setTitle(title);
 	setNewBookNo(numBooks);
 	setCheckedOut(checkedOut);
 	std::cout << title << " was added to the library.\n";
 }
 
-void Book::setTitle(std::string aTitle)
-{
-	// Trying to change the set title function to break the string in  the parameter and put
-	// them in an array of strings. The ultimate goal is to make the title easier to search..
-	title = aTitle;
-	//std::vector<std::string> titles;
-}
+//void Book::setTitle(std::string aTitle)
+//{
+//	// Trying to change the set title function to break the string in  the parameter and put
+//	// them in an array of strings. The ultimate goal is to make the title easier to search..
+//	title = aTitle;
+//	//std::vector<std::string> titles;
+//}
 
-void Book::setTitleParsed(std::string aTitle)
+void Book::setTitle(std::string aTitle)
 {
 	// Trying to change the set title function to break the string in  the parameter and put
 	// them in an array of strings. The ultimate goal is to make the title easier to search..
@@ -47,7 +48,7 @@ void Book::setTitleParsed(std::string aTitle)
 	{
 		tempTitle.push_back(titleElement);
 	}
-	this->titleVect = tempTitle;
+	this->title = tempTitle;
 }
 void Book::setAuthor(std::string aAuthor)
 {
@@ -101,17 +102,17 @@ void Book::setAuthorID(int authID)
 	authorID = authID;
 }
 
+//std::string Book::getTitle()
+//{
+//    return title;
+//}
 std::string Book::getTitle()
-{
-    return title;
-}
-std::string Book::getTitleParsed()
 {
 	std::string titleOutput;
 	std::stringstream flow;
-	for (int i = 0; i < titleVect.size(); i++)
+	for (int i = 0; i < title.size(); i++)
 	{
-		flow << titleVect[i] << " ";
+		flow << title[i] << " ";
 	}
 	std::getline(flow, titleOutput);
 	flow.str("");
