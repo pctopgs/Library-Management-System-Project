@@ -7,7 +7,6 @@ class Book
 	int bookNo;
     //std::string title;			
 	std::vector<std::string> title;
-    std::string author;
     std::string genre;
     std::string content;
 	std::string desc;			// A short description of the book (about 1 sentence for now)
