@@ -80,7 +80,6 @@ int main()
 	bool loop = true;
 	//bool loggedIn = false;
 	importFiles(userVect, bookVect, authorVect);
-
 	std::cout << "          Library Management System" << std::endl;
 	do
 	{

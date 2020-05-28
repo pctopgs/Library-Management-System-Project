@@ -1,10 +1,11 @@
 #include "User.h"
 #include "Author.h"
+#include <vector>
 
 class Book
 {
 	int bookNo;
-    std::string title;			//	may need to turn this into a vector to make it better to search
+    std::string title;			
 	std::vector<std::string> titleVect;
     std::string author;
     std::string genre;
@@ -49,6 +50,7 @@ class Book
 	void setAuthorID(int);
     
     std::string getTitle();
+	std::string getTitleParsed();
     std::string getAuthor();
     std::string getGenre();
     std::string getContent();
