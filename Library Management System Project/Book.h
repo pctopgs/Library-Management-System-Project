@@ -5,6 +5,7 @@ class Book
 {
 	int bookNo;
     std::string title;			//	may need to turn this into a vector to make it better to search
+	std::vector<std::string> titleVect;
     std::string author;
     std::string genre;
     std::string content;
@@ -33,6 +34,7 @@ class Book
 		//std::cout << this->title << " was removed from the libary" << std::endl;
 	}
     void setTitle(std::string);
+	void Book::setTitleParsed(std::string aTitle);		// New
     void setAuthor(std::string);
     void setGenre(std::string);
     void setContent(std::string);

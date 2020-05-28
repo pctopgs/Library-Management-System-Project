@@ -1,4 +1,6 @@
 #include "Book.h"
+#include <vector>
+#include <sstream>
 
 // This contructor is called when importing books from the bookDB file
 Book::Book(int bookNo, std::string title, std::string author, std::string genre, int c, int y, int nc, int p, int co, int authID)
@@ -38,6 +40,21 @@ void Book::setTitle(std::string aTitle)
 	// them in an array of strings. The ultimate goal is to make the title easier to search..
 	title = aTitle;
 	//std::vector<std::string> titles;
+}
+
+void Book::setTitleParsed(std::string aTitle)
+{
+	// Trying to change the set title function to break the string in  the parameter and put
+	// them in an array of strings. The ultimate goal is to make the title easier to search..
+	//title = aTitle;
+	std::string titleElement;
+	std::vector<std::string> tempTitle;
+	std::stringstream flow(aTitle);
+	while (std::getline(flow, titleElement, ' '))
+	{
+		tempTitle.push_back(titleElement);
+	}
+	
 }
 void Book::setAuthor(std::string aAuthor)
 {
