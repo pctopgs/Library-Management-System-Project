@@ -121,11 +121,11 @@ std::string Book::getTitle()
 }
 
 
-//std::string Book::getAuthor()
-//{
-//	// Take the authorID and return the 
-//	return author;
-//}
+std::string Book::getAuthorName(Author authObj)
+{
+	// Take the authorID and return the 
+	return authObj.getFullName();
+}
 
 //std::string Author::getAuthorName()
 //{
