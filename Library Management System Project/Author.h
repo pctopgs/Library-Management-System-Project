@@ -1,5 +1,7 @@
 #pragma once
 // The Author class
+#include <string>
+
 class Author
 {
 private:
@@ -70,4 +72,16 @@ public:
 	{
 		return authorID;
 	}
+
+	std::string getFullName()
+	{
+		return this->fName + " " + this->lName;
+	}
+
+	//std::string getAuthorName(int authID)
+	//{
+
+	//	return 
+	//}
+	//std::string getAuthorName();
 };

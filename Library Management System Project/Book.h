@@ -13,9 +13,10 @@ class Book
     int year;
     int numChpt;
 	int pages;
+	int authorID;
 	static int numberOfBooks;
 	bool checkedOut;			// Whether or not the book has been checked out	
-    int authorID;
+
 
     public:
 	// This contructor is called when importing books from the bookDB file

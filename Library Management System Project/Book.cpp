@@ -50,10 +50,10 @@ void Book::setTitle(std::string aTitle)
 	}
 	this->title = tempTitle;
 }
-void Book::setAuthor(std::string aAuthor)
-{
-    author = aAuthor;
-}
+//void Book::setAuthor(std::string aAuthor)
+//{
+//    author = aAuthor;
+//}
 void Book::setGenre(std::string aGenre)
 {
     genre = aGenre;
@@ -121,9 +121,19 @@ std::string Book::getTitle()
 }
 
 
-std::string Book::getAuthor()
+//std::string Book::getAuthor()
+//{
+//	// Take the authorID and return the 
+//	return author;
+//}
+
+//std::string Author::getAuthorName()
+//{
+//	;
+//}
+std::string getAuthorName()
 {
-	return author;
+	return std::string();
 }
 std::string Book::getContent()
 {

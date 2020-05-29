@@ -906,7 +906,7 @@ void viewBook(std::vector<Book>& bookVect, std::vector<Author>& authorVect, int 
 {
 	std::cout << "--View Book {Beta}--\n";
 	std::cout << "\n\n           " << bookVect[book].getTitle() << std::endl;
-	std::cout << bookVect[book].getAuthor() << "               " << bookVect[book].getYear() << std::endl;
+	std::cout << bookVect[book].getAuthor() << authorVect.getAuthor(bookVect.getAuthorID()) << "               " << bookVect[book].getYear() << std::endl;
 	std::cout << "-------------------------------" << std::endl;
 	std::cout << "Author ID: " << bookVect[book].getAuthorID() << std::endl; // This is temporary
 	std::cout << bookVect[book].getDesc() << std::endl;
