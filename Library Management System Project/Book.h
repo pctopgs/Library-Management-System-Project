@@ -51,7 +51,7 @@ class Book
     
     //std::string getTitle();
 	std::string getTitle();
-    std::string getAuthor();
+    std::string getAuthorName(Author authObj);
     std::string getGenre();
     std::string getContent();
     int getYear();
