@@ -4,8 +4,7 @@
 
 class Book
 {
-	int bookNo;
-    //std::string title;			
+	int bookNo;			
 	std::vector<std::string> title;
     std::string genre;
     std::string content;
