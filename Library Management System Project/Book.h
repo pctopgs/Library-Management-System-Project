@@ -9,6 +9,7 @@ class Book
     std::string genre;
     std::string content;
 	std::string desc;			// A short description of the book (about 1 sentence for now)
+	std::string authorName;
     int year;
     int numChpt;
 	int pages;
@@ -34,7 +35,7 @@ class Book
 		//std::cout << this->title << " was removed from the libary" << std::endl;
 	}
     void setTitle(std::string);
-	void Book::setTitleParsed(std::string aTitle);		// New
+	//void Book::setTitleParsed(std::string aTitle);		// New
     void setAuthor(std::string);
     void setGenre(std::string);
     void setContent(std::string);
@@ -51,6 +52,7 @@ class Book
     //std::string getTitle();
 	std::string getTitle();
     std::string getAuthorName(Author authObj);
+	std::string getAuthor();
     std::string getGenre();
     std::string getContent();
     int getYear();
