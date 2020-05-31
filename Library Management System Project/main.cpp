@@ -249,7 +249,7 @@ void signIn(std::vector<User>& userVect/*, int& index*/, User **currentLoggedInU
 				*currentLoggedInUser = &userVect[i];
 				return;
 			}
-			else
+			else if (i >= userVect.size())
 			{
 				std::cout << "\nError: Incorrect username or password." << std::endl;
 				signInRetry++;
@@ -430,13 +430,8 @@ void exportUserFile(std::vector<User> userVect)
 // back in the main function, the do/while loop will see that licurrentLoggedInUser is null and then assign it to the address of the guest user
 void signOut(User **currentLoggedInUser)
 {
-	std::cout << "Before: " << std::endl;
-	std::cout << *currentLoggedInUser << std::endl;
-	std::cout << currentLoggedInUser << std::endl;
+	std::cout << "\n" << (**currentLoggedInUser).getUserName() << " signed out. " << std::endl;
 	*currentLoggedInUser = nullptr;
-	std::cout << "After: " << std::endl;
-	std::cout << *currentLoggedInUser << std::endl;
-	std::cout << currentLoggedInUser << std::endl;
 }
 
 void showBookHeading()
