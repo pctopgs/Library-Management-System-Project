@@ -4,19 +4,19 @@
 
 class Book
 {
-	int bookNo;
-    std::string title;			
-	std::vector<std::string> titleVect;
-    std::string author;
+	int bookNo;			
+	std::vector<std::string> title;
     std::string genre;
     std::string content;
 	std::string desc;			// A short description of the book (about 1 sentence for now)
+	std::string authorName;
     int year;
     int numChpt;
 	int pages;
+	int authorID;
 	static int numberOfBooks;
 	bool checkedOut;			// Whether or not the book has been checked out	
-    int authorID;
+
 
     public:
 	// This contructor is called when importing books from the bookDB file
@@ -35,7 +35,7 @@ class Book
 		//std::cout << this->title << " was removed from the libary" << std::endl;
 	}
     void setTitle(std::string);
-	void Book::setTitleParsed(std::string aTitle);		// New
+	//void Book::setTitleParsed(std::string aTitle);		// New
     void setAuthor(std::string);
     void setGenre(std::string);
     void setContent(std::string);
@@ -49,9 +49,10 @@ class Book
 	void setDesc(std::string);
 	void setAuthorID(int);
     
-    std::string getTitle();
-	std::string getTitleParsed();
-    std::string getAuthor();
+    //std::string getTitle();
+	std::string getTitle();
+    std::string getAuthorName(Author authObj);
+	std::string getAuthor();
     std::string getGenre();
     std::string getContent();
     int getYear();

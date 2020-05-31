@@ -21,8 +21,9 @@ Book::Book(int bookNo, std::string title, std::string author, std::string genre,
 // and year)
 //Book::Book(int numBooks, std::string title, std::string author, int year, std::string genre, int content, int numPages, int numChpt, int checkedOut)
 Book::Book(int numBooks, std::string title, int authID, int year, int checkedOut) :
-	title(title), authorID(authID), year(year)
+	authorID(authID), year(year)
 {
+	setTitle(title);
 	setNewBookNo(numBooks);
 	setCheckedOut(checkedOut);
 	std::cout << title << " was added to the library.\n";
@@ -30,16 +31,8 @@ Book::Book(int numBooks, std::string title, int authID, int year, int checkedOut
 
 void Book::setTitle(std::string aTitle)
 {
-	// Trying to change the set title function to break the string in  the parameter and put
-	// them in an array of strings. The ultimate goal is to make the title easier to search..
-	title = aTitle;
-	//std::vector<std::string> titles;
-}
-
-void Book::setTitleParsed(std::string aTitle)
-{
-	// Trying to change the set title function to break the string in  the parameter and put
-	// them in an array of strings. The ultimate goal is to make the title easier to search..
+	// Break the string in the parameter and put them in an array of strings. 
+	// Ultimately making the title easier to search..
 	std::string titleElement;
 	std::vector<std::string> tempTitle;
 	std::stringstream flow(aTitle);
@@ -47,12 +40,16 @@ void Book::setTitleParsed(std::string aTitle)
 	{
 		tempTitle.push_back(titleElement);
 	}
-	this->titleVect = tempTitle;
+	this->title = tempTitle;
 }
-void Book::setAuthor(std::string aAuthor)
+void Book::setAuthor(std::string authName)
 {
-    author = aAuthor;
+	authorName = authName;
 }
+//void Book::setAuthor(std::string aAuthor)
+//{
+//    author = aAuthor;
+//}
 void Book::setGenre(std::string aGenre)
 {
     genre = aGenre;
@@ -82,11 +79,8 @@ void Book::setBookNo(int num)
 	bookNo = num;
 }
 
-// This function will take the first too characters from the title
-// the last two characters from the author 
-// and the year
-// and create a new int  concantonated based on the following format:
-// LAST2AUTHOR + YEAR + FIRST2TITLE
+// This function is simply the number books + 100
+// may need to chnage this later because the number books can go down
 void Book::setNewBookNo(int numBook)
 {
 	bookNo = numBook + 100;
@@ -101,17 +95,14 @@ void Book::setAuthorID(int authID)
 	authorID = authID;
 }
 
+// Returns the title by converting the title vector into a single string
 std::string Book::getTitle()
-{
-    return title;
-}
-std::string Book::getTitleParsed()
 {
 	std::string titleOutput;
 	std::stringstream flow;
-	for (int i = 0; i < titleVect.size(); i++)
+	for (int i = 0; i < title.size(); i++)
 	{
-		flow << titleVect[i] << " ";
+		flow << title[i] << " ";
 	}
 	std::getline(flow, titleOutput);
 	flow.str("");
@@ -119,11 +110,18 @@ std::string Book::getTitleParsed()
 	return titleOutput;
 }
 
+// TODO: Complete
+std::string Book::getAuthorName(Author authObj)
+{
+	// Take the authorID and return the 
+	return authObj.getFullName();
+}
 
 std::string Book::getAuthor()
 {
-	return author;
+	return authorName;
 }
+
 std::string Book::getContent()
 {
 	return content;
@@ -144,20 +142,9 @@ int Book::getBookNo()
 {
 	return bookNo;
 }
-//std::string Book::getCheckedOut()
+
 bool Book::getCheckedOut()
 {
-	/*std::string checkedOutValue;
-	if (checkedOut)
-	{
-		checkedOutValue = "t";
-	}
-	else if (!checkedOut)
-	{
-		checkedOutValue = "f";
-	}
-	return checkedOutValue;
-	*/
 	return checkedOut;
 }
 int Book::getChpt()

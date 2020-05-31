@@ -1,10 +1,11 @@
 #pragma once
 // The Author class
+#include <string>
+
 class Author
 {
 private:
 	static int numOfAuthors ;
-public:
 	int authorID;
 	std::string fName;
 	std::string lName;
@@ -14,7 +15,7 @@ public:
 	//int booksPublished;
 
 	
-
+public:
 	// This function is used with the importAuthor function to import an Author from the author file
 	// The parameters is takes are for numOfAuthors, authorID, fName, lName, and pName
 	Author(int uniqueID, std::string firstName, std::string lastName, std::string penName)
@@ -70,4 +71,16 @@ public:
 	{
 		return authorID;
 	}
+
+	std::string getFullName()
+	{
+		return this->fName + " " + this->lName;
+	}
+
+	//std::string getAuthorName(int authID)
+	//{
+
+	//	return 
+	//}
+	//std::string getAuthorName();
 };
