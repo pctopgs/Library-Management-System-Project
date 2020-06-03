@@ -707,15 +707,30 @@ void deleteBook(std::vector<Book>& bookVect, int book, User **currentLoggedInUse
 	// TODO
 	std::cout << "\nAre you sure you want to delete this book?" << std::endl;
 	std::cout << "This action cannot be undone" << std::endl;
-	std::cout << "Enter y to continue or n to cancel: ";
-	//std::cin >> choice;
-	std::getline(std::cin, choice);
-
-	if (choice == "y")
+	
+	while (choice != "y" && choice != "n")
 	{
-		std::cout << "Cool!" << std::endl;
-		std::cout << bookVect[book].getTitle() << " was removed from the libary" << std::endl;
-		bookVect.erase(bookVect.begin() + book);
+		std::cout << "Enter 'y' to delete the book, or 'n' to cancel: ";
+		//std::cin >> choice;
+		std::getline(std::cin, choice);
+
+		if (choice == "y")
+		{
+			std::cout << bookVect[book].getTitle() << " was removed from the libary (Not really, just testing)" << std::endl;
+			std::cout << "Press the enter key to continue";
+			std::cin.get();
+			//bookVect.erase(bookVect.begin() + book);
+		}
+		else if (choice == "n")
+		{
+			std::cout << "\nCancelling book deletion\n";
+			std::cout << "Press the enter key to continue";
+			std::cin.get();
+		}
+		else
+		{
+			std::cout << "\n\nThat was an invalid option\n";
+		}
 	}
 }
 
